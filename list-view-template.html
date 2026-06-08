@@ -1,0 +1,1625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ExpertFlow — Phonebook / List View</title>
+<style>html{background:#e8edf3}html.ef-dark{background:#151515}</style>
+<script>try{if(sessionStorage.getItem('ef-dark')==='1')document.documentElement.classList.add('ef-dark')}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   DESIGN TOKENS — SKILL-list (same source as SKILL-v2)
+═══════════════════════════════════════════════ */
+:root {
+  --color-primary:    #1a50a3;
+  --color-primary-h:  #1e5bb9;
+  --color-primary-lt: #ECF3FF;
+  --color-bg:         #ffffff;
+  --color-canvas:     #F3F6FA;
+  --color-sep:        #e8edf3;
+  --color-sec-bg:     #F4F6F8;
+  --color-text:       #282828;
+  --color-body:       #212121;
+  --color-medium:     #555555;
+  --color-muted:      #929292;
+  --color-ph:         #aaaaaa;
+  --color-ts:         #646464;
+  --color-link:       #1a50a3;
+  --color-border:     #ececec;
+  --color-border-p:   #d1dced;
+  --color-border-i:   #c5c5c5;
+  --color-success:    #26c98c;
+  --color-error:      #ff6767;
+  --color-warn:       #fdb635;
+  --navbar-h:         50px;
+  --shadow-card:      0 4px 24px rgba(0,0,0,0.16);
+  --shadow-focus:     0 0 0 3px rgba(26,80,163,0.2);
+}
+.dark {
+  --color-bg:#1e2022; --color-canvas:#151515; --color-sep:#151515;
+  --color-text:#e5e7eb; --color-body:#c5c5c5; --color-medium:#c5c5c5;
+  --color-muted:#9ca3af; --color-ts:#9a9a9a;
+  --color-border:#2c2f35; --color-sec-bg:#292C30;
+  --color-primary-lt:#1a2d4a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Roboto,system-ui,sans-serif;font-size:14px;color:var(--color-body);background:var(--color-sep);height:100vh;overflow:hidden;-webkit-font-smoothing:antialiased;line-height:1.4;}
+#app{animation:ef-in .18s ease-out;}
+@keyframes ef-in{from{opacity:0}to{opacity:1}}
+button{font-family:Roboto,sans-serif;cursor:pointer;border:none;background:none;}
+input,select,textarea{font-family:Roboto,sans-serif;}
+a{text-decoration:none;color:inherit;}
+*{scrollbar-width:thin;scrollbar-color:#d0d0d0 transparent;}
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-thumb{background:#d0d0d0;border-radius:3px;}
+:focus-visible{outline:none;box-shadow:var(--shadow-focus);}
+
+/* ══ APP SHELL ══ */
+.app{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+
+/* ══ NAVBAR ══ */
+.navbar{
+  height:var(--navbar-h);min-height:var(--navbar-h);
+  background:var(--color-bg);border-bottom:1px solid var(--color-border);
+  display:flex;align-items:center;padding:0 12px;gap:6px;
+  flex-shrink:0;z-index:30;
+}
+.nav-ham{width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:6px;background:var(--color-canvas);flex-shrink:0;}
+.nav-ham:hover{background:#e4e8ef;}
+.nav-logo{display:flex;align-items:center;flex-shrink:0;margin:0 6px;}
+.nav-vsep{width:1px;height:20px;background:var(--color-border);margin:0 6px;flex-shrink:0;}
+.nav-sub{font-size:11px;color:#8d9192;flex-shrink:0;white-space:nowrap;}
+.nav-space{flex:1;}
+.nav-btn{width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:6px;flex-shrink:0;position:relative;transition:all 0.2s ease;}
+.nav-btn:hover{background:var(--color-canvas);transform:scale(1.1);border-radius:50%;}
+.nav-btn.active{background:var(--color-primary);border-radius:50%;}
+.nav-btn.active svg{stroke:#fff;}
+.nav-btn.active .material-icons{color:#fff;}
+.nav-btn.active span[style*="color:#1a50a3"]{color:#fff!important;}
+.nav-badge{position:absolute;top:-1px;right:-1px;min-width:14px;height:14px;border-radius:7px;background:var(--color-error);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 3px;border:1.5px solid var(--color-bg);}
+.state-pill{display:inline-flex;align-items:center;gap:6px;border:1.5px solid #d8dde6;border-radius:9999px;padding:5px 12px 5px 8px;height:32px;font-size:14px;color:var(--color-text);background:var(--color-bg);flex-shrink:0;cursor:pointer;margin-left:4px;white-space:nowrap;}
+.state-check{width:18px;height:18px;border-radius:50%;background:var(--color-success);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.agent-av{width:32px;height:32px;border-radius:50%;background:#e8edf3;border:1px solid #d0d7e2;display:inline-flex;align-items:center;justify-content:center;color:var(--color-primary);font-size:12px;font-weight:700;cursor:pointer;flex-shrink:0;margin-left:4px;}
+
+/* ══ PAGE BODY ══ */
+.page-body{
+  flex:1;overflow:hidden;
+  background:var(--color-primary-lt);
+  display:flex;flex-direction:column;
+  padding:12px;gap:8px;
+}
+.dark .page-body{background:var(--color-canvas);}
+
+/* ══ TOOLBAR ══ */
+.list-toolbar{
+  background:var(--color-bg);
+  border:1px solid var(--color-border);
+  padding:10px 16px;
+  display:flex;align-items:center;gap:10px;
+  flex-shrink:0;
+}
+/* Page title */
+.page-title-wrap{display:flex;align-items:baseline;gap:6px;flex-shrink:0;}
+.page-title{font-size:20px;font-weight:600;color:var(--color-text);}
+.page-title-count{font-size:14px;font-weight:400;color:var(--color-muted);}
+
+.list-search{
+  display:flex;align-items:center;gap:6px;
+  border:1px solid var(--color-border-i);
+  border-radius:4px;padding:6px 10px;
+  background:var(--color-bg);min-width:220px;
+}
+.list-search:focus-within{border-color:var(--color-primary);box-shadow:var(--shadow-focus);}
+.list-search input{border:none;background:transparent;font-size:13px;color:var(--color-body);width:100%;}
+.list-search input::placeholder{color:var(--color-ph);}
+.list-search input:focus{outline:none;}
+.toolbar-space{flex:1;}
+.tb-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 14px;border-radius:4px;
+  font-size:13px;font-weight:500;
+  border:1px solid var(--color-border-i);
+  color:var(--color-medium);background:var(--color-bg);
+  transition:all 0.15s;cursor:pointer;white-space:nowrap;flex-shrink:0;
+}
+.tb-btn:hover{border-color:var(--color-primary);color:var(--color-primary);background:var(--color-primary-lt);}
+.tb-btn.active{border-color:var(--color-primary);color:var(--color-primary);background:var(--color-primary-lt);}
+
+/* Filter Across Labels */
+.labels-dropdown{position:relative;flex-shrink:0;}
+.labels-trigger{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 14px;border-radius:4px;font-size:13px;font-weight:500;
+  border:1px solid var(--color-border-i);
+  color:var(--color-medium);background:var(--color-bg);
+  cursor:pointer;white-space:nowrap;transition:all 0.15s;
+}
+.labels-trigger:hover,.labels-trigger.open{border-color:var(--color-primary);color:var(--color-primary);background:var(--color-primary-lt);}
+.labels-chevron{transition:transform 0.2s;}
+.labels-menu{
+  position:absolute;right:0;top:calc(100% + 4px);
+  background:var(--color-bg);border:1px solid var(--color-border-p);
+  border-radius:6px;box-shadow:var(--shadow-card);
+  min-width:210px;z-index:200;display:none;overflow:hidden;
+}
+.labels-menu.open{display:block;}
+.labels-menu-hdr{padding:10px 14px 6px;font-size:11px;font-weight:600;color:var(--color-muted);text-transform:uppercase;letter-spacing:0.04em;}
+.label-option{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 14px;cursor:pointer;font-size:13px;color:var(--color-body);
+  transition:background 0.1s;
+}
+.label-option:hover{background:var(--color-canvas);}
+.label-option input[type=checkbox]{width:14px;height:14px;accent-color:var(--color-primary);cursor:pointer;flex-shrink:0;}
+.label-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.labels-menu-footer{padding:8px 14px;border-top:1px solid var(--color-border);display:flex;justify-content:flex-end;gap:8px;align-items:center;}
+.labels-clear{font-size:12px;color:var(--color-muted);cursor:pointer;padding:4px 8px;background:none;border:none;}
+.labels-clear:hover{color:var(--color-primary);}
+.labels-apply{font-size:12px;color:#fff;background:var(--color-primary);border-radius:4px;padding:5px 12px;cursor:pointer;border:none;font-weight:500;}
+.labels-apply:hover{background:var(--color-primary-h);}
+
+/* ══ TABLE CARD ══ */
+.list-card{
+  flex:1;overflow:hidden;
+  background:var(--color-bg);
+  border:1px solid var(--color-border);
+  display:flex;flex-direction:column;
+}
+.table-wrap{flex:1;overflow:auto;}
+
+/* ══ DATA TABLE ══ */
+.data-table{
+  width:100%;border-collapse:collapse;
+  background:var(--color-bg);table-layout:fixed;
+}
+.data-table thead{position:sticky;top:0;z-index:20;}
+.data-table th{
+  background:var(--color-sec-bg);
+  font-size:12px;font-weight:500;color:var(--color-medium);
+  text-align:left;padding:0;
+  border-bottom:2px solid var(--color-border);
+  border-right:1px solid var(--color-border);
+  white-space:nowrap;position:relative;user-select:none;
+}
+.data-table th:last-child{border-right:none;}
+.data-table td{
+  padding:10px 14px;
+  border-bottom:1px solid var(--color-border);
+  border-right:1px solid var(--color-border);
+  vertical-align:middle;font-size:12px;color:var(--color-body);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.data-table td:last-child{border-right:none;}
+.data-table tbody tr:hover td{background:var(--color-primary-lt);}
+.data-table tbody tr:last-child td{border-bottom:none;}
+
+/* TH inner */
+.th-inner{
+  display:flex;align-items:center;gap:4px;
+  padding:10px 6px 10px 8px;min-height:40px;
+}
+
+/* Drag handle */
+.col-drag{
+  width:14px;height:20px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:grab;opacity:0.35;flex-shrink:0;
+  border-radius:2px;transition:opacity 0.1s;
+}
+.col-drag:hover{opacity:0.75;background:rgba(0,0,0,0.06);}
+.col-drag:active{cursor:grabbing;}
+
+/* Sort trigger */
+.col-sort-trigger{
+  display:flex;align-items:center;gap:4px;flex:1;
+  cursor:pointer;min-width:0;padding:2px 0;
+}
+.col-label{font-size:12px;font-weight:500;color:var(--color-medium);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.col-ch-icon{display:flex;align-items:center;flex-shrink:0;margin-left:2px;}
+.sort-icon{display:flex;flex-direction:column;gap:1px;flex-shrink:0;opacity:0.35;transition:opacity 0.15s;margin-left:2px;}
+.col-sort-trigger:hover .sort-icon{opacity:0.65;}
+.sort-icon.asc,.sort-icon.desc{opacity:1;}
+.sort-icon.asc svg:last-child{opacity:0.3;}
+.sort-icon.desc svg:first-child{opacity:0.3;}
+th.sorted .col-label{color:var(--color-primary);}
+
+/* Column resizer */
+.col-resizer{
+  position:absolute;right:0;top:0;bottom:0;width:5px;
+  cursor:col-resize;background:transparent;z-index:5;
+}
+.col-resizer:hover{background:rgba(26,80,163,0.35);}
+
+/* ══ CELL TYPES ══ */
+.cust-cell{display:flex;align-items:center;gap:8px;}
+.cust-av-sm{width:30px;height:30px;min-width:30px;border-radius:50%;background:var(--color-primary-lt);color:var(--color-primary);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;transition:background .15s,color .15s;}
+.data-table tbody tr:hover .cust-av-sm{background:var(--color-primary);color:#fff;}
+.cust-name-wrap{display:flex;align-items:center;gap:5px;min-width:0;overflow:hidden;}
+.cust-name{font-size:13px;font-weight:600;color:var(--color-text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;}
+.cust-name:hover{color:var(--color-primary);text-decoration:underline;}
+.cust-labels{display:inline-flex;gap:4px;flex-shrink:0;}
+.cust-label-dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0;cursor:default;}
+.cell-val{font-size:12px;color:var(--color-body);}
+.cell-empty{color:var(--color-muted);font-size:12px;}
+.cell-link{color:var(--color-link);font-size:12px;}
+
+/* Row action button */
+.row-action{
+  width:28px;height:28px;
+  display:inline-flex;align-items:center;justify-content:center;
+  border-radius:50%;border:none;background:none;
+  color:var(--color-medium);cursor:pointer;
+  transition:all 0.15s;opacity:0;
+}
+tr:hover .row-action{opacity:1;}
+.row-action:hover{background:var(--color-primary-lt);color:var(--color-primary);}
+.actions-cell{text-align:center;}
+
+/* ══ PAGINATOR ══ */
+.paginator{
+  display:flex;align-items:center;gap:6px;
+  padding:10px 16px;
+  border-top:1px solid var(--color-border);
+  background:var(--color-bg);flex-shrink:0;
+}
+.pag-info{font-size:12px;color:var(--color-muted);flex-shrink:0;}
+.pag-space{flex:1;}
+.pag-btn{
+  width:30px;height:30px;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--color-border);border-radius:4px;
+  background:var(--color-bg);color:var(--color-medium);
+  cursor:pointer;font-size:12px;font-weight:500;
+  transition:all 0.15s;flex-shrink:0;
+}
+.pag-btn:hover:not(:disabled){border-color:var(--color-primary);color:var(--color-primary);background:var(--color-primary-lt);}
+.pag-btn:disabled{opacity:0.35;cursor:not-allowed;}
+.pag-btn.active{background:var(--color-primary);color:#fff;border-color:var(--color-primary);}
+.pag-gap{font-size:12px;color:var(--color-muted);padding:0 4px;display:flex;align-items:center;}
+.pag-rpp{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--color-muted);flex-shrink:0;margin-left:8px;}
+.pag-rpp select{
+  border:1px solid var(--color-border-i);border-radius:4px;
+  padding:4px 6px;font-size:12px;
+  background:var(--color-bg);color:var(--color-body);cursor:pointer;
+}
+.pag-rpp select:focus{outline:none;border-color:var(--color-primary);}
+
+/* ══ DARK MODE ══ */
+.dark .list-toolbar,.dark .list-card{background:var(--color-bg);border-color:var(--color-border);}
+.dark .list-search{background:var(--color-sec-bg);border-color:var(--color-border);}
+.dark .list-search input{color:var(--color-body);}
+.dark .tb-btn{background:var(--color-sec-bg);border-color:var(--color-border);color:var(--color-medium);}
+.dark .tb-btn:hover,.dark .tb-btn.active{background:#1a2d4a;border-color:var(--color-primary);color:var(--color-primary);}
+.dark .labels-trigger{background:var(--color-sec-bg);border-color:var(--color-border);}
+.dark .labels-menu{background:var(--color-sec-bg);border-color:var(--color-border);}
+.dark .label-option:hover{background:#2c2f35;}
+.dark .data-table th{background:var(--color-sec-bg);}
+.dark .data-table tbody tr:hover td{background:#1a2d4a;}
+.dark .paginator{background:var(--color-bg);border-color:var(--color-border);}
+.dark .pag-btn{background:var(--color-bg);border-color:var(--color-border);}
+.dark .pag-rpp select{background:var(--color-sec-bg);border-color:var(--color-border);}
+
+/* ══ DRAG / RESIZE FEEDBACK ══ */
+th.dragging{opacity:0.45;}
+th.drag-over{border-left:2px solid var(--color-primary)!important;}
+body.is-resizing *{cursor:col-resize!important;}
+body.is-dragging *{cursor:grabbing!important;}
+
+/* ══ ROW OUTBOUND ICONS ══ */
+.row-ob-icons{display:inline-flex;align-items:center;gap:2px;}
+.row-ob-icon{width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;border:none;background:none;color:var(--color-medium);cursor:pointer;transition:all .15s;opacity:0;flex-shrink:0;padding:0;}
+tr:hover .row-ob-icon{opacity:1;}
+.row-ob-icon:hover{background:var(--color-primary-lt);color:var(--color-primary);transform:scale(1.15);}
+.row-ob-icon .material-icons{font-size:15px;color:inherit;}
+.row-ob-icon .row-wa-ic{width:14px;height:14px;fill:var(--color-medium);flex-shrink:0;transition:fill .15s;}
+.row-ob-icon:hover .row-wa-ic{fill:var(--color-primary);}
+
+/* ══ CONTACT CARD (hover popup) ══ */
+.ci-card{opacity:0;pointer-events:none;transform:translateY(-6px);transition:opacity .18s ease,transform .18s ease;position:fixed;z-index:500;background:#fff;border-radius:10px;box-shadow:0 4px 24px rgba(0,0,0,.16);padding:14px;width:260px;}
+.ci-card.visible{opacity:1;pointer-events:all;transform:translateY(0);}
+.ci-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.ci-av{width:42px;height:42px;border-radius:50%;border:2px solid var(--color-success);background:#f5f6f9;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--color-primary);flex-shrink:0;}
+.ci-meta{flex:1;min-width:0;}
+.ci-name{font-size:15px;font-weight:600;color:var(--color-text);}
+.ci-status{display:flex;align-items:center;gap:4px;margin-top:2px;}
+.ci-id{font-size:11px;color:var(--color-success);font-weight:500;}
+.ci-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.ci-edit{width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:4px;background:none;border:none;cursor:pointer;padding:0;flex-shrink:0;}
+.ci-edit:hover{background:rgba(0,0,0,0.06);}
+.ci-div{height:1px;background:var(--color-border);margin:10px 0;}
+.ci-chs{display:flex;align-items:center;justify-content:center;gap:10px;padding:4px 0;}
+.ci-ch{width:36px;height:36px;border-radius:50%;border:1px solid var(--color-border);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s;}
+.ci-ch:hover{background:var(--color-primary-lt);}
+.ci-ch .material-icons{font-size:17px;color:#555;}
+.ci-ch:hover .material-icons{color:var(--color-primary);}
+.ci-ch .ci-wa-ic{width:15px;height:15px;fill:#555;transition:fill .15s;}
+.ci-ch:hover .ci-wa-ic{fill:#25d366;}
+.ci-rows{display:flex;flex-direction:column;gap:10px;margin:4px 0;}
+.ci-row{display:flex;gap:16px;}
+.ci-f{flex:1;min-width:0;}
+.ci-lbl{font-size:11px;color:#9a9a9a;margin-bottom:2px;}
+.ci-val{font-size:12px;font-weight:500;color:var(--color-body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ci-view{display:flex;align-items:center;justify-content:center;gap:4px;width:100%;padding:8px 0 2px;font-size:12px;color:var(--color-muted);background:none;border:none;cursor:pointer;}
+.ci-view:hover{color:var(--color-primary);}
+.ci-sec-ttl{font-size:13px;font-weight:500;color:var(--color-text);margin-bottom:8px;}
+.ci-fields-box{background:var(--color-canvas);border-radius:6px;padding:10px 12px;display:flex;flex-direction:column;gap:10px;}
+#lccPeek{width:260px;}
+#lccExpanded{width:300px;max-height:calc(100vh - 80px);overflow-y:auto;}
+.ci-ch-list{background:var(--color-canvas);border-radius:6px;padding:8px 10px;display:flex;flex-direction:column;}
+.ci-ch-row{display:flex;align-items:center;gap:8px;padding:6px 0;}
+.ci-ch-row.hi{background:#f0f4ff;border-radius:6px;padding:6px;margin:-2px -4px;}
+.ci-icons{display:flex;align-items:center;gap:3px;flex-shrink:0;}
+.ci-ico{width:16px;height:16px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ci-ico.wa{background:#25D366;}.ci-ico.ph{background:#1a50a3;}.ci-ico.fb{background:#1877F2;font-size:10px;font-weight:700;color:#fff;}.ci-ico.em{background:#EA4335;}
+.ci-num{font-size:12px;color:var(--color-body);flex:1;}.ci-sub{font-size:12px;color:var(--color-muted);padding:2px 0 2px 27px;}
+.dark .ci-card{background:var(--color-bg);border:1px solid var(--color-border);}
+.dark .ci-fields-box,.dark .ci-ch-list{background:var(--color-sec-bg);}
+/* ── EDIT CUSTOMER PANEL ── */
+.ecp-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:700;opacity:0;pointer-events:none;transition:opacity .22s ease;}
+.ecp-overlay.open{opacity:1;pointer-events:all;}
+.ecp-panel{position:fixed;top:0;right:0;bottom:0;width:440px;max-width:100vw;background:var(--color-bg);z-index:701;display:flex;flex-direction:column;box-shadow:-6px 0 32px rgba(0,0,0,.18);transform:translateX(100%);transition:transform .24s cubic-bezier(.4,0,.2,1);}
+.ecp-panel.open{transform:translateX(0);}
+.ecp-hdr{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 16px;border-bottom:1px solid var(--color-border);flex-shrink:0;}
+.ecp-title{font-size:18px;font-weight:600;color:var(--color-text);}
+.ecp-close{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--color-muted);}
+.ecp-close:hover{background:var(--color-canvas);}
+.ecp-body{flex:1;overflow-y:auto;padding:20px;}
+.ecp-sec-title{font-size:15px;font-weight:600;color:var(--color-text);margin-bottom:14px;}
+.ecp-field{margin-bottom:12px;}
+.ecp-lbl{font-size:12px;font-weight:500;color:var(--color-muted);margin-bottom:5px;}
+.ecp-inp{width:100%;height:42px;border:1px solid var(--color-border);border-radius:8px;padding:0 12px;font-size:14px;color:var(--color-text);background:var(--color-canvas);box-sizing:border-box;outline:none;transition:border-color .15s;}
+.ecp-inp:focus{border-color:var(--color-primary);background:var(--color-bg);}
+.ecp-sep{height:1px;background:var(--color-border);margin:20px 0;}
+.ecp-ch-add-row{display:flex;align-items:center;gap:10px;padding:9px 0;}
+.ecp-ch-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ecp-ch-add-inp{flex:1;height:38px;border:1px solid var(--color-border);border-radius:8px;padding:0 12px;font-size:13px;color:var(--color-muted);background:var(--color-canvas);outline:none;}
+.ecp-ch-add-inp:focus{border-color:var(--color-primary);color:var(--color-text);background:var(--color-bg);}
+.ecp-ch-plus{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--color-border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--color-muted);flex-shrink:0;}
+.ecp-ch-plus:hover{border-color:var(--color-primary);color:var(--color-primary);}
+.ecp-ch-val-row{display:flex;align-items:center;gap:10px;padding:6px 0 6px 42px;}
+.ecp-ch-val-inp{flex:1;height:38px;border:1px solid var(--color-border);border-radius:8px;padding:0 12px;font-size:13px;color:var(--color-text);background:var(--color-canvas);outline:none;}
+.ecp-ch-val-inp:focus{border-color:var(--color-primary);background:var(--color-bg);}
+.ecp-ch-del{width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--color-error);border-radius:6px;flex-shrink:0;}
+.ecp-ch-del:hover{background:rgba(255,103,103,.1);}
+.ecp-footer{display:flex;align-items:center;justify-content:flex-end;gap:10px;padding:16px 20px;border-top:1px solid var(--color-border);flex-shrink:0;}
+.ecp-btn{height:40px;padding:0 24px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;border:none;}
+.ecp-btn-cancel{background:var(--color-bg);border:1.5px solid var(--color-border) !important;color:var(--color-text);}
+.ecp-btn-cancel:hover{background:var(--color-canvas);}
+.ecp-btn-save{background:var(--color-primary);color:#fff;}
+.ecp-btn-save:hover{opacity:.9;}
+.dark .ecp-inp,.dark .ecp-ch-add-inp,.dark .ecp-ch-val-inp{background:#292C30;border-color:#3a3f48;}
+
+/* ══ CALL CONTROLLER ══ */
+.call-ctrl{position:fixed;bottom:24px;right:24px;width:268px;background:#111827;border-radius:20px;padding:20px 16px 16px;z-index:700;display:none;flex-direction:column;gap:14px;box-shadow:0 16px 48px rgba(0,0,0,.55);border:1px solid #1e2a42;}
+.call-ctrl.active{display:flex;}
+.cc-top{display:flex;align-items:center;gap:12px;}
+.cc-av{width:54px;height:54px;border-radius:50%;background:#1c2540;color:#7b9cde;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.cc-info{flex:1;min-width:0;}
+.cc-name{font-size:14px;font-weight:600;color:#dce6f5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cc-status{font-size:11px;color:#6b7fa8;margin-top:2px;}
+.cc-timer{font-size:28px;font-weight:700;color:#fff;text-align:center;letter-spacing:4px;font-variant-numeric:tabular-nums;}
+.cc-btns{display:flex;align-items:center;justify-content:space-between;}
+.cc-btn{display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;background:none;border:none;padding:0;}
+.cc-ic{width:48px;height:48px;border-radius:50%;background:#1c2540;border:1px solid #2a3050;display:flex;align-items:center;justify-content:center;transition:background .15s;}
+.cc-btn:hover .cc-ic{background:#263060;}
+.cc-ic .material-icons{font-size:20px;color:#7b9cde;}
+.cc-lbl{font-size:10px;color:#6b7fa8;}
+.cc-btn.cc-on .cc-ic{background:#1c4a3a;border-color:#1c4a3a;}
+.cc-btn.cc-on .cc-ic .material-icons{color:#26c98c;}
+.cc-end .cc-ic{background:#b91c1c;border-color:#b91c1c;}
+.cc-end:hover .cc-ic{background:#991111;}
+.cc-end .cc-ic .material-icons{color:#fff;}
+
+/* ══ OUTBOUND MODAL ══ */
+.outbound-modal{position:fixed;top:0;right:0;width:396px;height:100vh;background:var(--color-bg);border-left:1px solid var(--color-border);z-index:400;transform:translateX(100%);transition:transform 0.3s ease;box-shadow:-4px 0 20px rgba(0,0,0,.12);display:flex;flex-direction:column;}
+.outbound-modal.open{transform:translateX(0);}
+.outbound-header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--color-border);flex-shrink:0;}
+.outbound-header h3{font-size:16px;font-weight:600;color:var(--color-text);margin:0;}
+.close-btn{background:none;border:none;cursor:pointer;color:var(--color-muted);width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:6px;}
+.close-btn:hover{background:var(--color-canvas);}
+.ob-act-btn.wa svg{fill:currentColor;width:16px;height:16px;}
+.ob-search-row{padding:10px 12px 6px;flex-shrink:0;display:flex;align-items:center;gap:10px;}
+.ob-search-wrap{flex:1;display:flex;align-items:center;gap:0;border:1px solid var(--color-border);border-radius:8px;background:var(--color-canvas);overflow:hidden;height:38px;}
+.ob-search-ic{font-size:18px;color:var(--color-muted);padding:0 8px;flex-shrink:0;}
+.ob-search-inp{flex:1;border:none;background:transparent;padding:0 4px;font-size:13px;color:var(--color-text);outline:none;min-width:0;height:100%;}
+.ob-search-inp::placeholder{color:var(--color-muted);}
+.ob-dialpad-tog{border:1px solid var(--color-border);background:var(--color-canvas);border-radius:8px;cursor:pointer;padding:0 12px;color:var(--color-muted);display:flex;align-items:center;justify-content:center;height:38px;min-width:44px;transition:all .15s;flex-shrink:0;}
+.ob-dialpad-tog:hover,.ob-dialpad-tog.active{color:var(--color-primary);background:var(--color-primary-lt);border-color:var(--color-primary);}
+.ob-dialpad-tog .material-icons{font-size:22px;}
+.ob-add-bar{display:none;margin:0 12px 6px;padding:8px 12px;background:var(--color-primary-lt);border-radius:8px;align-items:center;justify-content:space-between;gap:8px;}
+.ob-add-bar.show{display:flex;}
+.ob-add-txt{font-size:12px;color:var(--color-primary);}
+.ob-add-btn{display:flex;align-items:center;gap:4px;padding:5px 10px;background:var(--color-primary);color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;}
+.ob-add-btn .material-icons{font-size:14px;}
+.ob-dialpad{display:none;flex-direction:column;gap:6px;padding:8px 12px 10px;border-bottom:1px solid var(--color-border);flex-shrink:0;}
+.ob-dialpad.show{display:flex;}
+.ob-dialpad-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+.dial-btn{padding:14px 8px;background:var(--color-canvas);border:1px solid var(--color-border);border-radius:8px;cursor:pointer;font-size:16px;font-weight:600;color:var(--color-text);transition:all .15s;}
+.dial-btn:hover{background:var(--color-primary);color:#fff;border-color:var(--color-primary);}
+.ob-dialpad-foot{display:flex;gap:6px;}
+.backspace-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:9px;background:var(--color-canvas);border:1px solid var(--color-border);border-radius:8px;cursor:pointer;font-size:12px;color:var(--color-text);}
+.backspace-btn:hover{background:var(--color-error);color:#fff;border-color:var(--color-error);}
+.backspace-btn .material-icons{font-size:16px;}
+.ob-contacts{flex:1;overflow-y:auto;}
+.ob-group-hdr{padding:8px 12px 4px;font-size:10px;font-weight:700;color:var(--color-muted);text-transform:uppercase;letter-spacing:.5px;background:var(--color-canvas);position:sticky;top:0;}
+.ob-contact{display:flex;align-items:center;padding:9px 12px;cursor:pointer;transition:background .12s;gap:10px;border-bottom:1px solid var(--color-canvas);}
+.ob-contact:hover{background:var(--color-canvas);}
+.ob-av{width:32px;height:32px;border-radius:50%;background:var(--color-primary-lt);color:var(--color-primary);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ob-info{flex:1;min-width:0;}
+.ob-name{font-size:13px;font-weight:500;color:var(--color-text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ob-sub{font-size:11px;color:var(--color-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ob-actions{display:none;gap:2px;flex-shrink:0;}
+.ob-contact:hover .ob-actions{display:flex;}
+.ob-act-btn{background:none;border:none;cursor:pointer;padding:4px;border-radius:4px;color:var(--color-muted);}
+.ob-act-btn:hover{color:var(--color-primary);background:var(--color-primary-lt);}
+.ob-act-btn .material-icons{font-size:16px;}
+.ob-footer{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--color-border);flex-shrink:0;}
+.ob-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:10px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;transition:all .15s;}
+.ob-btn.primary{background:var(--color-primary);color:#fff;border:none;}
+.ob-btn.primary:hover{opacity:.9;}
+.ob-btn.secondary{background:var(--color-canvas);color:var(--color-text);border:1px solid var(--color-border);}
+.ob-btn.secondary:hover{background:#e8edf3;}
+.ob-btn .material-icons{font-size:16px;}
+.ob-sms-gap{display:none;height:50px;flex-shrink:0;}
+.ob-sms-gap.show{display:block;}
+.ob-sms-composer{display:none;flex:0 0 40%;flex-direction:column;border-top:2px solid var(--color-border);min-height:0;}
+.ob-sms-composer.open{display:flex;}
+.sms-cmp-body{padding:12px 14px 8px;display:flex;flex-direction:column;gap:8px;flex:1;min-height:0;}
+.sms-to-lbl{font-size:13px;font-weight:600;color:var(--color-text);}
+.sms-to-inp{padding:10px 12px;border:1px solid var(--color-border);border-radius:10px;font-size:13px;background:var(--color-canvas);color:var(--color-text);outline:none;font-family:inherit;width:100%;box-sizing:border-box;flex-shrink:0;}
+.sms-to-inp:focus{border-color:var(--color-primary);}
+.sms-msg-inp{padding:12px;border:1px solid var(--color-border);border-radius:10px;font-size:13px;resize:none;background:var(--color-canvas);color:var(--color-text);font-family:inherit;outline:none;flex:1;min-height:0;width:100%;box-sizing:border-box;}
+.sms-msg-inp:focus{border-color:var(--color-primary);}
+.sms-counter{font-size:12px;color:var(--color-muted);text-align:right;flex-shrink:0;}
+.sms-cmp-footer{display:flex;gap:10px;padding:8px 14px 14px;flex-shrink:0;}
+.sms-cancel-btn{flex:1;padding:11px 0;background:var(--color-bg);color:var(--color-text);border:1px solid var(--color-border);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;}
+.sms-cancel-btn:hover{background:var(--color-canvas);}
+.sms-send-btn{flex:1;padding:11px 0;background:#1a50a3;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;}
+.sms-send-btn:hover{opacity:.9;}
+.ob-email-composer,.ob-wa-composer{display:none;flex:0 0 40%;flex-direction:column;border-top:2px solid var(--color-border);min-height:0;}
+.ob-email-composer.open,.ob-wa-composer.open{display:flex;}
+.email-send-btn{flex:1;padding:11px 0;background:#1a50a3;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;}
+.email-send-btn:hover{opacity:.9;}
+.wa-send-btn{flex:1;padding:11px 0;background:#25d366;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;}
+.wa-send-btn:hover{opacity:.9;}
+
+/* ══ VOICEMAIL INBOX — fixed overlay, full viewport below navbar ══ */
+.vm-screen{
+  display:none;position:fixed;top:var(--navbar-h);left:0;right:0;bottom:0;
+  z-index:50;flex-direction:column;overflow:hidden;
+  background:var(--color-primary-lt);padding:12px;gap:8px;
+}
+.vm-screen.open{display:flex;}
+.vm-top-card{background:var(--color-bg);border:1px solid var(--color-border);flex-shrink:0;}
+.vm-page-hdr{padding:10px 16px;display:flex;align-items:center;gap:10px;}
+.vm-page-title{font-size:20px;font-weight:600;color:var(--color-text);}
+.vm-unread-badge{background:var(--color-error);color:#fff;font-size:12px;font-weight:700;border-radius:9999px;padding:1px 8px;min-width:22px;height:20px;display:inline-flex;align-items:center;justify-content:center;}
+.vm-page-space{flex:1;}
+.vm-search{display:flex;align-items:center;gap:6px;border:1px solid var(--color-border-i);border-radius:4px;padding:6px 10px;background:var(--color-bg);min-width:220px;}
+.vm-search:focus-within{border-color:var(--color-primary);}
+.vm-search-inp{flex:1;border:none;outline:none;font-size:13px;color:var(--color-body);background:transparent;}
+.vm-search-inp::placeholder{color:var(--color-ph);}
+.vm-pill{display:inline-flex;align-items:center;font-size:13px;font-weight:500;border:1px solid var(--color-border-i);border-radius:4px;padding:7px 14px;color:var(--color-medium);background:var(--color-bg);cursor:pointer;transition:all .15s;white-space:nowrap;flex-shrink:0;}
+.vm-pill:hover{border-color:var(--color-primary);color:var(--color-primary);background:var(--color-primary-lt);}
+.vm-pill.on{border-color:var(--color-primary);color:var(--color-primary);background:var(--color-primary-lt);}
+.vm-table-wrap{flex:1;overflow-y:auto;background:var(--color-bg);border:1px solid var(--color-border);}
+.vm-table{width:100%;border-collapse:collapse;background:var(--color-bg);}
+.vm-table th{background:var(--color-sec-bg);font-size:12px;font-weight:500;color:var(--color-medium);text-align:left;padding:10px 14px;border-bottom:2px solid var(--color-border);white-space:nowrap;}
+.vm-table td{padding:10px 14px;border-bottom:1px solid var(--color-border);vertical-align:middle;font-size:12px;color:var(--color-body);}
+.vm-table tr:last-child td{border-bottom:none;}
+.vm-table tr:hover td{background:var(--color-primary-lt);}
+.vm-row-unread td:first-child{border-left:3px solid var(--color-primary);}
+.vm-row-unread td{font-weight:500;}
+.vm-cust-cell{display:flex;flex-direction:column;gap:2px;}
+.vm-cust-name{font-size:14px;font-weight:500;color:var(--color-text);}
+.vm-cust-phone{font-size:12px;color:var(--color-ts);}
+.vm-date{font-size:12px;color:var(--color-body);}
+.vm-time-sub{font-size:11px;color:var(--color-ts);margin-top:1px;}
+.vm-player-sm{display:flex;align-items:center;gap:6px;background:var(--color-canvas);border-radius:4px;padding:4px 8px;min-width:200px;max-width:300px;}
+.vm-play-sm{width:24px;height:24px;border-radius:50%;background:var(--color-primary);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;}
+.vm-play-sm:hover{background:var(--color-primary-h);}
+.vm-wf-sm{flex:1;height:22px;display:flex;align-items:center;gap:1.5px;overflow:hidden;}
+.vm-bar-sm{flex-shrink:0;width:2.5px;border-radius:2px;background:#c8d3e0;}
+.vm-bar-sm.p{background:var(--color-primary);}
+.vm-dur-sm{font-size:11px;color:var(--color-ts);font-variant-numeric:tabular-nums;white-space:nowrap;flex-shrink:0;}
+.vm-status{display:inline-flex;align-items:center;gap:4px;border-radius:9999px;padding:2px 10px;font-size:12px;font-weight:500;white-space:nowrap;}
+.vm-status.unread{background:rgba(26,80,163,0.08);color:var(--color-primary);}
+.vm-status.read{background:var(--color-canvas);color:var(--color-muted);}
+.vm-status-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.vm-status.unread .vm-status-dot{background:var(--color-primary);}
+.vm-status.read .vm-status-dot{background:var(--color-muted);}
+.dark .vm-screen{background:var(--color-canvas);}
+.dark .vm-top-card{background:var(--color-bg);border-color:var(--color-border);}
+.dark .vm-table-wrap{background:var(--color-bg);border-color:var(--color-border);}
+.dark .vm-table{background:var(--color-bg);}
+.dark .vm-table th{background:var(--color-sec-bg);}
+.dark .vm-table tr:hover td{background:#292C30;}
+#tb-tooltip{position:fixed;background:#2c2c2c;color:#fff;font-size:11px;font-weight:500;padding:4px 9px;border-radius:5px;white-space:nowrap;pointer-events:none;z-index:9999;opacity:0;transition:opacity .15s;top:0;left:0;}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+<!-- ════ NAVBAR ════ -->
+<nav class="navbar">
+  <button class="nav-ham" aria-label="Menu" data-tip="Menu" onclick="toggleHamMenu(event)">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.8"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <div class="nav-logo">
+    <img src="logo.png" alt="ExpertFlow" style="height:30px;display:block;object-fit:contain;">
+  </div>
+  <div class="nav-space"></div>
+  <button class="nav-btn active" aria-label="Customers / Phonebook" data-tip="Customers">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a50a3" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+  </button>
+  <button class="nav-btn" aria-label="Conversations" data-tip="Conversations" onclick="navTo('agent-desk-v2-template.html')">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a50a3" stroke-width="1.8"><path d="M3 6a2 2 0 012-2h9a2 2 0 012 2v7a2 2 0 01-2 2H7l-4 3V6z"/><path d="M9 2h10a2 2 0 012 2v7a2 2 0 01-2 2h-1"/></svg>
+  </button>
+  <button class="nav-btn" aria-label="Quick Links" data-tip="Quick Links" onclick="toggleQuickLinks(event)">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a50a3" stroke-width="1.8"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+  </button>
+  <button class="nav-btn" id="vmNavBtn" aria-label="Voicemail — 3 unread" data-tip="Voicemail" onclick="toggleVm()" style="position:relative">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a50a3" stroke-width="1.8"><circle cx="6.5" cy="14" r="3.5"/><circle cx="17.5" cy="14" r="3.5"/><line x1="6.5" y1="17.5" x2="17.5" y2="17.5"/></svg>
+    <span class="nav-badge">3</span>
+  </button>
+  <button class="nav-btn" aria-label="Notifications" data-tip="Notifications" onclick="toggleNotifDD(event)" style="position:relative">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a50a3" stroke-width="1.8"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+    <span class="nav-badge">3</span>
+  </button>
+  <button class="nav-btn" aria-label="Outbound" data-tip="Outbound" onclick="openOutbound()">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a50a3" stroke-width="1.8"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+  </button>
+  <div class="nav-vsep"></div>
+  <div class="state-pill" role="button" aria-label="Ready" onclick="toggleStateDD(event)">
+    <div class="state-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <span>Ready</span>
+    <span style="font-variant-numeric:tabular-nums;">00:03:46</span>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#9CA3AF" stroke-width="2"/></svg>
+  </div>
+  <div class="agent-av" role="button" aria-label="Agent AJ" onclick="togglePP(event)">AJ</div>
+</nav>
+
+<!-- ════ PAGE BODY ════ -->
+<div class="page-body">
+
+  <!-- TOOLBAR -->
+  <div class="list-toolbar">
+    <div class="page-title-wrap">
+      <span class="page-title">Customers</span>
+      <span class="page-title-count" id="titleCount">(247)</span>
+    </div>
+    <div class="toolbar-space"></div>
+    <div class="list-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaaaaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="searchInput" placeholder="Search customers…" aria-label="Search customers" oninput="handleSearch()">
+    </div>
+    <button class="tb-btn" id="advFilterBtn" onclick="this.classList.toggle('active')" data-tip="Advanced Filter">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+      Advanced Filter
+    </button>
+    <button class="tb-btn" id="colPrefBtn" onclick="this.classList.toggle('active')" data-tip="Column Preferences">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6" stroke-width="2.5"/><line x1="3" y1="12" x2="3.01" y2="12" stroke-width="2.5"/><line x1="3" y1="18" x2="3.01" y2="18" stroke-width="2.5"/></svg>
+      Column Preference
+    </button>
+    <div class="labels-dropdown" id="labelsDropdown">
+      <button class="labels-trigger" id="labelsTrigger" onclick="toggleLabelsMenu()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7" stroke-width="2.5"/></svg>
+        <span id="labelsText">Filter Across Labels</span>
+        <svg class="labels-chevron" id="labelsChevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="labels-menu" id="labelsMenu">
+        <div class="labels-menu-hdr">Labels</div>
+        <label class="label-option"><input type="checkbox" value="VIP" onchange="updateLabels()"><span class="label-dot" style="background:#ff6767"></span>VIP</label>
+        <label class="label-option"><input type="checkbox" value="Premium" onchange="updateLabels()"><span class="label-dot" style="background:#fdb635"></span>Premium</label>
+        <label class="label-option"><input type="checkbox" value="Support" onchange="updateLabels()"><span class="label-dot" style="background:#26c98c"></span>Support</label>
+        <label class="label-option"><input type="checkbox" value="Enterprise" onchange="updateLabels()"><span class="label-dot" style="background:#1a50a3"></span>Enterprise</label>
+        <label class="label-option"><input type="checkbox" value="Trial" onchange="updateLabels()"><span class="label-dot" style="background:#9b59b6"></span>Trial</label>
+        <div class="labels-menu-footer">
+          <button class="labels-clear" onclick="clearLabels()">Clear</button>
+          <button class="labels-apply" onclick="applyLabels()">Apply</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLE CARD -->
+  <div class="list-card">
+    <div class="table-wrap" id="tableWrap">
+      <table class="data-table" id="dataTable">
+        <thead id="tableHead">
+          <tr id="headerRow">
+            <th style="width:200px" data-col="name">
+              <div class="th-inner">
+                <span class="col-drag" title="Drag to reorder column"><svg width="10" height="14" viewBox="0 0 10 14" fill="#888"><circle cx="3" cy="2" r="1.2"/><circle cx="7" cy="2" r="1.2"/><circle cx="3" cy="7" r="1.2"/><circle cx="7" cy="7" r="1.2"/><circle cx="3" cy="12" r="1.2"/><circle cx="7" cy="12" r="1.2"/></svg></span>
+                <span class="col-sort-trigger" onclick="sortBy('name')">
+                  <span class="col-label">First Name</span>
+                  <span class="sort-icon" id="sort-name"><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg></span>
+                </span>
+              </div>
+              <div class="col-resizer"></div>
+            </th>
+            <th style="width:160px" data-col="phone">
+              <div class="th-inner">
+                <span class="col-drag" title="Drag to reorder column"><svg width="10" height="14" viewBox="0 0 10 14" fill="#888"><circle cx="3" cy="2" r="1.2"/><circle cx="7" cy="2" r="1.2"/><circle cx="3" cy="7" r="1.2"/><circle cx="7" cy="7" r="1.2"/><circle cx="3" cy="12" r="1.2"/><circle cx="7" cy="12" r="1.2"/></svg></span>
+                <span class="col-sort-trigger" onclick="sortBy('phone')">
+                  <span class="col-label">Phone Number</span>
+                  <span class="col-ch-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.11 19.79 19.79 0 01.78.5 2 2 0 012.78 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.14 6.14l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></span>
+                  <span class="sort-icon" id="sort-phone"><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg></span>
+                </span>
+              </div>
+              <div class="col-resizer"></div>
+            </th>
+            <th style="width:120px" data-col="web">
+              <div class="th-inner">
+                <span class="col-drag" title="Drag to reorder column"><svg width="10" height="14" viewBox="0 0 10 14" fill="#888"><circle cx="3" cy="2" r="1.2"/><circle cx="7" cy="2" r="1.2"/><circle cx="3" cy="7" r="1.2"/><circle cx="7" cy="7" r="1.2"/><circle cx="3" cy="12" r="1.2"/><circle cx="7" cy="12" r="1.2"/></svg></span>
+                <span class="col-sort-trigger" onclick="sortBy('web')">
+                  <span class="col-label">Web</span>
+                  <span class="col-ch-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg></span>
+                  <span class="sort-icon" id="sort-web"><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg></span>
+                </span>
+              </div>
+              <div class="col-resizer"></div>
+            </th>
+            <th style="width:120px" data-col="voice">
+              <div class="th-inner">
+                <span class="col-drag" title="Drag to reorder column"><svg width="10" height="14" viewBox="0 0 10 14" fill="#888"><circle cx="3" cy="2" r="1.2"/><circle cx="7" cy="2" r="1.2"/><circle cx="3" cy="7" r="1.2"/><circle cx="7" cy="7" r="1.2"/><circle cx="3" cy="12" r="1.2"/><circle cx="7" cy="12" r="1.2"/></svg></span>
+                <span class="col-sort-trigger" onclick="sortBy('voice')">
+                  <span class="col-label">Voice</span>
+                  <span class="col-ch-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.11 19.79 19.79 0 01.78.5 2 2 0 012.78 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.14 6.14l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></span>
+                  <span class="sort-icon" id="sort-voice"><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg></span>
+                </span>
+              </div>
+              <div class="col-resizer"></div>
+            </th>
+            <th style="width:130px" data-col="facebook">
+              <div class="th-inner">
+                <span class="col-drag" title="Drag to reorder column"><svg width="10" height="14" viewBox="0 0 10 14" fill="#888"><circle cx="3" cy="2" r="1.2"/><circle cx="7" cy="2" r="1.2"/><circle cx="3" cy="7" r="1.2"/><circle cx="7" cy="7" r="1.2"/><circle cx="3" cy="12" r="1.2"/><circle cx="7" cy="12" r="1.2"/></svg></span>
+                <span class="col-sort-trigger" onclick="sortBy('facebook')">
+                  <span class="col-label">Facebook</span>
+                  <span class="col-ch-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></span>
+                  <span class="sort-icon" id="sort-facebook"><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg></span>
+                </span>
+              </div>
+              <div class="col-resizer"></div>
+            </th>
+            <th style="width:120px" data-col="twitter">
+              <div class="th-inner">
+                <span class="col-drag" title="Drag to reorder column"><svg width="10" height="14" viewBox="0 0 10 14" fill="#888"><circle cx="3" cy="2" r="1.2"/><circle cx="7" cy="2" r="1.2"/><circle cx="3" cy="7" r="1.2"/><circle cx="7" cy="7" r="1.2"/><circle cx="3" cy="12" r="1.2"/><circle cx="7" cy="12" r="1.2"/></svg></span>
+                <span class="col-sort-trigger" onclick="sortBy('twitter')">
+                  <span class="col-label">Twitter</span>
+                  <span class="col-ch-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="#1DA1F2"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg></span>
+                  <span class="sort-icon" id="sort-twitter"><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg></span>
+                </span>
+              </div>
+              <div class="col-resizer"></div>
+            </th>
+            <th style="width:120px" data-col="telegram">
+              <div class="th-inner">
+                <span class="col-drag" title="Drag to reorder column"><svg width="10" height="14" viewBox="0 0 10 14" fill="#888"><circle cx="3" cy="2" r="1.2"/><circle cx="7" cy="2" r="1.2"/><circle cx="3" cy="7" r="1.2"/><circle cx="7" cy="7" r="1.2"/><circle cx="3" cy="12" r="1.2"/><circle cx="7" cy="12" r="1.2"/></svg></span>
+                <span class="col-sort-trigger" onclick="sortBy('telegram')">
+                  <span class="col-label">Telegram</span>
+                  <span class="col-ch-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="#2CA5E0"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.247l-2.03 9.568c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.893.653z"/></svg></span>
+                  <span class="sort-icon" id="sort-telegram"><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg></span>
+                </span>
+              </div>
+              <div class="col-resizer"></div>
+            </th>
+            <th style="width:170px" data-col="email">
+              <div class="th-inner">
+                <span class="col-drag" title="Drag to reorder column"><svg width="10" height="14" viewBox="0 0 10 14" fill="#888"><circle cx="3" cy="2" r="1.2"/><circle cx="7" cy="2" r="1.2"/><circle cx="3" cy="7" r="1.2"/><circle cx="7" cy="7" r="1.2"/><circle cx="3" cy="12" r="1.2"/><circle cx="7" cy="12" r="1.2"/></svg></span>
+                <span class="col-sort-trigger" onclick="sortBy('email')">
+                  <span class="col-label">Email</span>
+                  <span class="col-ch-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
+                  <span class="sort-icon" id="sort-email"><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg></span>
+                </span>
+              </div>
+              <div class="col-resizer"></div>
+            </th>
+            <th style="width:130px" data-col="linkedin">
+              <div class="th-inner">
+                <span class="col-drag" title="Drag to reorder column"><svg width="10" height="14" viewBox="0 0 10 14" fill="#888"><circle cx="3" cy="2" r="1.2"/><circle cx="7" cy="2" r="1.2"/><circle cx="3" cy="7" r="1.2"/><circle cx="7" cy="7" r="1.2"/><circle cx="3" cy="12" r="1.2"/><circle cx="7" cy="12" r="1.2"/></svg></span>
+                <span class="col-sort-trigger" onclick="sortBy('linkedin')">
+                  <span class="col-label">LinkedIn</span>
+                  <span class="col-ch-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="#0A66C2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></span>
+                  <span class="sort-icon" id="sort-linkedin"><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg></span>
+                </span>
+              </div>
+              <div class="col-resizer"></div>
+            </th>
+            <th style="width:130px" data-col="instagram">
+              <div class="th-inner">
+                <span class="col-drag" title="Drag to reorder column"><svg width="10" height="14" viewBox="0 0 10 14" fill="#888"><circle cx="3" cy="2" r="1.2"/><circle cx="7" cy="2" r="1.2"/><circle cx="3" cy="7" r="1.2"/><circle cx="7" cy="7" r="1.2"/><circle cx="3" cy="12" r="1.2"/><circle cx="7" cy="12" r="1.2"/></svg></span>
+                <span class="col-sort-trigger" onclick="sortBy('instagram')">
+                  <span class="col-label">Instagram</span>
+                  <span class="col-ch-icon"><svg width="12" height="12" viewBox="0 0 24 24"><defs><linearGradient id="ig" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#f09433"/><stop offset="50%" style="stop-color:#dc2743"/><stop offset="100%" style="stop-color:#bc1888"/></linearGradient></defs><path fill="url(#ig)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></span>
+                  <span class="sort-icon" id="sort-instagram"><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg></span>
+                </span>
+              </div>
+              <div class="col-resizer"></div>
+            </th>
+            <th style="width:140px" data-col="actions">
+              <div class="th-inner" style="justify-content:center">
+                <span class="col-label">Actions</span>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+
+    <!-- PAGINATOR -->
+    <div class="paginator">
+      <span class="pag-info" id="pagInfo">Showing 1–25 of 247 entries</span>
+      <div class="pag-space"></div>
+      <button class="pag-btn" id="pagFirst" onclick="goPage('first')" data-tip="First page" disabled>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="11 17 6 12 11 7"/><polyline points="18 17 13 12 18 7"/></svg>
+      </button>
+      <button class="pag-btn" id="pagPrev" onclick="goPage('prev')" data-tip="Previous page" disabled>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div id="pagPages" style="display:flex;gap:4px;align-items:center;"></div>
+      <button class="pag-btn" id="pagNext" onclick="goPage('next')" data-tip="Next page">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <button class="pag-btn" id="pagLast" onclick="goPage('last')" data-tip="Last page">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+      </button>
+      <div class="pag-rpp">
+        <span>Rows per page</span>
+        <select id="rppSelect" onchange="changeRpp()">
+          <option value="10">10</option>
+          <option value="25" selected>25</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page-body -->
+
+<!-- ══ OUTBOUND MODAL ══ -->
+<div class="outbound-modal" id="outboundModal">
+
+  <div class="outbound-header">
+    <h3>Outbound</h3>
+    <button class="close-btn" data-tip="Close" onclick="closeOutbound()"><span class="material-icons" style="font-size:20px">close</span></button>
+  </div>
+
+  <!-- Search + dialpad toggle -->
+  <div class="ob-search-row">
+    <div class="ob-search-wrap">
+      <span class="material-icons ob-search-ic">search</span>
+      <input type="text" id="callSearch" class="ob-search-inp" placeholder="Search or enter number…" oninput="obCallSearch(this.value)">
+    </div>
+    <button class="ob-dialpad-tog" id="dialpadTogBtn" onclick="toggleDialpad()" data-tip="Dialpad">
+      <span class="material-icons">dialpad</span>
+    </button>
+  </div>
+
+  <!-- Add contact bar -->
+  <div class="ob-add-bar" id="addContactBar">
+    <span class="ob-add-txt">Number not found in contacts</span>
+    <button class="ob-add-btn" onclick="addContactFromDialpad()">
+      <span class="material-icons">person_add</span>Add
+    </button>
+  </div>
+
+  <!-- Dialpad -->
+  <div class="ob-dialpad" id="dialpadSection">
+    <div class="ob-dialpad-grid">
+      <button class="dial-btn" onclick="dialpadDigit('1')">1</button>
+      <button class="dial-btn" onclick="dialpadDigit('2')">2</button>
+      <button class="dial-btn" onclick="dialpadDigit('3')">3</button>
+      <button class="dial-btn" onclick="dialpadDigit('4')">4</button>
+      <button class="dial-btn" onclick="dialpadDigit('5')">5</button>
+      <button class="dial-btn" onclick="dialpadDigit('6')">6</button>
+      <button class="dial-btn" onclick="dialpadDigit('7')">7</button>
+      <button class="dial-btn" onclick="dialpadDigit('8')">8</button>
+      <button class="dial-btn" onclick="dialpadDigit('9')">9</button>
+      <button class="dial-btn" onclick="dialpadDigit('*')">*</button>
+      <button class="dial-btn" onclick="dialpadDigit('0')">0</button>
+      <button class="dial-btn" onclick="dialpadDigit('#')">#</button>
+    </div>
+    <div class="ob-dialpad-foot">
+      <button class="backspace-btn" onclick="dialpadBackspace()"><span class="material-icons">backspace</span>Backspace</button>
+    </div>
+  </div>
+
+  <!-- Contact list -->
+  <div class="ob-contacts" id="callContactList"></div>
+
+
+  <!-- SMS COMPOSER -->
+  <div class="ob-sms-gap" id="obSmsGap"></div>
+  <div class="ob-sms-composer" id="obSmsComposer">
+    <div class="sms-cmp-body">
+      <div class="sms-to-lbl">To:</div>
+      <input class="sms-to-inp" id="smsToInp" type="tel" placeholder="Phone number">
+      <textarea class="sms-msg-inp" id="smsMsgInp" placeholder="Type your SMS message…" oninput="smsCount()"></textarea>
+      <div class="sms-counter"><span id="smsCntSpan">0</span>/160</div>
+    </div>
+    <div class="sms-cmp-footer">
+      <button class="sms-cancel-btn" onclick="closeSmsComposer()">Cancel</button>
+      <button class="sms-send-btn" onclick="sendSmsMsg()">Send SMS</button>
+    </div>
+  </div>
+
+  <!-- EMAIL COMPOSER -->
+  <div class="ob-email-composer" id="obEmailComposer">
+    <div class="sms-cmp-body">
+      <div class="sms-to-lbl">To:</div>
+      <input class="sms-to-inp" id="emailToInp" type="email" placeholder="Email address">
+      <input class="sms-to-inp" id="emailSubjInp" type="text" placeholder="Subject">
+      <textarea class="sms-msg-inp" id="emailMsgInp" placeholder="Type your email…"></textarea>
+    </div>
+    <div class="sms-cmp-footer">
+      <button class="sms-cancel-btn" onclick="closeEmailComposer()">Cancel</button>
+      <button class="email-send-btn" onclick="sendEmailMsg()">Send Email</button>
+    </div>
+  </div>
+
+  <!-- WHATSAPP COMPOSER -->
+  <div class="ob-wa-composer" id="obWaComposer">
+    <div class="sms-cmp-body">
+      <div class="sms-to-lbl">To:</div>
+      <input class="sms-to-inp" id="waToInp" type="tel" placeholder="Phone number">
+      <textarea class="sms-msg-inp" id="waMsgInp" placeholder="Type your WhatsApp message…" oninput="waCount()"></textarea>
+      <div class="sms-counter"><span id="waCntSpan">0</span> characters</div>
+    </div>
+    <div class="sms-cmp-footer">
+      <button class="sms-cancel-btn" onclick="closeWaComposer()">Cancel</button>
+      <button class="wa-send-btn" onclick="sendWaMsg()">Send WhatsApp</button>
+    </div>
+  </div>
+
+</div><!-- /outbound-modal -->
+
+<!-- ══ CONTACT CARD — PEEK ══ -->
+<div class="ci-card" id="lccPeek" onmouseenter="cancelHideCard()" onmouseleave="startHideCard()">
+  <div class="ci-top">
+    <div class="ci-av" id="lcc-av">JT</div>
+    <div class="ci-meta">
+      <div class="ci-name" id="lcc-name">John Tylor</div>
+      <div class="ci-status">
+        <span class="ci-id">Identified</span>
+        <span id="lcc-dots" style="display:inline-flex;gap:4px;align-items:center;margin-left:4px;"></span>
+      </div>
+    </div>
+    <button class="ci-edit" aria-label="Copy link" data-tip="Copy link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.8"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></button>
+    <button class="ci-edit" aria-label="Edit" data-tip="Edit" onclick="openEditCustomer()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.8"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+  </div>
+  <div class="ci-div"></div>
+  <div class="ci-chs" id="lcc-chs"></div>
+  <div class="ci-div"></div>
+  <div class="ci-rows">
+    <div class="ci-row">
+      <div class="ci-f"><div class="ci-lbl">Phone</div><div class="ci-val" id="lcc-phone">—</div></div>
+      <div class="ci-f"><div class="ci-lbl">Email</div><div class="ci-val" id="lcc-email">—</div></div>
+    </div>
+  </div>
+  <button class="ci-view" onclick="expandLcc()">View more <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
+</div>
+
+<!-- ══ CONTACT CARD — EXPANDED ══ -->
+<div class="ci-card" id="lccExpanded" onmouseenter="cancelHideCard()" onmouseleave="startHideCard()">
+  <div class="ci-top">
+    <div class="ci-av" id="lce-av">JT</div>
+    <div class="ci-meta">
+      <div class="ci-name" id="lce-name">John Tylor</div>
+      <div class="ci-status">
+        <span class="ci-id">Identified</span>
+        <span id="lce-dots" style="display:inline-flex;gap:4px;align-items:center;margin-left:4px;"></span>
+      </div>
+    </div>
+    <button class="ci-edit" aria-label="Copy link" data-tip="Copy link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.8"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></button>
+    <button class="ci-edit" aria-label="Edit" data-tip="Edit" onclick="openEditCustomer()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.8"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+  </div>
+  <div class="ci-div"></div>
+  <div class="ci-sec-ttl">General Information</div>
+  <div class="ci-fields-box" id="lce-fields"></div>
+  <div class="ci-sec-ttl" style="margin-top:12px;">Channel Identifiers</div>
+  <div class="ci-ch-list" id="lce-channels"></div>
+  <button class="ci-view" onclick="collapseLcc()">View less <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg></button>
+</div>
+
+<!-- ══ EDIT CUSTOMER PANEL ══ -->
+<div class="ecp-overlay" id="ecpOverlay" onclick="closeEditCustomer()"></div>
+<div class="ecp-panel" id="ecpPanel">
+  <div class="ecp-hdr">
+    <span class="ecp-title">Edit Customer</span>
+    <div class="ecp-close" onclick="closeEditCustomer()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </div>
+  </div>
+  <div class="ecp-body">
+    <!-- General Information -->
+    <div class="ecp-sec-title">General Information</div>
+    <div class="ecp-field">
+      <div class="ecp-lbl">Full Name*</div>
+      <input class="ecp-inp" type="text" placeholder="First name" value="John Dan Tylor">
+    </div>
+    <div class="ecp-field">
+      <div class="ecp-lbl">Label</div>
+      <input class="ecp-inp" type="text" placeholder="First name">
+    </div>
+    <div class="ecp-field">
+      <div class="ecp-lbl">Role</div>
+      <input class="ecp-inp" type="text" placeholder="First name">
+    </div>
+
+    <div class="ecp-sep"></div>
+
+    <!-- Channel Identifiers -->
+    <div class="ecp-sec-title">Channel Identifiers</div>
+
+    <!-- WhatsApp -->
+    <div class="ecp-ch-add-row">
+      <div class="ecp-ch-icon" style="background:#25D366"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></div>
+      <input class="ecp-ch-add-inp" type="text" placeholder="Add new channel detail">
+      <div class="ecp-ch-plus"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+    </div>
+    <div class="ecp-ch-val-row">
+      <input class="ecp-ch-val-inp" type="text" value="(743) 500-3536">
+      <div class="ecp-ch-del"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg></div>
+    </div>
+    <div class="ecp-ch-val-row">
+      <input class="ecp-ch-val-inp" type="text" value="(743) 500-3536">
+      <div class="ecp-ch-del"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg></div>
+    </div>
+
+    <!-- Facebook -->
+    <div class="ecp-ch-add-row">
+      <div class="ecp-ch-icon" style="background:#1877F2"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></div>
+      <input class="ecp-ch-add-inp" type="text" placeholder="Add new channel detail">
+      <div class="ecp-ch-plus"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+    </div>
+    <div class="ecp-ch-val-row">
+      <input class="ecp-ch-val-inp" type="text" value="jt3101">
+      <div class="ecp-ch-del"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg></div>
+    </div>
+
+    <!-- Email -->
+    <div class="ecp-ch-add-row">
+      <div class="ecp-ch-icon" style="background:#f59e0b"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+      <input class="ecp-ch-add-inp" type="text" placeholder="Add new channel detail">
+      <div class="ecp-ch-plus"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+    </div>
+
+    <!-- Phone/Voice -->
+    <div class="ecp-ch-add-row">
+      <div class="ecp-ch-icon" style="background:#1a50a3"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.11 19.79 19.79 0 01.78.5 2 2 0 012.78 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.14 6.14l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+      <input class="ecp-ch-add-inp" type="text" placeholder="Add new channel detail">
+      <div class="ecp-ch-plus"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+    </div>
+    <div class="ecp-ch-val-row">
+      <input class="ecp-ch-val-inp" type="text" value="(743) 500-3536">
+      <div class="ecp-ch-del"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg></div>
+    </div>
+
+    <!-- WeChat / Messaging -->
+    <div class="ecp-ch-add-row">
+      <div class="ecp-ch-icon" style="background:#26c98c"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M8.5 10a1 1 0 100-2 1 1 0 000 2zm7 0a1 1 0 100-2 1 1 0 000 2zM12 2C6.477 2 2 6.032 2 11c0 2.667 1.176 5.064 3.063 6.745L4.5 21l3.662-1.83C9.339 19.706 10.641 20 12 20c5.523 0 10-4.032 10-9S17.523 2 12 2z"/></svg></div>
+      <input class="ecp-ch-add-inp" type="text" placeholder="Add new channel detail">
+      <div class="ecp-ch-plus"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+    </div>
+
+    <!-- LinkedIn -->
+    <div class="ecp-ch-add-row">
+      <div class="ecp-ch-icon" style="background:#0A66C2"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></div>
+      <input class="ecp-ch-add-inp" type="text" placeholder="Add new channel detail">
+      <div class="ecp-ch-plus"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+    </div>
+
+  </div><!-- /ecp-body -->
+
+  <div class="ecp-footer">
+    <button class="ecp-btn ecp-btn-cancel" onclick="closeEditCustomer()">Cancel</button>
+    <button class="ecp-btn ecp-btn-save" onclick="saveEditCustomer()">Save</button>
+  </div>
+</div>
+
+<!-- ══ CALL CONTROLLER ══ -->
+<div class="call-ctrl" id="callCtrl">
+  <div class="cc-top">
+    <div class="cc-av" id="ccAv">JT</div>
+    <div class="cc-info">
+      <div class="cc-name" id="ccName">John Tylor</div>
+      <div class="cc-status" id="ccStatus">Calling…</div>
+    </div>
+  </div>
+  <div class="cc-timer" id="ccTimer">00:00</div>
+  <div class="cc-btns">
+    <button class="cc-btn" id="ccMuteBtn" onclick="ccMute()" aria-label="Mute">
+      <div class="cc-ic"><span class="material-icons">mic</span></div>
+      <span class="cc-lbl">Mute</span>
+    </button>
+    <button class="cc-btn" id="ccHoldBtn" onclick="ccHold()" aria-label="Hold">
+      <div class="cc-ic"><span class="material-icons">pause</span></div>
+      <span class="cc-lbl">Hold</span>
+    </button>
+    <button class="cc-btn" aria-label="Keypad">
+      <div class="cc-ic"><span class="material-icons">dialpad</span></div>
+      <span class="cc-lbl">Keypad</span>
+    </button>
+    <button class="cc-btn cc-end" onclick="endCall()" aria-label="End call">
+      <div class="cc-ic"><span class="material-icons">call_end</span></div>
+      <span class="cc-lbl">End</span>
+    </button>
+  </div>
+</div>
+
+<!-- ══ VOICEMAIL INBOX — fixed overlay ══ -->
+<div class="vm-screen" id="vmScreen" role="main" aria-label="Voicemail inbox">
+  <div class="vm-top-card">
+    <div class="vm-page-hdr">
+      <span class="vm-page-title">Voicemail</span>
+      <span class="vm-unread-badge">3</span>
+      <div class="vm-page-space"></div>
+      <div class="vm-search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaaaaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input class="vm-search-inp" type="text" placeholder="Search voicemails…" aria-label="Search voicemails" oninput="vmSearch(this)">
+      </div>
+      <button class="vm-pill on" onclick="setVmFilter(this,'all')" aria-pressed="true">All</button>
+      <button class="vm-pill" onclick="setVmFilter(this,'unread')" aria-pressed="false">Unread</button>
+      <button class="vm-pill" onclick="setVmFilter(this,'read')" aria-pressed="false">Read</button>
+    </div>
+  </div>
+  <div class="vm-table-wrap">
+    <table class="vm-table">
+      <thead>
+        <tr>
+          <th style="width:22%">Customer</th>
+          <th style="width:18%">Received On</th>
+          <th style="width:40%">Duration</th>
+          <th style="width:14%">Status</th>
+          <th style="width:6%"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="vm-row vm-row-unread" data-status="unread">
+          <td><div class="vm-cust-cell"><span class="vm-cust-name">Sarah Mitchell</span><span class="vm-cust-phone">+1 (415) 882-3041</span></div></td>
+          <td><div class="vm-date">May 20, 2025</div><div class="vm-time-sub">09:14 AM</div></td>
+          <td><div class="vm-player-sm"><button class="vm-play-sm" onclick="togglePlay(this)" aria-label="Play"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><div class="vm-wf-sm"><div class="vm-bar-sm p" style="height:55%"></div><div class="vm-bar-sm p" style="height:80%"></div><div class="vm-bar-sm p" style="height:45%"></div><div class="vm-bar-sm p" style="height:90%"></div><div class="vm-bar-sm p" style="height:60%"></div><div class="vm-bar-sm p" style="height:70%"></div><div class="vm-bar-sm p" style="height:50%"></div><div class="vm-bar-sm p" style="height:85%"></div><div class="vm-bar-sm" style="height:65%"></div><div class="vm-bar-sm" style="height:40%"></div><div class="vm-bar-sm" style="height:75%"></div><div class="vm-bar-sm" style="height:55%"></div><div class="vm-bar-sm" style="height:90%"></div><div class="vm-bar-sm" style="height:45%"></div><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:60%"></div><div class="vm-bar-sm" style="height:80%"></div><div class="vm-bar-sm" style="height:50%"></div><div class="vm-bar-sm" style="height:65%"></div><div class="vm-bar-sm" style="height:40%"></div><div class="vm-bar-sm" style="height:75%"></div><div class="vm-bar-sm" style="height:55%"></div><div class="vm-bar-sm" style="height:85%"></div><div class="vm-bar-sm" style="height:45%"></div><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:60%"></div><div class="vm-bar-sm" style="height:50%"></div><div class="vm-bar-sm" style="height:80%"></div></div><span class="vm-dur-sm">1:24</span></div></td>
+          <td><span class="vm-status unread"><span class="vm-status-dot"></span>Unread</span></td>
+          <td style="text-align:center"><button style="width:28px;height:28px;border-radius:50%;border:none;background:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:#929292" onclick="navTo('agent-desk-v2-template.html')" data-tip="Open in Agent Desk"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></button></td>
+        </tr>
+        <tr class="vm-row vm-row-unread" data-status="unread">
+          <td><div class="vm-cust-cell"><span class="vm-cust-name">David Okonkwo</span><span class="vm-cust-phone">+44 20 7946 0012</span></div></td>
+          <td><div class="vm-date">May 20, 2025</div><div class="vm-time-sub">10:52 AM</div></td>
+          <td><div class="vm-player-sm"><button class="vm-play-sm" onclick="togglePlay(this)" aria-label="Play"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><div class="vm-wf-sm"><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:50%"></div><div class="vm-bar-sm" style="height:85%"></div><div class="vm-bar-sm" style="height:40%"></div><div class="vm-bar-sm" style="height:65%"></div><div class="vm-bar-sm" style="height:90%"></div><div class="vm-bar-sm" style="height:55%"></div><div class="vm-bar-sm" style="height:75%"></div><div class="vm-bar-sm" style="height:45%"></div><div class="vm-bar-sm" style="height:80%"></div><div class="vm-bar-sm" style="height:60%"></div><div class="vm-bar-sm" style="height:50%"></div><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:85%"></div><div class="vm-bar-sm" style="height:40%"></div><div class="vm-bar-sm" style="height:65%"></div><div class="vm-bar-sm" style="height:90%"></div><div class="vm-bar-sm" style="height:55%"></div><div class="vm-bar-sm" style="height:75%"></div><div class="vm-bar-sm" style="height:45%"></div><div class="vm-bar-sm" style="height:80%"></div><div class="vm-bar-sm" style="height:60%"></div><div class="vm-bar-sm" style="height:50%"></div><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:85%"></div><div class="vm-bar-sm" style="height:40%"></div><div class="vm-bar-sm" style="height:65%"></div><div class="vm-bar-sm" style="height:55%"></div></div><span class="vm-dur-sm">0:47</span></div></td>
+          <td><span class="vm-status unread"><span class="vm-status-dot"></span>Unread</span></td>
+          <td style="text-align:center"><button style="width:28px;height:28px;border-radius:50%;border:none;background:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:#929292" onclick="navTo('agent-desk-v2-template.html')" data-tip="Open in Agent Desk"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></button></td>
+        </tr>
+        <tr class="vm-row vm-row-unread" data-status="unread">
+          <td><div class="vm-cust-cell"><span class="vm-cust-name">Priya Nambiar</span><span class="vm-cust-phone">+91 98204 51033</span></div></td>
+          <td><div class="vm-date">May 19, 2025</div><div class="vm-time-sub">03:38 PM</div></td>
+          <td><div class="vm-player-sm"><button class="vm-play-sm" onclick="togglePlay(this)" aria-label="Play"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><div class="vm-wf-sm"><div class="vm-bar-sm" style="height:60%"></div><div class="vm-bar-sm" style="height:80%"></div><div class="vm-bar-sm" style="height:45%"></div><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:55%"></div><div class="vm-bar-sm" style="height:90%"></div><div class="vm-bar-sm" style="height:40%"></div><div class="vm-bar-sm" style="height:75%"></div><div class="vm-bar-sm" style="height:65%"></div><div class="vm-bar-sm" style="height:50%"></div><div class="vm-bar-sm" style="height:85%"></div><div class="vm-bar-sm" style="height:60%"></div><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:45%"></div><div class="vm-bar-sm" style="height:80%"></div><div class="vm-bar-sm" style="height:55%"></div><div class="vm-bar-sm" style="height:90%"></div><div class="vm-bar-sm" style="height:40%"></div><div class="vm-bar-sm" style="height:75%"></div><div class="vm-bar-sm" style="height:65%"></div><div class="vm-bar-sm" style="height:50%"></div><div class="vm-bar-sm" style="height:85%"></div><div class="vm-bar-sm" style="height:60%"></div><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:45%"></div><div class="vm-bar-sm" style="height:80%"></div><div class="vm-bar-sm" style="height:55%"></div><div class="vm-bar-sm" style="height:90%"></div></div><span class="vm-dur-sm">2:08</span></div></td>
+          <td><span class="vm-status unread"><span class="vm-status-dot"></span>Unread</span></td>
+          <td style="text-align:center"><button style="width:28px;height:28px;border-radius:50%;border:none;background:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:#929292" onclick="navTo('agent-desk-v2-template.html')" data-tip="Open in Agent Desk"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></button></td>
+        </tr>
+        <tr class="vm-row" data-status="read">
+          <td><div class="vm-cust-cell"><span class="vm-cust-name">John Tylor</span><span class="vm-cust-phone">+1 (762) 533-5936</span></div></td>
+          <td><div class="vm-date">May 18, 2025</div><div class="vm-time-sub">11:05 AM</div></td>
+          <td><div class="vm-player-sm"><button class="vm-play-sm" onclick="togglePlay(this)" aria-label="Play"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><div class="vm-wf-sm"><div class="vm-bar-sm p" style="height:65%"></div><div class="vm-bar-sm p" style="height:80%"></div><div class="vm-bar-sm p" style="height:50%"></div><div class="vm-bar-sm p" style="height:90%"></div><div class="vm-bar-sm p" style="height:55%"></div><div class="vm-bar-sm p" style="height:75%"></div><div class="vm-bar-sm p" style="height:45%"></div><div class="vm-bar-sm p" style="height:85%"></div><div class="vm-bar-sm p" style="height:60%"></div><div class="vm-bar-sm p" style="height:70%"></div><div class="vm-bar-sm p" style="height:50%"></div><div class="vm-bar-sm p" style="height:80%"></div><div class="vm-bar-sm p" style="height:55%"></div><div class="vm-bar-sm p" style="height:90%"></div><div class="vm-bar-sm p" style="height:45%"></div><div class="vm-bar-sm p" style="height:75%"></div><div class="vm-bar-sm p" style="height:65%"></div><div class="vm-bar-sm p" style="height:50%"></div><div class="vm-bar-sm p" style="height:85%"></div><div class="vm-bar-sm p" style="height:60%"></div><div class="vm-bar-sm p" style="height:70%"></div><div class="vm-bar-sm p" style="height:50%"></div><div class="vm-bar-sm p" style="height:80%"></div><div class="vm-bar-sm p" style="height:55%"></div><div class="vm-bar-sm p" style="height:90%"></div><div class="vm-bar-sm p" style="height:45%"></div><div class="vm-bar-sm p" style="height:75%"></div><div class="vm-bar-sm p" style="height:65%"></div></div><span class="vm-dur-sm">1:52</span></div></td>
+          <td><span class="vm-status read"><span class="vm-status-dot"></span>Read</span></td>
+          <td style="text-align:center"><button style="width:28px;height:28px;border-radius:50%;border:none;background:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:#929292" onclick="navTo('agent-desk-v2-template.html')" data-tip="Open in Agent Desk"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></button></td>
+        </tr>
+        <tr class="vm-row" data-status="read">
+          <td><div class="vm-cust-cell"><span class="vm-cust-name">Rob Kelsey</span><span class="vm-cust-phone">+1 (743) 500-3536</span></div></td>
+          <td><div class="vm-date">May 17, 2025</div><div class="vm-time-sub">02:21 PM</div></td>
+          <td><div class="vm-player-sm"><button class="vm-play-sm" onclick="togglePlay(this)" aria-label="Play"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><div class="vm-wf-sm"><div class="vm-bar-sm p" style="height:70%"></div><div class="vm-bar-sm p" style="height:55%"></div><div class="vm-bar-sm p" style="height:85%"></div><div class="vm-bar-sm p" style="height:40%"></div><div class="vm-bar-sm p" style="height:75%"></div><div class="vm-bar-sm p" style="height:60%"></div><div class="vm-bar-sm p" style="height:90%"></div><div class="vm-bar-sm p" style="height:50%"></div><div class="vm-bar-sm p" style="height:65%"></div><div class="vm-bar-sm p" style="height:80%"></div><div class="vm-bar-sm p" style="height:45%"></div><div class="vm-bar-sm p" style="height:70%"></div><div class="vm-bar-sm p" style="height:55%"></div><div class="vm-bar-sm p" style="height:85%"></div><div class="vm-bar-sm p" style="height:40%"></div><div class="vm-bar-sm p" style="height:75%"></div><div class="vm-bar-sm p" style="height:60%"></div><div class="vm-bar-sm p" style="height:90%"></div><div class="vm-bar-sm p" style="height:50%"></div><div class="vm-bar-sm p" style="height:65%"></div><div class="vm-bar-sm p" style="height:80%"></div><div class="vm-bar-sm p" style="height:45%"></div><div class="vm-bar-sm p" style="height:70%"></div><div class="vm-bar-sm p" style="height:55%"></div><div class="vm-bar-sm p" style="height:85%"></div><div class="vm-bar-sm p" style="height:40%"></div><div class="vm-bar-sm p" style="height:75%"></div><div class="vm-bar-sm p" style="height:60%"></div></div><span class="vm-dur-sm">0:33</span></div></td>
+          <td><span class="vm-status read"><span class="vm-status-dot"></span>Read</span></td>
+          <td style="text-align:center"><button style="width:28px;height:28px;border-radius:50%;border:none;background:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:#929292" onclick="navTo('agent-desk-v2-template.html')" data-tip="Open in Agent Desk"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div><!-- /vm-screen -->
+
+</div><!-- /app -->
+
+<script src="navbar.js"></script>
+<script>
+(function(){try{if(sessionStorage.getItem('ef-dark')==='1')document.getElementById('app').classList.add('dark')}catch(e){}})();
+
+// ════ DATA ════
+const LABEL_COLORS = {VIP:'#ff6767',Premium:'#fdb635',Support:'#26c98c',Enterprise:'#1a50a3',Trial:'#9b59b6'};
+const BASE = [
+  {name:'John Tylor',phone:'+1 (762) 533-5936',web:'john.tylor.com',voice:'+1 (762) 533-5936',facebook:'jt.facebook',twitter:'@jtylor',telegram:'@johntylor',email:'john.tylor@example.com',linkedin:'in/johntylor',instagram:'@johntylor',labels:['VIP','Enterprise']},
+  {name:'Sarah Mitchell',phone:'+1 (415) 882-3041',web:'',voice:'+1 (415) 882-3041',facebook:'sarah.mitchell',twitter:'@sarahmitch',telegram:'@sarahmitch',email:'sarah@mitchell.io',linkedin:'in/sarahmitchell',instagram:'@sarahmitch',labels:['Premium','Support']},
+  {name:'David Okonkwo',phone:'+44 20 7946 0012',web:'okonkwo.co.uk',voice:'+44 20 7946 0012',facebook:'david.okonkwo',twitter:'',telegram:'@dokonkwo',email:'david@okonkwo.co.uk',linkedin:'in/davidokonkwo',instagram:'',labels:['Support']},
+  {name:'Priya Nambiar',phone:'+91 98204 51033',web:'',voice:'+91 98204 51033',facebook:'',twitter:'@priyan',telegram:'@priyanambiar',email:'priya.nambiar@gmail.com',linkedin:'in/priyanambiar',instagram:'@priyanambiar',labels:['Trial']},
+  {name:'Rob Kelsey',phone:'+1 (743) 500-3536',web:'robkelsey.io',voice:'+1 (743) 500-3536',facebook:'rob.kelsey',twitter:'@robkelsey',telegram:'@robkelsey',email:'rob@kelsey.io',linkedin:'in/robkelsey',instagram:'@robkelsey',labels:['VIP','Premium']},
+  {name:'Angela Torres',phone:'+34 91 234 5678',web:'torres.es',voice:'+34 91 234 5678',facebook:'angela.torres.34',twitter:'@angelatorres',telegram:'',email:'angela@torres.es',linkedin:'in/angelatorres',instagram:'@angelatorres',labels:['Enterprise']},
+  {name:'Michael Brown',phone:'+1 (555) 012-5000',web:'',voice:'+1 (555) 012-5000',facebook:'michael.brown.us',twitter:'@mikebrown',telegram:'@mikebrown',email:'mike.brown@corp.com',linkedin:'in/michaelbrown',instagram:'',labels:['Support','Trial']},
+  {name:'Emma Wilson',phone:'+44 161 496 0234',web:'emmawilson.co.uk',voice:'+44 161 496 0234',facebook:'emma.wilson.uk',twitter:'@emmawilson',telegram:'@emmawilson',email:'emma@wilson.co.uk',linkedin:'in/emmawilson',instagram:'@emmawilson',labels:['VIP']},
+  {name:'Carlos Mendez',phone:'+52 55 1234 5678',web:'mendez.mx',voice:'+52 55 1234 5678',facebook:'carlos.mendez.mx',twitter:'@carlosmendez',telegram:'@carlosmendez',email:'carlos@mendez.mx',linkedin:'in/carlosmendez',instagram:'@carlosmendez',labels:['Premium','Enterprise']},
+  {name:'Aisha Johnson',phone:'+1 (312) 555-0189',web:'',voice:'+1 (312) 555-0189',facebook:'',twitter:'@aishaj',telegram:'@aishajohnson',email:'aisha.johnson@tech.org',linkedin:'in/aishajohnson',instagram:'@aishaj',labels:['Support']},
+  {name:'Zhang Wei',phone:'+86 10 6234 5678',web:'zhangwei.cn',voice:'+86 10 6234 5678',facebook:'zhang.wei.cn',twitter:'@zhangwei',telegram:'',email:'zhang.wei@company.cn',linkedin:'in/zhangwei',instagram:'@zhangwei',labels:['Enterprise','VIP']},
+  {name:'Fatima Al-Hassan',phone:'+971 50 123 4567',web:'alhassan.ae',voice:'+971 50 123 4567',facebook:'fatima.alhassan',twitter:'@fatimaalhassan',telegram:'@fatimaalhassan',email:'fatima@alhassan.ae',linkedin:'in/fatimaalhassan',instagram:'@fatimaalhassan',labels:['Premium']},
+  {name:'Pierre Dubois',phone:'+33 1 42 86 12 34',web:'',voice:'+33 1 42 86 12 34',facebook:'pierre.dubois.fr',twitter:'@pierredubois',telegram:'@pdubois',email:'pierre@dubois.fr',linkedin:'in/pierredubois',instagram:'',labels:['Trial']},
+  {name:'Kavya Reddy',phone:'+91 80 4321 8765',web:'kavyareddy.in',voice:'+91 80 4321 8765',facebook:'kavya.reddy',twitter:'@kavyareddy',telegram:'@kavyareddy',email:'kavya.reddy@startup.in',linkedin:'in/kavyareddy',instagram:'@kavyareddy',labels:['Support','Premium']},
+  {name:'Luca Bianchi',phone:'+39 02 1234 5678',web:'bianchi.it',voice:'+39 02 1234 5678',facebook:'luca.bianchi.it',twitter:'@lucabianchi',telegram:'@lucabianchi',email:'luca@bianchi.it',linkedin:'in/lucabianchi',instagram:'@lucabianchi',labels:['VIP','Trial']},
+  {name:'Nadia Patel',phone:'+1 (604) 555-0234',web:'',voice:'+1 (604) 555-0234',facebook:'nadia.patel.ca',twitter:'@nadiapatel',telegram:'@nadiapatel',email:'nadia.patel@mailbox.ca',linkedin:'in/nadiapatel',instagram:'@nadiapatel',labels:['Enterprise']},
+  {name:'Omar Farouq',phone:'+20 2 2345 6789',web:'farouq.eg',voice:'+20 2 2345 6789',facebook:'omar.farouq',twitter:'',telegram:'@omarfarouq',email:'omar@farouq.eg',linkedin:'in/omarfarouq',instagram:'',labels:['Support']},
+  {name:'Yuki Tanaka',phone:'+81 3 1234 5678',web:'tanaka.jp',voice:'+81 3 1234 5678',facebook:'yuki.tanaka.jp',twitter:'@yukitanaka',telegram:'@yukitanaka',email:'yuki.tanaka@corp.jp',linkedin:'in/yukitanaka',instagram:'@yukitanaka',labels:['Premium','VIP']},
+  {name:'Lisa Chen',phone:'+65 9123 4567',web:'lisachen.sg',voice:'+65 9123 4567',facebook:'lisa.chen.sg',twitter:'@lisachen',telegram:'@lisachen',email:'lisa@chen.sg',linkedin:'in/lisachen',instagram:'@lisachen',labels:['Trial','Support']},
+  {name:'Henrik Larsson',phone:'+46 8 123 456 78',web:'',voice:'+46 8 123 456 78',facebook:'henrik.larsson.se',twitter:'@henrikl',telegram:'@henrikl',email:'henrik@larsson.se',linkedin:'in/henriklarsson',instagram:'@henrikl',labels:['Enterprise','Premium']},
+];
+const CHANNEL_SETS = [
+  ['call','sms','whatsapp'],
+  ['call','email'],
+  ['call','sms','email','whatsapp'],
+  ['sms','whatsapp'],
+  ['call'],
+  ['call','sms','email'],
+  ['email','whatsapp'],
+  ['call','whatsapp'],
+];
+const FULL_DATA = [];
+for(let i=0;i<247;i++){
+  const b=BASE[i%BASE.length];
+  FULL_DATA.push({id:i+1,...b,name:i<BASE.length?b.name:b.name+' '+(Math.floor(i/BASE.length)+2),channels:CHANNEL_SETS[i%CHANNEL_SETS.length]});
+}
+
+let filtered=[...FULL_DATA],currentPage=1,rowsPerPage=25,sortCol=null,sortDir='asc',searchQuery='',activeLabels=[];
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/'/g,'&#39;');}
+function cv(v){return v?`<span class="cell-val">${esc(v)}</span>`:`<span class="cell-empty">—</span>`;}
+function labDots(ls){return ls&&ls.length?`<span class="cust-labels">${ls.map(l=>`<span class="cust-label-dot" style="background:${LABEL_COLORS[l]||'#999'}" data-tip="${esc(l)}"></span>`).join('')}</span>`:'';}
+function mkInitials(name){return name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();}
+
+const _WA_ROW='<svg class="row-wa-ic" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>';
+const _WA_CARD='<svg class="ci-wa-ic" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>';
+
+function rowObIcons(r){
+  return '<div class="row-ob-icons">'+r.channels.map(ch=>{
+    if(ch==='call') return `<button class="row-ob-icon" data-tip="Call" onclick="startCall('${esc(r.phone)}','${esc(r.name)}')"><span class="material-icons">call</span></button>`;
+    if(ch==='sms')  return `<button class="row-ob-icon" data-tip="SMS" onclick="openSmsComposer('${esc(r.phone)}','${esc(r.name)}')"><span class="material-icons">sms</span></button>`;
+    if(ch==='email')return `<button class="row-ob-icon" data-tip="Email" onclick="openEmailComposer('${esc(r.email)}','${esc(r.name)}')"><span class="material-icons">email</span></button>`;
+    if(ch==='whatsapp') return `<button class="row-ob-icon" data-tip="WhatsApp" onclick="openWaComposer('${esc(r.phone)}','${esc(r.name)}')">${_WA_ROW}</button>`;
+    return '';
+  }).join('')+'</div>';
+}
+
+function renderTable(){
+  const s=(currentPage-1)*rowsPerPage, e=Math.min(s+rowsPerPage,filtered.length), page=filtered.slice(s,e);
+  const tb=document.getElementById('tableBody');
+  tb.innerHTML=page.length?page.map(r=>`<tr>
+    <td><div class="cust-cell">
+      <div class="cust-av-sm" onmouseenter="showContactCard(event,${r.id})" onmouseleave="startHideCard()">${mkInitials(r.name)}</div>
+      <div class="cust-name-wrap">
+        <span class="cust-name" onclick="navTo('agent-desk-v2-template.html')" onmouseenter="showContactCard(event,${r.id})" onmouseleave="startHideCard()">${esc(r.name)}</span>
+        ${labDots(r.labels)}
+      </div>
+    </div></td>
+    <td>${cv(r.phone)}</td><td>${cv(r.web)}</td><td>${cv(r.voice)}</td>
+    <td>${cv(r.facebook)}</td><td>${cv(r.twitter)}</td><td>${cv(r.telegram)}</td>
+    <td>${cv(r.email)}</td><td>${cv(r.linkedin)}</td><td>${cv(r.instagram)}</td>
+    <td class="actions-cell" style="text-align:left;padding:6px 8px;">${rowObIcons(r)}</td>
+  </tr>`).join(''):`<tr><td colspan="11" style="text-align:center;padding:48px;color:var(--color-muted);font-size:13px;">No records found</td></tr>`;
+  updatePaginator(filtered.length);
+}
+
+function updateTitleCount(total){
+  document.getElementById('titleCount').textContent='('+total+')';
+}
+function updatePaginator(total){
+  updateTitleCount(total);
+  const tp=Math.max(1,Math.ceil(total/rowsPerPage)),s=Math.min((currentPage-1)*rowsPerPage+1,total),e=Math.min(currentPage*rowsPerPage,total);
+  document.getElementById('pagInfo').textContent=total?`Showing ${s}–${e} of ${total} entries`:'No entries';
+  document.getElementById('pagFirst').disabled=currentPage===1;
+  document.getElementById('pagPrev').disabled=currentPage===1;
+  document.getElementById('pagNext').disabled=currentPage===tp;
+  document.getElementById('pagLast').disabled=currentPage===tp;
+  const pages=[];
+  if(tp<=7){for(let i=1;i<=tp;i++)pages.push(i);}
+  else{pages.push(1);if(currentPage>3)pages.push('…');for(let i=Math.max(2,currentPage-1);i<=Math.min(tp-1,currentPage+1);i++)pages.push(i);if(currentPage<tp-2)pages.push('…');pages.push(tp);}
+  document.getElementById('pagPages').innerHTML=pages.map(p=>p==='…'?`<span class="pag-gap">…</span>`:`<button class="pag-btn${p===currentPage?' active':''}" onclick="goToPage(${p})">${p}</button>`).join('');
+}
+
+function goPage(d){const tp=Math.max(1,Math.ceil(filtered.length/rowsPerPage));if(d==='first')currentPage=1;else if(d==='prev')currentPage=Math.max(1,currentPage-1);else if(d==='next')currentPage=Math.min(tp,currentPage+1);else currentPage=tp;renderTable();}
+function goToPage(p){currentPage=p;renderTable();}
+function changeRpp(){rowsPerPage=parseInt(document.getElementById('rppSelect').value);currentPage=1;renderTable();}
+function handleSearch(){searchQuery=document.getElementById('searchInput').value.toLowerCase();applyFilters();}
+function applyFilters(){
+  filtered=FULL_DATA.filter(r=>{
+    const ms=!searchQuery||(r.name.toLowerCase().includes(searchQuery)||r.email.toLowerCase().includes(searchQuery)||r.phone.includes(searchQuery));
+    const ml=!activeLabels.length||activeLabels.every(l=>r.labels.includes(l));
+    return ms&&ml;
+  });
+  if(sortCol)doSort();
+  currentPage=1;renderTable();
+}
+function sortBy(col){
+  if(sortCol===col)sortDir=sortDir==='asc'?'desc':'asc';else{sortCol=col;sortDir='asc';}
+  document.querySelectorAll('th').forEach(t=>t.classList.remove('sorted'));
+  document.querySelectorAll('.sort-icon').forEach(s=>s.classList.remove('asc','desc'));
+  const th=document.querySelector(`th[data-col="${col}"]`);
+  const si=document.getElementById(`sort-${col}`);
+  if(th)th.classList.add('sorted');
+  if(si)si.classList.add(sortDir);
+  doSort();renderTable();
+}
+function doSort(){filtered.sort((a,b)=>{const av=String(a[sortCol]||'').toLowerCase(),bv=String(b[sortCol]||'').toLowerCase();return sortDir==='asc'?av.localeCompare(bv):bv.localeCompare(av);});}
+
+function toggleLabelsMenu(){
+  const m=document.getElementById('labelsMenu'),t=document.getElementById('labelsTrigger'),c=document.getElementById('labelsChevron');
+  const o=m.classList.toggle('open');t.classList.toggle('open',o);c.style.transform=o?'rotate(180deg)':'';
+}
+function updateLabels(){activeLabels=Array.from(document.querySelectorAll('#labelsMenu input:checked')).map(i=>i.value);}
+function clearLabels(){document.querySelectorAll('#labelsMenu input').forEach(i=>i.checked=false);updateLabels();document.getElementById('labelsText').textContent='Filter Across Labels';}
+function applyLabels(){
+  updateLabels();
+  document.getElementById('labelsText').textContent=activeLabels.length?`Labels (${activeLabels.length})`:'Filter Across Labels';
+  applyFilters();
+  const m=document.getElementById('labelsMenu'),t=document.getElementById('labelsTrigger'),c=document.getElementById('labelsChevron');
+  m.classList.remove('open');t.classList.remove('open');c.style.transform='';
+}
+document.addEventListener('click',e=>{
+  const dd=document.getElementById('labelsDropdown');
+  if(dd&&!dd.contains(e.target)){const m=document.getElementById('labelsMenu'),t=document.getElementById('labelsTrigger'),c=document.getElementById('labelsChevron');m.classList.remove('open');t.classList.remove('open');c.style.transform='';}
+});
+function viewProfile(id){const r=FULL_DATA.find(x=>x.id===id);alert('View profile: '+(r?r.name:'Customer #'+id));}
+
+// ════ COLUMN RESIZE ════
+let resizeTh=null,resizeX=0,resizeW=0;
+document.addEventListener('mousedown',e=>{
+  const h=e.target.closest('.col-resizer');
+  if(!h)return;
+  e.preventDefault();e.stopPropagation();
+  resizeTh=h.parentElement;resizeX=e.clientX;resizeW=resizeTh.offsetWidth;
+  document.body.classList.add('is-resizing');
+});
+document.addEventListener('mousemove',e=>{if(!resizeTh)return;resizeTh.style.width=Math.max(60,resizeW+(e.clientX-resizeX))+'px';});
+document.addEventListener('mouseup',()=>{if(resizeTh){resizeTh=null;document.body.classList.remove('is-resizing');}});
+
+// ════ COLUMN DRAG-REORDER ════
+let dragSrc=null,dragOv=null;
+document.addEventListener('mousedown',e=>{
+  const h=e.target.closest('.col-drag');
+  if(!h)return;
+  e.preventDefault();
+  dragSrc=h.closest('th');dragSrc.classList.add('dragging');
+  document.body.classList.add('is-dragging');
+});
+document.addEventListener('mousemove',e=>{
+  if(!dragSrc)return;
+  const th=e.target.closest('th');
+  if(th&&th!==dragSrc){
+    if(dragOv)dragOv.classList.remove('drag-over');
+    dragOv=th;th.classList.add('drag-over');
+  }
+});
+document.addEventListener('mouseup',e=>{
+  if(!dragSrc)return;
+  dragSrc.classList.remove('dragging');
+  document.body.classList.remove('is-dragging');
+  if(dragOv){
+    dragOv.classList.remove('drag-over');
+    const p=dragSrc.parentElement;
+    const si=Array.from(p.children).indexOf(dragSrc);
+    const ti=Array.from(p.children).indexOf(dragOv);
+    if(si!==ti){
+      if(si<ti)p.insertBefore(dragSrc,dragOv.nextSibling);else p.insertBefore(dragSrc,dragOv);
+      document.querySelectorAll('#tableBody tr').forEach(tr=>{
+        const cells=Array.from(tr.children);
+        if(si>=cells.length||ti>=cells.length)return;
+        const cell=cells[si];
+        if(si<ti)tr.insertBefore(cell,cells[ti].nextSibling);else tr.insertBefore(cell,cells[ti]);
+      });
+    }
+  }
+  dragSrc=null;dragOv=null;
+});
+
+renderTable();
+
+// ════ OUTBOUND ════
+const OB_CONTACTS={
+  recent:[
+    {name:'James Carter',    phone:'+1 (415) 882-3041', email:'james.carter@example.com',    channels:['call','sms','whatsapp']},
+    {name:'Emily Turner',    phone:'+1 (310) 445-7823', email:'emily.turner@mail.com',        channels:['call','email']},
+    {name:'Noah Williams',   phone:'+1 (762) 533-5936', email:'noah.williams@corp.com',       channels:['call','sms','email','whatsapp']},
+    {name:'Sophia Bennett',  phone:'+1 (743) 500-3536', email:'sophia.bennett@example.com',   channels:['sms','whatsapp']},
+    {name:'Oliver Hughes',   phone:'+44 20 7946 0012',  email:'oliver.hughes@uk.com',         channels:['call']},
+    {name:'Mia Robinson',    phone:'+1 (555) 012-5000', email:'mia.robinson@email.com',       channels:['call','sms','email']},
+  ],
+  all:[
+    {name:'Ethan Murphy',    phone:'+1 (212) 334-5678', email:'ethan.murphy@corp.com',        channels:['call','sms','email','whatsapp']},
+    {name:'Charlotte Davis', phone:'+1 (617) 290-4412', email:'charlotte.davis@mail.com',     channels:['call','email']},
+    {name:'Liam Anderson',   phone:'+44 20 1234 5678',  email:'liam.anderson@uk.org',         channels:['call','sms']},
+    {name:'Ava Thompson',    phone:'+1 (702) 881-2200', email:'ava.thompson@example.com',     channels:['call','sms','email','whatsapp']},
+    {name:'William Scott',   phone:'+1 (404) 556-9900', email:'william.scott@biz.com',        channels:['call']},
+    {name:'Isabella Martin', phone:'+61 2 9876 5432',   email:'isabella.martin@aus.com',      channels:['sms','email','whatsapp']},
+    {name:'Benjamin Clark',  phone:'+1 (786) 300-1122', email:'ben.clark@example.com',        channels:['call','sms']},
+    {name:'Harper Lewis',    phone:'+1 (303) 770-8899', email:'harper.lewis@mail.com',        channels:['call','sms','email']},
+  ]
+};
+const WA_SVG=`<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+
+function openOutbound(){document.getElementById('outboundModal').classList.add('open');obRenderContacts('callContactList','');}
+function closeOutbound(){document.getElementById('outboundModal').classList.remove('open');}
+
+function obInitials(name){return name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();}
+function obChannelBtn(ch,phone,email,name){
+  if(ch==='call')    return `<button class="ob-act-btn" data-tip="Call"     onclick="event.stopPropagation();startCall('${phone}','${name}')"><span class="material-icons">call</span></button>`;
+  if(ch==='sms')     return `<button class="ob-act-btn" data-tip="SMS"      onclick="event.stopPropagation();openSmsComposer('${phone}','${name}')"><span class="material-icons">sms</span></button>`;
+  if(ch==='email')   return `<button class="ob-act-btn" data-tip="Email"    onclick="event.stopPropagation();openEmailComposer('${email}','${name}')"><span class="material-icons">email</span></button>`;
+  if(ch==='whatsapp')return `<button class="ob-act-btn wa" data-tip="WhatsApp" onclick="event.stopPropagation();openWaComposer('${phone}','${name}')">${WA_SVG}</button>`;
+  return '';
+}
+function obContactRow(c){
+  const btns=c.channels.map(ch=>obChannelBtn(ch,c.phone,c.email,c.name)).join('');
+  return `<div class="ob-contact" onclick="obSelectCall('${c.phone}','${c.name}')">
+    <div class="ob-av">${obInitials(c.name)}</div>
+    <div class="ob-info"><div class="ob-name">${c.name}</div><div class="ob-sub">${c.phone}</div></div>
+    <div class="ob-actions">${btns}</div>
+  </div>`;
+}
+function obRenderContacts(listId,query){
+  const el=document.getElementById(listId);
+  const q=query.toLowerCase().trim();
+  const filter=list=>q?list.filter(c=>c.name.toLowerCase().includes(q)||c.phone.includes(q)):list;
+  const recent=filter(OB_CONTACTS.recent),all=filter(OB_CONTACTS.all);
+  if(!recent.length&&!all.length){el.innerHTML='<div style="padding:16px 12px;font-size:13px;color:var(--color-muted);text-align:center;">No contacts found</div>';return;}
+  let html='';
+  if(recent.length)html+=`<div class="ob-group-hdr">Recent Contacts</div>`+recent.map(obContactRow).join('');
+  if(all.length)html+=`<div class="ob-group-hdr">All Contacts</div>`+all.map(obContactRow).join('');
+  el.innerHTML=html;
+}
+let dialpadVisible=false;
+function toggleDialpad(){
+  dialpadVisible=!dialpadVisible;
+  document.getElementById('dialpadSection').classList.toggle('show',dialpadVisible);
+  document.getElementById('dialpadTogBtn').classList.toggle('active',dialpadVisible);
+}
+function dialpadDigit(d){const inp=document.getElementById('callSearch');inp.value+=d;obCallSearch(inp.value);}
+function dialpadBackspace(){const inp=document.getElementById('callSearch');inp.value=inp.value.slice(0,-1);obCallSearch(inp.value);}
+function obCallSearch(val){
+  obRenderContacts('callContactList',val);
+  const allContacts=[...OB_CONTACTS.recent,...OB_CONTACTS.all];
+  const isNumber=/[\d\+\(\)\-\s]{4,}/.test(val.trim());
+  const found=val.trim()&&allContacts.some(c=>c.phone.replace(/\D/g,'').includes(val.replace(/\D/g,'')));
+  document.getElementById('addContactBar').classList.toggle('show',isNumber&&!found&&val.trim().length>3);
+}
+function obCallClear(){document.getElementById('callSearch').value='';obCallSearch('');document.getElementById('addContactBar').classList.remove('show');}
+function obSelectCall(phone,name){document.getElementById('callSearch').value=phone;obCallSearch(phone);}
+function initiateCall(){const p=document.getElementById('callSearch').value.trim();if(p)startCall(p,p);else alert('Enter or select a number');}
+function addContactFromDialpad(){const p=document.getElementById('callSearch').value.trim();if(p)alert('Add contact: '+p);else alert('Enter a number first');}
+
+function _closeAllComposers(){
+  ['obSmsComposer','obEmailComposer','obWaComposer'].forEach(id=>document.getElementById(id).classList.remove('open'));
+  document.getElementById('obSmsGap').classList.remove('show');
+}
+function _openComposer(id,focusId){
+  _closeAllComposers();
+  document.getElementById('obSmsGap').classList.add('show');
+  document.getElementById(id).classList.add('open');
+  setTimeout(()=>document.getElementById(focusId).focus(),50);
+}
+function openSmsComposer(phone,name){
+  if(!document.getElementById('outboundModal').classList.contains('open'))openOutbound();
+  document.getElementById('smsToInp').value=phone||'';
+  document.getElementById('smsMsgInp').value='';
+  document.getElementById('smsCntSpan').textContent='0';
+  _openComposer('obSmsComposer','smsMsgInp');
+}
+function closeSmsComposer(){_closeAllComposers();}
+function openEmailComposer(email,name){
+  if(!document.getElementById('outboundModal').classList.contains('open'))openOutbound();
+  document.getElementById('emailToInp').value=email||'';
+  document.getElementById('emailSubjInp').value='';
+  document.getElementById('emailMsgInp').value='';
+  _openComposer('obEmailComposer','emailSubjInp');
+}
+function closeEmailComposer(){_closeAllComposers();}
+function openWaComposer(phone,name){
+  if(!document.getElementById('outboundModal').classList.contains('open'))openOutbound();
+  document.getElementById('waToInp').value=phone||'';
+  document.getElementById('waMsgInp').value='';
+  document.getElementById('waCntSpan').textContent='0';
+  _openComposer('obWaComposer','waMsgInp');
+}
+function closeWaComposer(){_closeAllComposers();}
+function smsCount(){document.getElementById('smsCntSpan').textContent=document.getElementById('smsMsgInp').value.length;}
+function waCount(){document.getElementById('waCntSpan').textContent=document.getElementById('waMsgInp').value.length;}
+function sendSmsMsg(){const to=document.getElementById('smsToInp').value,msg=document.getElementById('smsMsgInp').value;if(to&&msg)alert('SMS sent to '+to);else alert('Fill in recipient and message');}
+function sendEmailMsg(){const to=document.getElementById('emailToInp').value,sub=document.getElementById('emailSubjInp').value,msg=document.getElementById('emailMsgInp').value;if(to&&sub&&msg)alert('Email sent to '+to);else alert('Fill in all fields');}
+function sendWaMsg(){const to=document.getElementById('waToInp').value,msg=document.getElementById('waMsgInp').value;if(to&&msg)alert('WhatsApp sent to '+to);else alert('Fill in recipient and message');}
+
+// ════ CALL CONTROLLER ════
+let _ccTimer=null,_ccSec=0,_ccMuted=false,_ccHeld=false;
+function startCall(phone,name){
+  closeOutbound();
+  const ctrl=document.getElementById('callCtrl');
+  document.getElementById('ccAv').textContent=obInitials(name&&name!==phone?name:phone);
+  document.getElementById('ccName').textContent=name&&name!==phone?name:phone;
+  document.getElementById('ccStatus').textContent='Connecting…';
+  document.getElementById('ccTimer').textContent='00:00';
+  _ccMuted=false;_ccHeld=false;_ccSec=0;
+  document.getElementById('ccMuteBtn').classList.remove('cc-on');
+  document.getElementById('ccMuteBtn').querySelector('.material-icons').textContent='mic';
+  document.getElementById('ccHoldBtn').classList.remove('cc-on');
+  clearInterval(_ccTimer);
+  ctrl.classList.add('active');
+  setTimeout(()=>{
+    document.getElementById('ccStatus').textContent='Connected';
+    _ccTimer=setInterval(()=>{
+      _ccSec++;
+      const m=String(Math.floor(_ccSec/60)).padStart(2,'0'),s=String(_ccSec%60).padStart(2,'0');
+      document.getElementById('ccTimer').textContent=m+':'+s;
+    },1000);
+  },1400);
+}
+function endCall(){clearInterval(_ccTimer);document.getElementById('callCtrl').classList.remove('active');}
+function ccMute(){
+  _ccMuted=!_ccMuted;
+  const btn=document.getElementById('ccMuteBtn');
+  btn.classList.toggle('cc-on',_ccMuted);
+  btn.querySelector('.material-icons').textContent=_ccMuted?'mic_off':'mic';
+}
+function ccHold(){
+  _ccHeld=!_ccHeld;
+  const btn=document.getElementById('ccHoldBtn');
+  btn.classList.toggle('cc-on',_ccHeld);
+  btn.querySelector('.material-icons').textContent=_ccHeld?'play_arrow':'pause';
+  document.getElementById('ccStatus').textContent=_ccHeld?'On Hold':'Connected';
+  if(_ccHeld)clearInterval(_ccTimer);
+  else{_ccTimer=setInterval(()=>{_ccSec++;const m=String(Math.floor(_ccSec/60)).padStart(2,'0'),s=String(_ccSec%60).padStart(2,'0');document.getElementById('ccTimer').textContent=m+':'+s;},1000);}
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeOutbound();closeEditCustomer();}});
+
+// ════ CONTACT CARD ════
+function _ciSetTips(card){card.querySelectorAll('.ci-val').forEach(function(el){if(el.scrollWidth>el.clientWidth)el.setAttribute('data-tip',el.textContent.trim());else el.removeAttribute('data-tip');});}
+const _lccPeek=document.getElementById('lccPeek'),_lccExp=document.getElementById('lccExpanded');
+let _cardHideTimer=null,_lccData=null;
+const _PH_ICO=`<svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.11 19.79 19.79 0 01.78.5 2 2 0 012.78 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.14 6.14l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>`;
+const _WA_ICO=`<svg width="8" height="8" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+const _EM_ICO=`<svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>`;
+
+function _posLcc(el){
+  const r=el.getBoundingClientRect();
+  let left=r.left,top=r.bottom+6;
+  if(left+310>window.innerWidth-12)left=window.innerWidth-322;
+  if(left<8)left=8;
+  [_lccPeek,_lccExp].forEach(c=>{c.style.left=left+'px';c.style.top=top+'px';});
+}
+function showContactCard(event,id){
+  cancelHideCard();
+  if(_lccExp.classList.contains('visible'))return;
+  const r=FULL_DATA.find(x=>x.id===id);
+  if(!r)return;
+  _lccData=r;
+  document.getElementById('lcc-av').textContent=mkInitials(r.name);
+  document.getElementById('lcc-name').textContent=r.name;
+  document.getElementById('lcc-phone').textContent=r.phone||'—';
+  document.getElementById('lcc-email').textContent=r.email||'—';
+  document.getElementById('lcc-dots').innerHTML=(r.labels||[]).map(l=>`<span class="ci-dot" style="background:${LABEL_COLORS[l]||'#999'}"></span>`).join('');
+  document.getElementById('lcc-chs').innerHTML=r.channels.map(ch=>{
+    if(ch==='call')     return `<button class="ci-ch" data-tip="Call" onclick="startCall('${esc(r.phone)}','${esc(r.name)}')"><span class="material-icons">call</span></button>`;
+    if(ch==='sms')      return `<button class="ci-ch" data-tip="SMS" onclick="openSmsComposer('${esc(r.phone)}','${esc(r.name)}')"><span class="material-icons">sms</span></button>`;
+    if(ch==='email')    return `<button class="ci-ch" data-tip="Email" onclick="openEmailComposer('${esc(r.email)}','${esc(r.name)}')"><span class="material-icons">email</span></button>`;
+    if(ch==='whatsapp') return `<button class="ci-ch" data-tip="WhatsApp" onclick="openWaComposer('${esc(r.phone)}','${esc(r.name)}')">${_WA_CARD}</button>`;
+    return '';
+  }).join('');
+  _posLcc(event.target);
+  _lccPeek.classList.add('visible');
+  _ciSetTips(_lccPeek);
+}
+function expandLcc(){
+  if(!_lccData)return;
+  const r=_lccData;
+  document.getElementById('lce-av').textContent=mkInitials(r.name);
+  document.getElementById('lce-name').textContent=r.name;
+  document.getElementById('lce-dots').innerHTML=(r.labels||[]).map(l=>`<span class="ci-dot" style="background:${LABEL_COLORS[l]||'#999'}"></span>`).join('');
+  // General info pairs
+  const pairs=[['Web',r.web],['Voice',r.voice],['LinkedIn',r.linkedin],['Instagram',r.instagram],['Facebook',r.facebook],['Twitter',r.twitter],['Telegram',r.telegram]].filter(f=>f[1]);
+  let fh='';
+  for(let i=0;i<pairs.length;i+=2){
+    fh+=`<div class="ci-row"><div class="ci-f"><div class="ci-lbl">${pairs[i][0]}</div><div class="ci-val">${esc(pairs[i][1])}</div></div>`;
+    fh+=pairs[i+1]?`<div class="ci-f"><div class="ci-lbl">${pairs[i+1][0]}</div><div class="ci-val">${esc(pairs[i+1][1])}</div></div>`:`<div class="ci-f"></div>`;
+    fh+='</div>';
+  }
+  document.getElementById('lce-fields').innerHTML=fh||`<div class="ci-val" style="color:var(--color-muted)">No additional info</div>`;
+  // Channel identifiers
+  let ch='';
+  if(r.phone){
+    const hasWa=r.channels.includes('whatsapp');
+    ch+=`<div class="ci-ch-row hi"><div class="ci-icons"><span class="ci-ico ph">${_PH_ICO}</span>${hasWa?`<span class="ci-ico wa">${_WA_ICO}</span>`:''}</div><span class="ci-num">${esc(r.phone)}</span></div>`;
+  }
+  if(r.email){
+    if(ch)ch+=`<div class="ci-div"></div>`;
+    ch+=`<div class="ci-ch-row"><div class="ci-icons"><span class="ci-ico em">${_EM_ICO}</span></div><span class="ci-num">${esc(r.email)}</span></div>`;
+  }
+  if(r.facebook){
+    if(ch)ch+=`<div class="ci-div"></div>`;
+    ch+=`<div class="ci-ch-row"><div class="ci-icons"><span class="ci-ico fb">f</span></div><span class="ci-num">${esc(r.facebook)}</span></div>`;
+  }
+  document.getElementById('lce-channels').innerHTML=ch||`<div style="color:var(--color-muted);font-size:12px;padding:6px 0">No channel data</div>`;
+  _lccExp.style.left=_lccPeek.style.left;
+  _lccExp.style.top=_lccPeek.style.top;
+  _lccPeek.classList.remove('visible');
+  _lccExp.classList.add('visible');
+  _ciSetTips(_lccExp);
+}
+function collapseLcc(){
+  _lccExp.classList.remove('visible');
+  _lccPeek.classList.add('visible');
+}
+function startHideCard(){_cardHideTimer=setTimeout(()=>{_lccPeek.classList.remove('visible');_lccExp.classList.remove('visible');_lccData=null;},220);}
+function cancelHideCard(){clearTimeout(_cardHideTimer);}
+document.addEventListener('mousedown',e=>{
+  if(!_lccPeek.contains(e.target)&&!_lccExp.contains(e.target)){
+    _lccPeek.classList.remove('visible');_lccExp.classList.remove('visible');_lccData=null;
+  }
+});
+
+// ════ EDIT CUSTOMER PANEL ════
+function openEditCustomer(){
+  if(_lccData){
+    const inp=document.getElementById('ecpName');if(inp)inp.value=_lccData.name||'';
+    const ph=document.getElementById('ecpPhone');if(ph)ph.value=_lccData.phone||'';
+    const em=document.getElementById('ecpEmail');if(em)em.value=_lccData.email||'';
+  }
+  document.getElementById('ecpOverlay').classList.add('open');
+  document.getElementById('ecpPanel').classList.add('open');
+}
+function closeEditCustomer(){
+  document.getElementById('ecpOverlay').classList.remove('open');
+  document.getElementById('ecpPanel').classList.remove('open');
+}
+function saveEditCustomer(){closeEditCustomer();}
+
+// ════ VOICEMAIL ════
+const vmScreen=document.getElementById('vmScreen'),vmNavBtn=document.getElementById('vmNavBtn');
+let vmOpen=false;
+function toggleVm(){vmOpen=!vmOpen;vmScreen.classList.toggle('open',vmOpen);if(vmOpen){window.setNavActive(vmNavBtn);}else{window.setNavActive(document.querySelector('[aria-label="Customers / Phonebook"]'));}}
+function setVmFilter(btn,filter){
+  document.querySelectorAll('.vm-pill').forEach(p=>{p.classList.remove('on');p.setAttribute('aria-pressed','false');});
+  btn.classList.add('on');btn.setAttribute('aria-pressed','true');
+  document.querySelectorAll('.vm-row').forEach(row=>{row.style.display=(filter==='all'||row.dataset.status===filter)?'':'none';});
+}
+function vmSearch(inp){
+  const q=inp.value.toLowerCase();
+  document.querySelectorAll('.vm-row').forEach(row=>{row.style.display=row.textContent.toLowerCase().includes(q)?'':'none';});
+}
+const playIco='<svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg>';
+const pauseIco='<svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>';
+let activePlayBtn=null;
+function togglePlay(btn){if(activePlayBtn&&activePlayBtn!==btn)activePlayBtn.innerHTML=playIco;const playing=btn.innerHTML.includes('rect');btn.innerHTML=playing?playIco:pauseIco;activePlayBtn=playing?null:btn;}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&vmOpen)toggleVm();});
+
+/* ── TOOLTIPS (event delegation — covers dynamic content) ── */
+(function(){
+  var tip=document.createElement('div');
+  tip.id='tb-tooltip';
+  document.body.appendChild(tip);
+  document.addEventListener('mouseover',function(e){
+    var el=e.target.closest('[data-tip]');
+    if(!el)return;
+    tip.textContent=el.getAttribute('data-tip');
+    tip.style.opacity='1';
+    var r=el.getBoundingClientRect(),tw=tip.offsetWidth,th=tip.offsetHeight;
+    var left=Math.round(r.left+r.width/2-tw/2);
+    var top=Math.round(r.bottom+7);
+    if(left+tw>window.innerWidth-8)left=window.innerWidth-tw-8;
+    if(left<8)left=8;
+    if(top+th>window.innerHeight-8)top=Math.round(r.top-th-7);
+    tip.style.left=left+'px';
+    tip.style.top=top+'px';
+  });
+  document.addEventListener('mouseout',function(e){
+    if(!e.relatedTarget||!e.relatedTarget.closest||!e.relatedTarget.closest('[data-tip]'))
+      tip.style.opacity='0';
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ExpertFlow — Ticket Management</title>
+<style>html{background:#e8edf3}html.ef-dark{background:#151515}</style>
+<script>try{if(sessionStorage.getItem('ef-dark')==='1')document.documentElement.classList.add('ef-dark')}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════════ */
+:root {
+  --color-primary:    #1a50a3;
+  --color-primary-h:  #1e5bb9;
+  --color-primary-lt: #ECF3FF;
+  --color-bg:         #ffffff;
+  --color-canvas:     #F3F6FA;
+  --color-sep:        #e8edf3;
+  --color-sec-bg:     #F4F6F8;
+  --color-text:       #282828;
+  --color-body:       #212121;
+  --color-medium:     #555555;
+  --color-muted:      #929292;
+  --color-ph:         #aaaaaa;
+  --color-ts:         #646464;
+  --color-link:       #1a50a3;
+  --color-border:     #ececec;
+  --color-border-p:   #d1dced;
+  --color-border-i:   #c5c5c5;
+  --color-success:    #26c98c;
+  --color-error:      #ff6767;
+  --color-warn:       #fdb635;
+  --navbar-h:         50px;
+  --shadow-card:      0 4px 24px rgba(0,0,0,0.16);
+  --shadow-focus:     0 0 0 3px rgba(26,80,163,0.2);
+}
+.dark {
+  --color-bg:#1e2022; --color-canvas:#151515; --color-sep:#151515;
+  --color-text:#e5e7eb; --color-body:#c5c5c5; --color-medium:#c5c5c5;
+  --color-muted:#9ca3af; --color-ts:#9a9a9a;
+  --color-border:#2c2f35; --color-sec-bg:#292C30;
+  --color-primary-lt:#1a2d4a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Roboto,system-ui,sans-serif;font-size:14px;color:var(--color-body);background:var(--color-sep);height:100vh;overflow:hidden;-webkit-font-smoothing:antialiased;line-height:1.4;}
+#app{animation:ef-in .18s ease-out;}
+@keyframes ef-in{from{opacity:0}to{opacity:1}}
+button{font-family:Roboto,sans-serif;cursor:pointer;border:none;background:none;}
+input,select,textarea{font-family:Roboto,sans-serif;}
+a{text-decoration:none;color:inherit;}
+*{scrollbar-width:thin;scrollbar-color:#d0d0d0 transparent;}
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-thumb{background:#d0d0d0;border-radius:3px;}
+:focus-visible{outline:none;box-shadow:var(--shadow-focus);}
+
+/* ══ APP SHELL ══ */
+.app{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+
+/* ══ NAVBAR ══ */
+.navbar{
+  height:var(--navbar-h);min-height:var(--navbar-h);
+  background:var(--color-bg);border-bottom:1px solid var(--color-border);
+  display:flex;align-items:center;padding:0 12px;gap:6px;
+  flex-shrink:0;z-index:30;
+}
+.nav-ham{width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:6px;background:var(--color-canvas);flex-shrink:0;}
+.nav-ham:hover{background:#e4e8ef;}
+.nav-logo{display:flex;align-items:center;flex-shrink:0;margin:0 6px;}
+.nav-vsep{width:1px;height:20px;background:var(--color-border);margin:0 6px;flex-shrink:0;}
+.nav-space{flex:1;}
+.nav-btn{width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:6px;flex-shrink:0;position:relative;transition:all 0.2s ease;}
+.nav-btn:hover{background:var(--color-canvas);transform:scale(1.1);}
+.nav-btn.active{background:var(--color-primary);border-radius:50%;}
+.nav-btn.active svg{stroke:#fff;}
+.nav-btn.active .material-icons{color:#fff;}
+.nav-badge{position:absolute;top:-1px;right:-1px;min-width:14px;height:14px;border-radius:7px;background:var(--color-error);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 3px;border:1.5px solid var(--color-bg);}
+.state-pill{display:inline-flex;align-items:center;gap:6px;border:1.5px solid #d8dde6;border-radius:9999px;padding:5px 12px 5px 8px;height:32px;font-size:14px;color:var(--color-text);background:var(--color-bg);flex-shrink:0;cursor:pointer;margin-left:4px;white-space:nowrap;}
+.state-check{width:18px;height:18px;border-radius:50%;background:var(--color-success);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.agent-av{width:32px;height:32px;border-radius:50%;background:#e8edf3;border:1px solid #d0d7e2;display:inline-flex;align-items:center;justify-content:center;color:var(--color-primary);font-size:12px;font-weight:700;cursor:pointer;flex-shrink:0;margin-left:4px;}
+
+/* ══ PAGE BODY ══ */
+.page-body{
+  flex:1;overflow:hidden;
+  background:var(--color-primary-lt);
+  display:flex;flex-direction:column;
+  padding:12px;gap:8px;
+}
+.dark .page-body{background:var(--color-canvas);}
+
+/* ══ PAGE HEADER BAR ══ */
+.page-header{
+  background:var(--color-bg);
+  border:1px solid var(--color-border);
+  padding:10px 16px;
+  display:flex;align-items:center;gap:10px;
+  flex-shrink:0;
+  border-radius:0;
+}
+.page-title-wrap{display:flex;align-items:baseline;gap:6px;flex-shrink:0;}
+.page-title{font-size:20px;font-weight:600;color:var(--color-text);}
+.page-title-count{font-size:15px;font-weight:400;color:var(--color-muted);}
+.header-space{flex:1;}
+.create-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 16px;border-radius:6px;
+  font-size:13px;font-weight:600;
+  background:var(--color-primary);color:#fff;
+  border:none;cursor:pointer;white-space:nowrap;flex-shrink:0;
+  transition:background 0.15s;
+}
+.create-btn:hover{background:var(--color-primary-h);}
+
+/* ══ STAT CARDS ROW ══ */
+.stats-row{
+  display:flex;gap:8px;flex-shrink:0;
+}
+.stat-card{
+  flex:1;background:var(--color-bg);
+  border:1px solid var(--color-border);
+  padding:14px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+  min-width:0;
+}
+.stat-label{font-size:12px;color:var(--color-muted);margin-bottom:4px;}
+.stat-value{font-size:22px;font-weight:600;color:var(--color-text);}
+.stat-icon{
+  width:44px;height:44px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.dark .stat-card{background:var(--color-bg);border-color:var(--color-border);}
+
+/* ══ FILTER BAR ══ */
+.filter-bar{
+  background:var(--color-bg);
+  border:1px solid var(--color-border);
+  padding:10px 16px;
+  display:flex;align-items:center;gap:8px;
+  flex-shrink:0;
+}
+.filter-select{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:7px 12px;border-radius:4px;font-size:13px;font-weight:500;
+  border:1px solid var(--color-border-i);
+  color:var(--color-medium);background:var(--color-bg);
+  cursor:pointer;white-space:nowrap;transition:all 0.15s;
+  appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23929292' stroke-width='1.8'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 10px center;
+  padding-right:28px;
+}
+.filter-select:hover,.filter-select:focus{border-color:var(--color-primary);outline:none;}
+.more-btn{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:7px 14px;border-radius:4px;font-size:13px;font-weight:600;
+  background:var(--color-primary);color:#fff;
+  border:none;cursor:pointer;white-space:nowrap;flex-shrink:0;
+  transition:background 0.15s;
+}
+.more-btn:hover{background:var(--color-primary-h);}
+.filter-space{flex:1;}
+.filter-search{
+  display:flex;align-items:center;gap:6px;
+  border:1px solid var(--color-border-i);
+  border-radius:4px;padding:7px 10px;
+  background:var(--color-bg);min-width:200px;
+}
+.filter-search:focus-within{border-color:var(--color-primary);box-shadow:var(--shadow-focus);}
+.filter-search input{border:none;background:transparent;font-size:13px;color:var(--color-body);width:100%;}
+.filter-search input::placeholder{color:var(--color-ph);}
+.filter-search input:focus{outline:none;}
+.icon-btn{
+  width:32px;height:32px;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--color-border-i);border-radius:4px;
+  background:var(--color-bg);color:var(--color-medium);
+  cursor:pointer;transition:all 0.15s;flex-shrink:0;
+}
+.icon-btn:hover{border-color:var(--color-primary);color:var(--color-primary);background:var(--color-primary-lt);}
+.icon-btn.active{background:var(--color-primary);color:#fff;border-color:var(--color-primary);}
+.dark .filter-bar{background:var(--color-bg);border-color:var(--color-border);}
+.dark .filter-select{background:var(--color-sec-bg);border-color:var(--color-border);color:var(--color-medium);}
+.dark .filter-search{background:var(--color-sec-bg);border-color:var(--color-border);}
+.dark .icon-btn{background:var(--color-sec-bg);border-color:var(--color-border);}
+
+/* ══ TABLE CARD ══ */
+.list-card{
+  flex:1;overflow:hidden;
+  background:var(--color-bg);
+  border:1px solid var(--color-border);
+  display:flex;flex-direction:column;
+}
+.table-wrap{flex:1;overflow:auto;}
+
+/* ══ DATA TABLE ══ */
+.data-table{
+  width:100%;border-collapse:collapse;
+  background:var(--color-bg);
+}
+.data-table thead{position:sticky;top:0;z-index:20;}
+.data-table th{
+  background:var(--color-sec-bg);
+  font-size:12px;font-weight:500;color:var(--color-medium);
+  text-align:left;
+  border-bottom:2px solid var(--color-border);
+  border-right:1px solid var(--color-border);
+  white-space:nowrap;user-select:none;
+}
+.data-table th:last-child{border-right:none;}
+.data-table td{
+  padding:12px 14px;
+  border-bottom:1px solid var(--color-border);
+  border-right:1px solid var(--color-border);
+  vertical-align:middle;font-size:13px;color:var(--color-body);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.data-table td:last-child{border-right:none;}
+.data-table tbody tr:hover td{background:var(--color-primary-lt);}
+.data-table tbody tr:last-child td{border-bottom:none;}
+
+.th-inner{
+  display:flex;align-items:center;gap:4px;
+  padding:10px 8px 10px 14px;min-height:40px;
+}
+.th-inner.center{justify-content:center;padding:10px 8px;}
+.col-label{font-size:12px;font-weight:500;color:var(--color-medium);}
+.sort-icon{display:flex;flex-direction:column;gap:1px;flex-shrink:0;opacity:0.35;cursor:pointer;transition:opacity 0.15s;margin-left:2px;}
+.sort-icon:hover{opacity:0.7;}
+
+/* ══ CELL TYPES ══ */
+.ticket-num{
+  display:flex;align-items:center;gap:8px;
+}
+.ticket-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.ticket-link{
+  color:var(--color-link);font-size:13px;font-weight:500;
+  cursor:pointer;white-space:nowrap;
+}
+.ticket-link:hover{text-decoration:underline;}
+
+.priority-cell{display:flex;align-items:center;gap:6px;}
+.priority-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+
+.status-badge{
+  display:inline-flex;align-items:center;
+  padding:3px 10px;border-radius:9999px;
+  font-size:12px;font-weight:500;white-space:nowrap;
+}
+.status-new{background:#e8f0fe;color:#1a50a3;}
+.status-inprogress{background:#fff3e0;color:#e67e00;}
+.status-escalated{background:#fde8e8;color:#c0392b;}
+.status-pending{background:#fff8e1;color:#d4840a;}
+.status-resolved{background:#e8f8f0;color:#1a7f4f;}
+
+.sla-breached{color:var(--color-error);font-weight:500;}
+.sla-ok{color:var(--color-body);}
+
+.cell-muted{color:var(--color-muted);}
+
+/* Row action button */
+.row-action{
+  width:28px;height:28px;
+  display:inline-flex;align-items:center;justify-content:center;
+  border-radius:50%;border:none;background:none;
+  color:var(--color-medium);cursor:pointer;
+  transition:all 0.15s;opacity:0;
+}
+tr:hover .row-action{opacity:1;}
+.row-action:hover{background:var(--color-primary-lt);color:var(--color-primary);}
+.actions-cell{text-align:center;}
+
+/* ══ PAGINATOR ══ */
+.paginator{
+  display:flex;align-items:center;gap:6px;
+  padding:10px 16px;
+  border-top:1px solid var(--color-border);
+  background:var(--color-bg);flex-shrink:0;
+}
+.pag-info{font-size:12px;color:var(--color-muted);flex-shrink:0;}
+.pag-space{flex:1;}
+.pag-btn{
+  width:30px;height:30px;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--color-border);border-radius:4px;
+  background:var(--color-bg);color:var(--color-medium);
+  cursor:pointer;font-size:12px;font-weight:500;
+  transition:all 0.15s;flex-shrink:0;
+}
+.pag-btn:hover:not(:disabled){border-color:var(--color-primary);color:var(--color-primary);background:var(--color-primary-lt);}
+.pag-btn:disabled{opacity:0.35;cursor:not-allowed;}
+.pag-btn.active{background:var(--color-primary);color:#fff;border-color:var(--color-primary);}
+.dark .paginator{background:var(--color-bg);border-color:var(--color-border);}
+.dark .pag-btn{background:var(--color-bg);border-color:var(--color-border);}
+
+/* ══ DARK MODE TABLE ══ */
+.dark .list-card{background:var(--color-bg);border-color:var(--color-border);}
+.dark .data-table th{background:var(--color-sec-bg);}
+.dark .data-table tbody tr:hover td{background:#1a2d4a;}
+
+/* ══ TICKET SIDE PANEL ══ */
+.tp-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:700;opacity:0;pointer-events:none;transition:opacity .22s ease;}
+.tp-overlay.open{opacity:1;pointer-events:all;}
+.tp-panel{
+  position:fixed;top:0;right:0;bottom:0;width:500px;max-width:100vw;
+  background:var(--color-bg);z-index:701;
+  display:flex;flex-direction:column;
+  box-shadow:-6px 0 32px rgba(0,0,0,.18);
+  transform:translateX(100%);transition:transform .26s cubic-bezier(.4,0,.2,1);
+}
+.tp-panel.open{transform:translateX(0);}
+
+/* panel header */
+.tp-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;border-bottom:1px solid var(--color-border);flex-shrink:0;
+}
+.tp-hdr-left{display:flex;align-items:center;gap:10px;min-width:0;}
+.tp-title{font-size:17px;font-weight:600;color:var(--color-text);white-space:nowrap;}
+.tp-hdr-right{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.tp-nav-btn{
+  width:28px;height:28px;display:flex;align-items:center;justify-content:center;
+  border-radius:6px;border:1px solid var(--color-border);background:var(--color-canvas);
+  color:var(--color-medium);cursor:pointer;transition:all .15s;flex-shrink:0;
+}
+.tp-nav-btn:hover{border-color:var(--color-primary);color:var(--color-primary);background:var(--color-primary-lt);}
+.tp-close{
+  width:30px;height:30px;display:flex;align-items:center;justify-content:center;
+  border-radius:6px;color:var(--color-muted);cursor:pointer;
+  transition:background .15s;flex-shrink:0;
+}
+.tp-close:hover{background:var(--color-canvas);color:var(--color-text);}
+
+/* tabs */
+.tp-tabs{display:flex;border-bottom:1px solid var(--color-border);padding:0 20px;flex-shrink:0;}
+.tp-tab{
+  padding:10px 4px;margin-right:20px;font-size:13px;font-weight:500;
+  color:var(--color-muted);cursor:pointer;border-bottom:2px solid transparent;
+  transition:color .15s,border-color .15s;white-space:nowrap;
+}
+.tp-tab.active{color:var(--color-primary);border-bottom-color:var(--color-primary);}
+.tp-tab:hover:not(.active){color:var(--color-text);}
+
+/* body */
+.tp-body{flex:1;overflow-y:auto;padding:20px;}
+.tp-section{margin-bottom:20px;}
+.tp-section-title{font-size:12px;font-weight:600;color:var(--color-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px;}
+.tp-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.tp-field{margin-bottom:12px;}
+.tp-field:last-child{margin-bottom:0;}
+.tp-lbl{font-size:12px;font-weight:500;color:var(--color-muted);margin-bottom:5px;}
+.tp-lbl span{color:var(--color-error);}
+.tp-inp{
+  width:100%;height:38px;border:1px solid var(--color-border);border-radius:6px;
+  padding:0 11px;font-size:13px;color:var(--color-text);
+  background:var(--color-canvas);outline:none;transition:border-color .15s;
+}
+.tp-inp:focus{border-color:var(--color-primary);background:var(--color-bg);}
+.tp-sel{
+  width:100%;height:38px;border:1px solid var(--color-border);border-radius:6px;
+  padding:0 11px;font-size:13px;color:var(--color-text);
+  background:var(--color-canvas);outline:none;cursor:pointer;
+  appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23929292' stroke-width='1.8'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;padding-right:30px;
+  transition:border-color .15s;
+}
+.tp-sel:focus{border-color:var(--color-primary);background:var(--color-bg);}
+.tp-textarea{
+  width:100%;min-height:90px;border:1px solid var(--color-border);border-radius:6px;
+  padding:10px 11px;font-size:13px;color:var(--color-text);line-height:1.5;
+  background:var(--color-canvas);outline:none;resize:vertical;
+  transition:border-color .15s;
+}
+.tp-textarea:focus{border-color:var(--color-primary);background:var(--color-bg);}
+.tp-meta-row{
+  display:flex;align-items:center;gap:8px;padding:10px 12px;
+  background:var(--color-canvas);border-radius:6px;margin-bottom:8px;
+}
+.tp-meta-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.tp-meta-key{font-size:12px;color:var(--color-muted);flex:1;}
+.tp-meta-val{font-size:12px;font-weight:500;color:var(--color-text);}
+
+/* activity tab */
+.tp-activity{display:flex;flex-direction:column;gap:12px;}
+.tp-act-item{display:flex;gap:10px;}
+.tp-act-av{width:30px;height:30px;border-radius:50%;background:var(--color-primary-lt);color:var(--color-primary);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.tp-act-body{flex:1;min-width:0;}
+.tp-act-meta{font-size:12px;color:var(--color-muted);margin-bottom:3px;}
+.tp-act-meta strong{color:var(--color-text);font-weight:500;}
+.tp-act-text{font-size:13px;color:var(--color-body);background:var(--color-canvas);border-radius:6px;padding:8px 10px;line-height:1.5;}
+.tp-act-time{font-size:11px;color:var(--color-muted);margin-top:4px;}
+.tp-comment-box{margin-top:8px;}
+.tp-comment-inp{
+  width:100%;min-height:70px;border:1px solid var(--color-border);border-radius:6px;
+  padding:10px 11px;font-size:13px;color:var(--color-text);line-height:1.5;
+  background:var(--color-canvas);outline:none;resize:none;
+  transition:border-color .15s;
+}
+.tp-comment-inp:focus{border-color:var(--color-primary);background:var(--color-bg);}
+.tp-comment-send{
+  margin-top:8px;display:flex;justify-content:flex-end;
+}
+.tp-comment-btn{
+  padding:7px 18px;background:var(--color-primary);color:#fff;border:none;
+  border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;
+}
+.tp-comment-btn:hover{background:var(--color-primary-h);}
+
+/* footer */
+.tp-footer{
+  display:flex;align-items:center;justify-content:flex-end;gap:10px;
+  padding:14px 20px;border-top:1px solid var(--color-border);flex-shrink:0;
+}
+.tp-btn{height:38px;padding:0 22px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;border:none;}
+.tp-btn-cancel{background:var(--color-bg);border:1.5px solid var(--color-border)!important;color:var(--color-text);}
+.tp-btn-cancel:hover{background:var(--color-canvas);}
+.tp-btn-save{background:var(--color-primary);color:#fff;}
+.tp-btn-save:hover{background:var(--color-primary-h);}
+
+.dark .tp-panel{background:var(--color-bg);border-left:1px solid var(--color-border);}
+.dark .tp-inp,.dark .tp-sel,.dark .tp-textarea,.dark .tp-comment-inp{background:var(--color-sec-bg);border-color:var(--color-border);color:var(--color-text);}
+.dark .tp-meta-row{background:var(--color-sec-bg);}
+
+/* ══ TOOLTIP ══ */
+#tb-tooltip{position:fixed;background:#2c2c2c;color:#fff;font-size:11px;font-weight:500;padding:4px 9px;border-radius:5px;white-space:nowrap;pointer-events:none;z-index:9999;opacity:0;transition:opacity .15s;top:0;left:0;}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+<!-- ════ NAVBAR ════ -->
+<nav class="navbar">
+  <button class="nav-ham" aria-label="Menu" data-tip="Menu">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.8"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <div class="nav-logo">
+    <img src="logo.png" alt="ExpertFlow" style="height:30px;display:block;object-fit:contain;">
+  </div>
+  <div class="nav-space"></div>
+  <!-- Apps grid -->
+  <button class="nav-btn" aria-label="Apps" data-tip="Apps">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a50a3" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+  </button>
+  <!-- Conversations -->
+  <button class="nav-btn" aria-label="Conversations" data-tip="Conversations" onclick="navTo('agent-desk-v2-template.html')">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a50a3" stroke-width="1.8"><path d="M3 6a2 2 0 012-2h9a2 2 0 012 2v7a2 2 0 01-2 2H7l-4 3V6z"/><path d="M9 2h10a2 2 0 012 2v7a2 2 0 01-2 2h-1"/></svg>
+  </button>
+  <!-- Notifications with badge -->
+  <button class="nav-btn" aria-label="Notifications — 3 unread" data-tip="Notifications" style="position:relative">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a50a3" stroke-width="1.8"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+    <span class="nav-badge">3</span>
+  </button>
+  <!-- Outbound arrow -->
+  <button class="nav-btn" aria-label="Outbound" data-tip="Outbound">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a50a3" stroke-width="1.8"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+  </button>
+  <!-- Calendar -->
+  <button class="nav-btn" aria-label="Calendar" data-tip="Calendar">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a50a3" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+  </button>
+  <!-- Tickets (active) -->
+  <button class="nav-btn active" aria-label="Tickets" data-tip="Tickets">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a50a3" stroke-width="1.8"><path d="M2 9a2 2 0 012-2h16a2 2 0 012 2v2a2 2 0 000 4v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2a2 2 0 000-4V9z"/><line x1="9" y1="3" x2="9" y2="21" stroke-dasharray="2 2"/></svg>
+  </button>
+  <div class="nav-vsep"></div>
+  <div class="state-pill" role="button" aria-label="Ready">
+    <div class="state-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <span>Ready</span>
+    <span style="font-variant-numeric:tabular-nums;" id="timerDisplay">00:03:46</span>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#9CA3AF" stroke-width="2"/></svg>
+  </div>
+  <div class="agent-av" role="button" aria-label="Agent JT">JT</div>
+</nav>
+
+<!-- ════ PAGE BODY ════ -->
+<div class="page-body">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="page-title-wrap">
+      <span class="page-title">Ticket Management</span>
+      <span class="page-title-count">(5)</span>
+    </div>
+    <div class="header-space"></div>
+    <button class="create-btn" onclick="createTicket()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Create Ticket
+    </button>
+  </div>
+
+  <!-- STATS ROW -->
+  <div class="stats-row">
+    <!-- Avg Response Time -->
+    <div class="stat-card">
+      <div>
+        <div class="stat-label">Avg Response Time</div>
+        <div class="stat-value">18m</div>
+      </div>
+      <div class="stat-icon" style="background:#e8f8f0;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#26c98c" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+    </div>
+    <!-- Avg Resolution Time -->
+    <div class="stat-card">
+      <div>
+        <div class="stat-label">Avg Resolution Time</div>
+        <div class="stat-value">5h 45m</div>
+      </div>
+      <div class="stat-icon" style="background:#fff8e1;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fdb635" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+    </div>
+    <!-- SLA Breached -->
+    <div class="stat-card">
+      <div>
+        <div class="stat-label">SLA Breached</div>
+        <div class="stat-value" style="color:var(--color-error);">11</div>
+      </div>
+      <div class="stat-icon" style="background:#fde8e8;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff6767" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16" stroke-width="2.5"/></svg>
+      </div>
+    </div>
+    <!-- Total Active -->
+    <div class="stat-card">
+      <div>
+        <div class="stat-label">Total Active</div>
+        <div class="stat-value">156</div>
+      </div>
+      <div class="stat-icon" style="background:#ECF3FF;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a50a3" stroke-width="1.8"><path d="M2 9a2 2 0 012-2h16a2 2 0 012 2v2a2 2 0 000 4v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2a2 2 0 000-4V9z"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <select class="filter-select" id="statusFilter" onchange="applyFilters()">
+      <option value="">All Status</option>
+      <option value="new">New</option>
+      <option value="inprogress">In Progress</option>
+      <option value="escalated">Escalated</option>
+      <option value="pending">Pending Customer</option>
+      <option value="resolved">Resolved</option>
+    </select>
+    <select class="filter-select" id="priorityFilter" onchange="applyFilters()">
+      <option value="">All Priority</option>
+      <option value="critical">Critical</option>
+      <option value="high">High</option>
+      <option value="medium">Medium</option>
+      <option value="low">Low</option>
+    </select>
+    <button class="more-btn" onclick="toggleMoreFilters()">+ more</button>
+    <div class="filter-space"></div>
+    <div class="filter-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaaaaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="searchInput" placeholder="Search Tickets" oninput="applyFilters()">
+    </div>
+    <!-- List view (active) -->
+    <button class="icon-btn active" id="listViewBtn" aria-label="List view" onclick="setView('list')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6" stroke-width="2.5"/><line x1="3" y1="12" x2="3.01" y2="12" stroke-width="2.5"/><line x1="3" y1="18" x2="3.01" y2="18" stroke-width="2.5"/></svg>
+    </button>
+    <!-- Grid view -->
+    <button class="icon-btn" id="gridViewBtn" aria-label="Grid view" onclick="setView('grid')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    </button>
+  </div>
+
+  <!-- TABLE CARD -->
+  <div class="list-card">
+    <div class="table-wrap">
+      <table class="data-table" id="ticketTable">
+        <thead>
+          <tr>
+            <th style="width:140px;">
+              <div class="th-inner">
+                <span class="col-label">Ticket #</span>
+                <span class="sort-icon" onclick="sortTable('id')">
+                  <svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg>
+                  <svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg>
+                </span>
+              </div>
+            </th>
+            <th style="width:280px;">
+              <div class="th-inner">
+                <span class="col-label">Subject</span>
+                <span class="sort-icon" onclick="sortTable('subject')">
+                  <svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg>
+                  <svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg>
+                </span>
+              </div>
+            </th>
+            <th style="width:150px;">
+              <div class="th-inner">
+                <span class="col-label">Customer</span>
+                <span class="sort-icon" onclick="sortTable('customer')">
+                  <svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg>
+                  <svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg>
+                </span>
+              </div>
+            </th>
+            <th style="width:110px;">
+              <div class="th-inner">
+                <span class="col-label">Priority</span>
+                <span class="sort-icon" onclick="sortTable('priority')">
+                  <svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg>
+                  <svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg>
+                </span>
+              </div>
+            </th>
+            <th style="width:140px;">
+              <div class="th-inner">
+                <span class="col-label">Status</span>
+                <span class="sort-icon" onclick="sortTable('status')">
+                  <svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg>
+                  <svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg>
+                </span>
+              </div>
+            </th>
+            <th style="width:140px;">
+              <div class="th-inner">
+                <span class="col-label">Category</span>
+                <span class="sort-icon" onclick="sortTable('category')">
+                  <svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg>
+                  <svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg>
+                </span>
+              </div>
+            </th>
+            <th style="width:140px;">
+              <div class="th-inner">
+                <span class="col-label">Assigned To</span>
+                <span class="sort-icon" onclick="sortTable('assignedTo')">
+                  <svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg>
+                  <svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg>
+                </span>
+              </div>
+            </th>
+            <th style="width:150px;">
+              <div class="th-inner">
+                <span class="col-label">SLA</span>
+                <span class="sort-icon" onclick="sortTable('sla')">
+                  <svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg>
+                  <svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg>
+                </span>
+              </div>
+            </th>
+            <th style="width:110px;">
+              <div class="th-inner">
+                <span class="col-label">Age</span>
+                <span class="sort-icon" onclick="sortTable('age')">
+                  <svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg>
+                  <svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg>
+                </span>
+              </div>
+            </th>
+            <th style="width:80px;">
+              <div class="th-inner center">
+                <span class="col-label">Action</span>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+
+    <!-- PAGINATOR -->
+    <div class="paginator">
+      <span class="pag-info" id="pagInfo">Showing 1 to 5 of 5 tickets</span>
+      <div class="pag-space"></div>
+      <button class="pag-btn" id="pagPrev" disabled>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="pag-btn active">1</button>
+      <button class="pag-btn" id="pagNext" disabled>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </div>
+
+</div><!-- /page-body -->
+
+<!-- ══ TICKET SIDE PANEL ══ -->
+<div class="tp-overlay" id="tpOverlay" onclick="handleOverlayClick(event)"></div>
+<div class="tp-panel" id="tpPanel">
+
+  <!-- Header -->
+  <div class="tp-hdr">
+    <div class="tp-hdr-left">
+      <span class="tp-title" id="tpTitle">TKT-00001234</span>
+      <span class="status-badge" id="tpStatusBadge"></span>
+    </div>
+    <div class="tp-hdr-right">
+      <button class="tp-nav-btn" id="tpPrevBtn" data-tip="Previous ticket" onclick="navigateTicket(-1)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="tp-nav-btn" id="tpNextBtn" data-tip="Next ticket" onclick="navigateTicket(1)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <button class="tp-close" onclick="closePanel()" data-tip="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tp-tabs" id="tpTabs">
+    <div class="tp-tab active" onclick="switchTab('details')">Details</div>
+    <div class="tp-tab" onclick="switchTab('activity')" id="activityTab">Activity</div>
+  </div>
+
+  <!-- Body -->
+  <div class="tp-body" id="tpBody">
+
+    <!-- DETAILS TAB -->
+    <div id="tabDetails">
+      <div class="tp-field">
+        <div class="tp-lbl">Subject <span>*</span></div>
+        <input class="tp-inp" type="text" id="fSubject" placeholder="Describe the issue…">
+      </div>
+      <div class="tp-row">
+        <div class="tp-field" style="margin-bottom:0">
+          <div class="tp-lbl">Customer <span>*</span></div>
+          <input class="tp-inp" type="text" id="fCustomer" placeholder="Customer name">
+        </div>
+        <div class="tp-field" style="margin-bottom:0">
+          <div class="tp-lbl">Priority <span>*</span></div>
+          <select class="tp-sel" id="fPriority">
+            <option value="">Select priority</option>
+            <option value="Critical">Critical</option>
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+        </div>
+      </div>
+      <div class="tp-row" style="margin-top:12px;">
+        <div class="tp-field" style="margin-bottom:0">
+          <div class="tp-lbl">Status</div>
+          <select class="tp-sel" id="fStatus">
+            <option value="New">New</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Pending Customer">Pending Customer</option>
+            <option value="Escalated">Escalated</option>
+            <option value="Resolved">Resolved</option>
+          </select>
+        </div>
+        <div class="tp-field" style="margin-bottom:0">
+          <div class="tp-lbl">Category</div>
+          <select class="tp-sel" id="fCategory">
+            <option value="">Select category</option>
+            <option value="Billing">Billing</option>
+            <option value="Technical Issue">Technical Issue</option>
+            <option value="Refund">Refund</option>
+            <option value="Feature Request">Feature Request</option>
+            <option value="General Inquiry">General Inquiry</option>
+          </select>
+        </div>
+      </div>
+      <div class="tp-field" style="margin-top:12px;">
+        <div class="tp-lbl">Assigned To</div>
+        <input class="tp-inp" type="text" id="fAssignedTo" placeholder="Agent name">
+      </div>
+      <div class="tp-field">
+        <div class="tp-lbl">Description</div>
+        <textarea class="tp-textarea" id="fDescription" placeholder="Add more details about this ticket…"></textarea>
+      </div>
+
+      <!-- Metadata section (edit mode only) -->
+      <div id="tpMetaSection" style="display:none;">
+        <div class="tp-section-title" style="margin-top:8px;">Ticket Info</div>
+        <div class="tp-meta-row">
+          <div class="tp-meta-icon" style="background:#ECF3FF;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a50a3" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <span class="tp-meta-key">SLA Remaining</span>
+          <span class="tp-meta-val" id="metaSla">—</span>
+        </div>
+        <div class="tp-meta-row">
+          <div class="tp-meta-icon" style="background:#e8f8f0;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#26c98c" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <span class="tp-meta-key">Age</span>
+          <span class="tp-meta-val" id="metaAge">—</span>
+        </div>
+        <div class="tp-meta-row">
+          <div class="tp-meta-icon" style="background:#fff8e1;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fdb635" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <span class="tp-meta-key">Created By</span>
+          <span class="tp-meta-val" id="metaCreatedBy">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIVITY TAB -->
+    <div id="tabActivity" style="display:none;">
+      <div class="tp-activity" id="tpActivityFeed"></div>
+      <div class="tp-comment-box" style="margin-top:16px;">
+        <div class="tp-lbl">Add Comment</div>
+        <textarea class="tp-comment-inp" id="commentInp" placeholder="Write a comment…"></textarea>
+        <div class="tp-comment-send">
+          <button class="tp-comment-btn" onclick="addComment()">Post Comment</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /tp-body -->
+
+  <!-- Footer -->
+  <div class="tp-footer">
+    <button class="tp-btn tp-btn-cancel" onclick="closePanel()">Cancel</button>
+    <button class="tp-btn tp-btn-save" id="tpSaveBtn" onclick="savePanel()">Save Changes</button>
+  </div>
+</div>
+
+<div id="tb-tooltip"></div>
+
+<script>
+const TICKETS = [
+  {
+    id: 'TKT-00001234',
+    subject: 'Unable to process payment for premium subscription',
+    customer: 'Sarah Mitchell',
+    priority: 'High',
+    priorityColor: '#fdb635',
+    dotColor: '#26c98c',
+    status: 'New',
+    statusClass: 'status-new',
+    category: 'Billing',
+    assignedTo: null,
+    sla: '3h 52m',
+    slaBreached: false,
+    age: '379d ago'
+  },
+  {
+    id: 'TKT-00001233',
+    subject: 'Request for API rate limit increase',
+    customer: 'David Okonkwo',
+    priority: 'Medium',
+    priorityColor: '#1a50a3',
+    dotColor: '#1a50a3',
+    status: 'In Progress',
+    statusClass: 'status-inprogress',
+    category: 'Technical Issue',
+    assignedTo: 'Emma Clarke',
+    sla: '5h 30m',
+    slaBreached: false,
+    age: '379d ago'
+  },
+  {
+    id: 'TKT-00001230',
+    subject: 'Mobile app crashes on iOS 18 when uploading photos',
+    customer: 'Priya Nambiar',
+    priority: 'Critical',
+    priorityColor: '#ff6767',
+    dotColor: '#ff6767',
+    status: 'Escalated',
+    statusClass: 'status-escalated',
+    category: 'Technical Issue',
+    assignedTo: 'Michael Chen',
+    sla: '17h 44m',
+    slaBreached: true,
+    age: '380d ago'
+  },
+  {
+    id: 'TKT-00001225',
+    subject: 'Request for refund - unused subscription',
+    customer: 'Amanda Rodriguez',
+    priority: 'Medium',
+    priorityColor: '#1a50a3',
+    dotColor: '#1a50a3',
+    status: 'Pending Customer',
+    statusClass: 'status-pending',
+    category: 'Refund',
+    assignedTo: 'Sophie Turner',
+    sla: '23h 5m',
+    slaBreached: true,
+    age: '381d ago'
+  },
+  {
+    id: 'TKT-00001220',
+    subject: 'Feature request: Dark mode for web dashboard',
+    customer: 'James Liu',
+    priority: 'Low',
+    priorityColor: '#929292',
+    dotColor: '#929292',
+    status: 'Resolved',
+    statusClass: 'status-resolved',
+    category: 'Feature Request',
+    assignedTo: 'Alex Martinez',
+    sla: '21h 48m',
+    slaBreached: true,
+    age: '382d ago'
+  }
+];
+
+let filteredTickets = [...TICKETS];
+let sortKey = null;
+let sortDir = 1;
+let panelMode = null;   // 'create' | 'edit'
+let panelTicketIdx = -1;
+let activeTab = 'details';
+
+const STATUS_CLASS = {
+  'New':'status-new','In Progress':'status-inprogress',
+  'Escalated':'status-escalated','Pending Customer':'status-pending','Resolved':'status-resolved'
+};
+
+const PRIORITY_COLOR = {
+  'Critical':'#ff6767','High':'#fdb635','Medium':'#1a50a3','Low':'#929292'
+};
+
+const SAMPLE_ACTIVITY = [
+  {user:'Emma Clarke',initials:'EC',action:'changed status to','value':'In Progress','time':'2 hours ago'},
+  {user:'Sarah Mitchell',initials:'SM',action:'created this ticket','value':'','time':'3 hours ago','comment':'Unable to process payment — getting a 402 error on every checkout attempt.'}
+];
+
+function renderTable() {
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = filteredTickets.map(t => `
+    <tr>
+      <td>
+        <div class="ticket-num">
+          <span class="ticket-dot" style="background:${t.dotColor}"></span>
+          <a class="ticket-link" href="#" onclick="openTicket('${t.id}');return false;">${t.id}</a>
+        </div>
+      </td>
+      <td style="max-width:280px;overflow:hidden;text-overflow:ellipsis;">${t.subject}</td>
+      <td>${t.customer}</td>
+      <td>
+        <div class="priority-cell">
+          <span class="priority-dot" style="background:${t.priorityColor}"></span>
+          <span>${t.priority}</span>
+        </div>
+      </td>
+      <td><span class="status-badge ${t.statusClass}">${t.status}</span></td>
+      <td>${t.category}</td>
+      <td>${t.assignedTo ? t.assignedTo : '<span class="cell-muted">-</span>'}</td>
+      <td class="${t.slaBreached ? 'sla-breached' : 'sla-ok'}">${t.slaBreached ? 'Breached ' : ''}${t.sla}</td>
+      <td class="cell-muted">${t.age}</td>
+      <td class="actions-cell">
+        <button class="row-action" aria-label="More actions" data-tip="More actions">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+        </button>
+      </td>
+    </tr>
+  `).join('');
+
+  const total = filteredTickets.length;
+  document.getElementById('pagInfo').textContent =
+    total === 0 ? 'No tickets found' : `Showing 1 to ${total} of ${total} ticket${total !== 1 ? 's' : ''}`;
+}
+
+function applyFilters() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const status = document.getElementById('statusFilter').value;
+  const priority = document.getElementById('priorityFilter').value;
+
+  filteredTickets = TICKETS.filter(t => {
+    const matchSearch = !search ||
+      t.id.toLowerCase().includes(search) ||
+      t.subject.toLowerCase().includes(search) ||
+      t.customer.toLowerCase().includes(search) ||
+      t.category.toLowerCase().includes(search) ||
+      (t.assignedTo && t.assignedTo.toLowerCase().includes(search));
+
+    const matchStatus = !status || t.status.toLowerCase().replace(/\s+/g,'') === status;
+    const matchPriority = !priority || t.priority.toLowerCase() === priority;
+
+    return matchSearch && matchStatus && matchPriority;
+  });
+  renderTable();
+}
+
+function sortTable(key) {
+  if (sortKey === key) sortDir *= -1;
+  else { sortKey = key; sortDir = 1; }
+  filteredTickets.sort((a, b) => {
+    const va = (a[key] || '').toString().toLowerCase();
+    const vb = (b[key] || '').toString().toLowerCase();
+    return va < vb ? -sortDir : va > vb ? sortDir : 0;
+  });
+  renderTable();
+}
+
+function setView(mode) {
+  document.getElementById('listViewBtn').classList.toggle('active', mode === 'list');
+  document.getElementById('gridViewBtn').classList.toggle('active', mode === 'grid');
+}
+
+/* ── PANEL OPEN/CLOSE ── */
+function openPanel() {
+  document.getElementById('tpOverlay').classList.add('open');
+  document.getElementById('tpPanel').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePanel() {
+  document.getElementById('tpOverlay').classList.remove('open');
+  document.getElementById('tpPanel').classList.remove('open');
+  document.body.style.overflow = '';
+  panelMode = null;
+  panelTicketIdx = -1;
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('tpOverlay')) closePanel();
+}
+
+/* ── CREATE TICKET ── */
+function createTicket() {
+  panelMode = 'create';
+  panelTicketIdx = -1;
+
+  document.getElementById('tpTitle').textContent = 'Create New Ticket';
+  const badge = document.getElementById('tpStatusBadge');
+  badge.textContent = '';
+  badge.className = 'status-badge';
+
+  document.getElementById('tpPrevBtn').style.display = 'none';
+  document.getElementById('tpNextBtn').style.display = 'none';
+  document.getElementById('activityTab').style.display = 'none';
+  document.getElementById('tpMetaSection').style.display = 'none';
+
+  document.getElementById('fSubject').value = '';
+  document.getElementById('fCustomer').value = '';
+  document.getElementById('fPriority').value = '';
+  document.getElementById('fStatus').value = 'New';
+  document.getElementById('fCategory').value = '';
+  document.getElementById('fAssignedTo').value = '';
+  document.getElementById('fDescription').value = '';
+  document.getElementById('tpSaveBtn').textContent = 'Create Ticket';
+
+  switchTab('details');
+  openPanel();
+  document.getElementById('fSubject').focus();
+}
+
+/* ── OPEN TICKET (edit) ── */
+function openTicket(id) {
+  const idx = TICKETS.findIndex(t => t.id === id);
+  if (idx === -1) return;
+  panelMode = 'edit';
+  panelTicketIdx = idx;
+  loadTicketInPanel(idx);
+  openPanel();
+}
+
+function loadTicketInPanel(idx) {
+  const t = TICKETS[idx];
+
+  document.getElementById('tpTitle').textContent = t.id;
+  const badge = document.getElementById('tpStatusBadge');
+  badge.textContent = t.status;
+  badge.className = 'status-badge ' + (STATUS_CLASS[t.status] || '');
+
+  document.getElementById('tpPrevBtn').style.display = '';
+  document.getElementById('tpNextBtn').style.display = '';
+  document.getElementById('activityTab').style.display = '';
+  document.getElementById('tpMetaSection').style.display = 'block';
+
+  document.getElementById('fSubject').value = t.subject;
+  document.getElementById('fCustomer').value = t.customer;
+  document.getElementById('fPriority').value = t.priority;
+  document.getElementById('fStatus').value = t.status;
+  document.getElementById('fCategory').value = t.category;
+  document.getElementById('fAssignedTo').value = t.assignedTo || '';
+  document.getElementById('fDescription').value = t.description || '';
+
+  document.getElementById('metaSla').textContent = (t.slaBreached ? 'Breached ' : '') + t.sla;
+  document.getElementById('metaSla').className = 'tp-meta-val' + (t.slaBreached ? ' sla-breached' : '');
+  document.getElementById('metaAge').textContent = t.age;
+  document.getElementById('metaCreatedBy').textContent = t.customer;
+
+  document.getElementById('tpSaveBtn').textContent = 'Save Changes';
+
+  document.getElementById('tpPrevBtn').disabled = idx === 0;
+  document.getElementById('tpNextBtn').disabled = idx === TICKETS.length - 1;
+
+  renderActivity(t);
+  switchTab('details');
+}
+
+function navigateTicket(dir) {
+  const newIdx = panelTicketIdx + dir;
+  if (newIdx < 0 || newIdx >= TICKETS.length) return;
+  panelTicketIdx = newIdx;
+  loadTicketInPanel(newIdx);
+}
+
+/* ── SAVE PANEL ── */
+function savePanel() {
+  const subject = document.getElementById('fSubject').value.trim();
+  const customer = document.getElementById('fCustomer').value.trim();
+  const priority = document.getElementById('fPriority').value;
+
+  if (!subject) { document.getElementById('fSubject').focus(); return; }
+  if (!customer) { document.getElementById('fCustomer').focus(); return; }
+  if (!priority) { document.getElementById('fPriority').focus(); return; }
+
+  if (panelMode === 'create') {
+    const newId = 'TKT-' + String(Date.now()).slice(-8).padStart(8,'0');
+    const status = document.getElementById('fStatus').value;
+    const newTicket = {
+      id: newId,
+      subject,
+      customer,
+      priority,
+      priorityColor: PRIORITY_COLOR[priority] || '#929292',
+      dotColor: PRIORITY_COLOR[priority] || '#929292',
+      status,
+      statusClass: STATUS_CLASS[status] || 'status-new',
+      category: document.getElementById('fCategory').value || 'General Inquiry',
+      assignedTo: document.getElementById('fAssignedTo').value.trim() || null,
+      description: document.getElementById('fDescription').value.trim(),
+      sla: '—',
+      slaBreached: false,
+      age: 'just now'
+    };
+    TICKETS.unshift(newTicket);
+    filteredTickets = [...TICKETS];
+    renderTable();
+    document.getElementById('page-title-count') && (document.getElementById('page-title-count').textContent = `(${TICKETS.length})`);
+    document.querySelector('.page-title-count').textContent = `(${TICKETS.length})`;
+  } else {
+    const t = TICKETS[panelTicketIdx];
+    const status = document.getElementById('fStatus').value;
+    t.subject = subject;
+    t.customer = customer;
+    t.priority = priority;
+    t.priorityColor = PRIORITY_COLOR[priority] || '#929292';
+    t.dotColor = PRIORITY_COLOR[priority] || '#929292';
+    t.status = status;
+    t.statusClass = STATUS_CLASS[status] || 'status-new';
+    t.category = document.getElementById('fCategory').value || t.category;
+    t.assignedTo = document.getElementById('fAssignedTo').value.trim() || null;
+    t.description = document.getElementById('fDescription').value.trim();
+    filteredTickets = [...TICKETS];
+    renderTable();
+  }
+  closePanel();
+}
+
+/* ── TABS ── */
+function switchTab(tab) {
+  activeTab = tab;
+  document.querySelectorAll('.tp-tab').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tp-tab')[tab === 'details' ? 0 : 1].classList.add('active');
+  document.getElementById('tabDetails').style.display = tab === 'details' ? 'block' : 'none';
+  document.getElementById('tabActivity').style.display = tab === 'activity' ? 'block' : 'none';
+}
+
+/* ── ACTIVITY ── */
+function renderActivity(ticket) {
+  const feed = document.getElementById('tpActivityFeed');
+  feed.innerHTML = SAMPLE_ACTIVITY.map(a => `
+    <div class="tp-act-item">
+      <div class="tp-act-av">${a.initials}</div>
+      <div class="tp-act-body">
+        <div class="tp-act-meta"><strong>${a.user}</strong> ${a.action} ${a.value ? `<strong>${a.value}</strong>` : ''}</div>
+        ${a.comment ? `<div class="tp-act-text">${a.comment}</div>` : ''}
+        <div class="tp-act-time">${a.time}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addComment() {
+  const val = document.getElementById('commentInp').value.trim();
+  if (!val) return;
+  const feed = document.getElementById('tpActivityFeed');
+  const item = document.createElement('div');
+  item.className = 'tp-act-item';
+  item.innerHTML = `
+    <div class="tp-act-av">JT</div>
+    <div class="tp-act-body">
+      <div class="tp-act-meta"><strong>You</strong> added a comment</div>
+      <div class="tp-act-text">${val}</div>
+      <div class="tp-act-time">just now</div>
+    </div>`;
+  feed.appendChild(item);
+  document.getElementById('commentInp').value = '';
+  item.scrollIntoView({behavior:'smooth', block:'end'});
+}
+
+/* update status badge when status select changes */
+document.getElementById('fStatus').addEventListener('change', function() {
+  if (panelMode === 'edit') {
+    const badge = document.getElementById('tpStatusBadge');
+    badge.textContent = this.value;
+    badge.className = 'status-badge ' + (STATUS_CLASS[this.value] || '');
+  }
+});
+
+/* keyboard close */
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel(); });
+
+function toggleMoreFilters() {}
+
+function navTo(page) { window.location.href = page; }
+
+/* ── Timer ── */
+let secs = 226;
+setInterval(() => {
+  secs++;
+  const h = String(Math.floor(secs/3600)).padStart(2,'0');
+  const m = String(Math.floor((secs%3600)/60)).padStart(2,'0');
+  const s = String(secs%60).padStart(2,'0');
+  const el = document.getElementById('timerDisplay');
+  if (el) el.textContent = `${h}:${m}:${s}`;
+}, 1000);
+
+/* ── Tooltip ── */
+const tip = document.getElementById('tb-tooltip');
+document.addEventListener('mouseover', e => {
+  const el = e.target.closest('[data-tip]');
+  if (!el) { tip.style.opacity = 0; return; }
+  tip.textContent = el.dataset.tip;
+  tip.style.opacity = 1;
+});
+document.addEventListener('mousemove', e => {
+  tip.style.left = (e.clientX + 12) + 'px';
+  tip.style.top = (e.clientY - 28) + 'px';
+});
+document.addEventListener('mouseout', e => {
+  if (!e.relatedTarget || !e.relatedTarget.closest('[data-tip]')) {
+    tip.style.opacity = 0;
+  }
+});
+
+/* ── Dark mode sync ── */
+try {
+  if (sessionStorage.getItem('ef-dark') === '1') document.body.classList.add('dark');
+} catch(e) {}
+
+renderTable();
+</script>
+</body>
+</html>

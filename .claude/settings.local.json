@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(open \"/Users/mac/Desktop/EF/Claude/Expertflow Template/list-view-template.html\")",
+      "Bash(open \"/Users/mac/Desktop/EF/Claude/Expertflow Template/agent-desk-v2-template.html\")",
+      "Bash(open \"/Users/mac/Desktop/EF/Claude/Expertflow Template/AgentDesk-preview.html\")"
+    ]
+  }
+}
