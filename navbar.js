@@ -231,7 +231,7 @@
       '<div class="sdd-toggle on" id="ch-email-toggle" onclick="toggleChannel(\'email\')"></div>' +
     '</div>' +
     '<div class="sdd-sep"></div>' +
-    '<div class="sdd-item sdd-logout" onclick="closeSDD()">' +
+    '<div class="sdd-item sdd-logout" onclick="doSignOut()">' +
       '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>' +
       '<span>Logout</span>' +
     '</div>' +
@@ -253,7 +253,7 @@
         '<div class="pp-item-l"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>Dark Mode</div>' +
         '<div class="pp-toggle" id="ppDarkToggle" onclick="toggleDark();updatePpDarkToggle()"></div>' +
       '</div>' +
-      '<div class="pp-item" style="color:var(--color-error)" onclick="closePP()">' +
+      '<div class="pp-item" style="color:var(--color-error)" onclick="doSignOut()">' +
         '<div class="pp-item-l" style="color:var(--color-error)">' +
           '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>' +
           'Sign Out' +
@@ -1074,6 +1074,11 @@
       if (el) el.textContent = fmt(secs);
     }, 1000);
   }
+
+  window.doSignOut = function () {
+    sessionStorage.clear();
+    window.location.href = 'login.html';
+  };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
