@@ -204,7 +204,11 @@
     '.ef-toast.show{transform:translateY(0);opacity:1;}',
     '.ef-toast-ico{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}',
     /* Toast dark mode */
-    '#app.dark .ef-toast,html.ef-dark .ef-toast{background:#1e2022;color:#e5e7eb;box-shadow:0 4px 20px rgba(0,0,0,0.45);}'
+    '#app.dark .ef-toast,html.ef-dark .ef-toast{background:#1e2022;color:#e5e7eb;box-shadow:0 4px 20px rgba(0,0,0,0.45);}',
+    /* Field inline errors */
+    '.ob-field-err{font-size:12px;color:#ff6767;margin-top:3px;margin-bottom:4px;display:none;padding:0 2px;line-height:1.4;}',
+    '.ob-field-err.show{display:block;}',
+    '.sms-to-inp.err,.sms-msg-inp.err{border-color:#ff6767!important;}'
   ].join('\n');
 
   /* ─── HTML ────────────────────────────────────────────────────────────── */
@@ -723,22 +727,29 @@
     '<div class="ob-sms-gap" id="obSmsGap"></div>' +
     '<div class="ob-sms-composer" id="obSmsComposer">' +
       '<div class="sms-cmp-body"><div class="sms-to-lbl">To:</div>' +
-      '<input class="sms-to-inp" id="smsToInp" type="tel" placeholder="Phone number">' +
-      '<textarea class="sms-msg-inp" id="smsMsgInp" placeholder="Type your SMS message…" oninput="smsCount()"></textarea>' +
+      '<input class="sms-to-inp" id="smsToInp" type="tel" placeholder="Phone number" oninput="_obClearErr(\'smsToInp\',\'smsToErr\')">' +
+      '<div class="ob-field-err" id="smsToErr"></div>' +
+      '<textarea class="sms-msg-inp" id="smsMsgInp" placeholder="Type your SMS message…" oninput="smsCount();_obClearErr(\'smsMsgInp\',\'smsMsgErr\')"></textarea>' +
+      '<div class="ob-field-err" id="smsMsgErr"></div>' +
       '<div class="sms-counter"><span id="smsCntSpan">0</span>/160</div></div>' +
       '<div class="sms-cmp-footer"><button class="sms-cancel-btn" onclick="closeSmsComposer()">Cancel</button><button class="sms-send-btn" onclick="sendSmsMsg()">Send SMS</button></div>' +
     '</div>' +
     '<div class="ob-email-composer" id="obEmailComposer">' +
       '<div class="sms-cmp-body"><div class="sms-to-lbl">To:</div>' +
-      '<input class="sms-to-inp" id="emailToInp" type="email" placeholder="Email address">' +
-      '<input class="sms-to-inp" id="emailSubjInp" type="text" placeholder="Subject">' +
-      '<textarea class="sms-msg-inp" id="emailMsgInp" placeholder="Type your email…"></textarea></div>' +
+      '<input class="sms-to-inp" id="emailToInp" type="email" placeholder="Email address" oninput="_obClearErr(\'emailToInp\',\'emailToErr\')">' +
+      '<div class="ob-field-err" id="emailToErr"></div>' +
+      '<input class="sms-to-inp" id="emailSubjInp" type="text" placeholder="Subject" oninput="_obClearErr(\'emailSubjInp\',\'emailSubjErr\')">' +
+      '<div class="ob-field-err" id="emailSubjErr"></div>' +
+      '<textarea class="sms-msg-inp" id="emailMsgInp" placeholder="Type your email…" oninput="_obClearErr(\'emailMsgInp\',\'emailMsgErr\')"></textarea>' +
+      '<div class="ob-field-err" id="emailMsgErr"></div></div>' +
       '<div class="sms-cmp-footer"><button class="sms-cancel-btn" onclick="closeEmailComposer()">Cancel</button><button class="email-send-btn" onclick="sendEmailMsg()">Send Email</button></div>' +
     '</div>' +
     '<div class="ob-wa-composer" id="obWaComposer">' +
       '<div class="sms-cmp-body"><div class="sms-to-lbl">To:</div>' +
-      '<input class="sms-to-inp" id="waToInp" type="tel" placeholder="Phone number">' +
-      '<textarea class="sms-msg-inp" id="waMsgInp" placeholder="Type your WhatsApp message…" oninput="waCount()"></textarea>' +
+      '<input class="sms-to-inp" id="waToInp" type="tel" placeholder="Phone number" oninput="_obClearErr(\'waToInp\',\'waToErr\')">' +
+      '<div class="ob-field-err" id="waToErr"></div>' +
+      '<textarea class="sms-msg-inp" id="waMsgInp" placeholder="Type your WhatsApp message…" oninput="waCount();_obClearErr(\'waMsgInp\',\'waMsgErr\')"></textarea>' +
+      '<div class="ob-field-err" id="waMsgErr"></div>' +
       '<div class="sms-counter"><span id="waCntSpan">0</span> characters</div></div>' +
       '<div class="sms-cmp-footer"><button class="sms-cancel-btn" onclick="closeWaComposer()">Cancel</button><button class="wa-send-btn" onclick="sendWaMsg()">Send WhatsApp</button></div>' +
     '</div>' +
@@ -959,6 +970,8 @@
     ['obSmsComposer','obEmailComposer','obWaComposer'].forEach(function(id){ var el = document.getElementById(id); if (el) el.classList.remove('open'); });
     var gap = document.getElementById('obSmsGap');
     if (gap) gap.classList.remove('show');
+    document.querySelectorAll('.ob-field-err').forEach(function(e){e.textContent='';e.classList.remove('show');});
+    document.querySelectorAll('.sms-to-inp.err,.sms-msg-inp.err').forEach(function(e){e.classList.remove('err');});
   };
   window._openComposer = function(id, focusId) {
     window._closeAllComposers();
@@ -986,13 +999,28 @@
     window._openComposer('obEmailComposer', 'emailSubjInp');
   };
   window.closeEmailComposer = function() { window._closeAllComposers(); };
+  window._obShowErr = function(inpId, errId, msg) {
+    var inp = document.getElementById(inpId);
+    var err = document.getElementById(errId);
+    if (inp) inp.classList.add('err');
+    if (err) { err.textContent = msg; err.classList.add('show'); }
+  };
+  window._obClearErr = function(inpId, errId) {
+    var inp = document.getElementById(inpId);
+    var err = document.getElementById(errId);
+    if (inp) inp.classList.remove('err');
+    if (err) { err.textContent = ''; err.classList.remove('show'); }
+  };
   window.sendEmailMsg = function() {
     var to = document.getElementById('emailToInp').value.trim();
     var sub = document.getElementById('emailSubjInp').value.trim();
     var msg = document.getElementById('emailMsgInp').value.trim();
-    if (!to) { alert('Enter an email address'); return; }
-    if (!sub) { alert('Enter a subject'); return; }
-    if (!msg) { alert('Type a message'); return; }
+    var valid = true;
+    if (!to) { window._obShowErr('emailToInp','emailToErr','Email address is required'); valid = false; }
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(to)) { window._obShowErr('emailToInp','emailToErr','Enter a valid email address'); valid = false; }
+    if (!sub) { window._obShowErr('emailSubjInp','emailSubjErr','Subject is required'); valid = false; }
+    if (!msg) { window._obShowErr('emailMsgInp','emailMsgErr','Message is required'); valid = false; }
+    if (!valid) return;
     window._closeAllComposers();
     window._showToast('Email sent to ' + to, 'email');
   };
@@ -1009,8 +1037,10 @@
   window.sendWaMsg = function() {
     var to = document.getElementById('waToInp').value.trim();
     var msg = document.getElementById('waMsgInp').value.trim();
-    if (!to) { alert('Enter a phone number'); return; }
-    if (!msg) { alert('Type a message'); return; }
+    var valid = true;
+    if (!to) { window._obShowErr('waToInp','waToErr','Phone number is required'); valid = false; }
+    if (!msg) { window._obShowErr('waMsgInp','waMsgErr','Message is required'); valid = false; }
+    if (!valid) return;
     window._closeAllComposers();
     window._showToast('WhatsApp sent to ' + to, 'whatsapp');
   };
@@ -1018,8 +1048,10 @@
   window.sendSmsMsg = function() {
     var to = document.getElementById('smsToInp').value.trim();
     var msg = document.getElementById('smsMsgInp').value.trim();
-    if (!to) { alert('Enter a phone number'); return; }
-    if (!msg) { alert('Type a message'); return; }
+    var valid = true;
+    if (!to) { window._obShowErr('smsToInp','smsToErr','Phone number is required'); valid = false; }
+    if (!msg) { window._obShowErr('smsMsgInp','smsMsgErr','Message is required'); valid = false; }
+    if (!valid) return;
     window.closeSmsComposer();
     window._showToast('SMS sent to ' + to, 'sms');
   };

@@ -48,6 +48,7 @@
   --shadow-card: 0 4px 24px rgba(0,0,0,0.16);
   --shadow-focus: 0 0 0 3px rgba(26,80,163,0.2);
   --sidenav-w: 56px;
+  --screen-left: var(--sidenav-w);
 }
 .dark {
   --color-bg:#1e2022; --color-canvas:#151515; --color-sep:#151515;
@@ -639,8 +640,8 @@ a{text-decoration:none;color:inherit;}
 /* Customer info card */
 .ci-card{opacity:0;pointer-events:none;transform:translateY(-6px);transition:opacity .18s ease,transform .18s ease;position:fixed;z-index:200;background:#fff;border-radius:10px;box-shadow:var(--shadow-card);padding:14px;}
 .ci-card.visible{opacity:1;pointer-events:all;transform:translateY(0);}
-#ciPeek{width:260px;}
-#ciExpanded{width:300px;max-height:calc(100vh - 160px);overflow-y:auto;}
+#ciPeek,#lccPeek{width:260px;}
+#ciExpanded,#lccExpanded{width:300px;max-height:calc(100vh - 160px);overflow-y:auto;}
 .ci-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
 .ci-av{width:42px;height:42px;border-radius:50%;border:2px solid var(--color-success);background:#f5f6f9;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--color-primary);flex-shrink:0;}
 .ci-meta{flex:1;min-width:0;}
@@ -675,52 +676,6 @@ a{text-decoration:none;color:inherit;}
 .ci-ico.wa{background:#25D366;} .ci-ico.ph{background:#1a50a3;} .ci-ico.fb{background:#1877F2;font-size:10px;font-weight:700;color:#fff;} .ci-ico.em{background:#EA4335;}
 .ci-num{font-size:12px;color:var(--color-body);flex:1;}
 .ci-sub{font-size:12px;color:var(--color-muted);padding:2px 0 2px 27px;}
-
-/* ══ VOICEMAIL INBOX — fixed overlay, full viewport below navbar ══ */
-.vm-screen{
-  display:none;
-  position:fixed;top:var(--navbar-h);left:var(--sidenav-w);right:0;bottom:0;
-  z-index:20;flex-direction:column;overflow:hidden;
-  background:var(--color-canvas);padding:12px;gap:8px;
-}
-.vm-screen.open{display:flex;}
-.vm-page-hdr{background:var(--color-bg);border-bottom:1px solid var(--color-border);padding:14px 24px 12px;display:flex;align-items:center;gap:12px;flex-shrink:0;}
-.vm-page-title{font-size:18px;font-weight:600;color:var(--color-text);}
-.vm-unread-badge{background:var(--color-error);color:#fff;font-size:12px;font-weight:700;border-radius:9999px;padding:1px 8px;min-width:22px;height:20px;display:inline-flex;align-items:center;justify-content:center;}
-.vm-page-space{flex:1;}
-.vm-search{display:flex;align-items:center;gap:6px;border:1px solid var(--color-border-p);border-radius:3px;padding:7px 10px;background:var(--color-bg);width:260px;}
-.vm-search-inp{flex:1;border:none;outline:none;font-size:12px;color:var(--color-body);background:transparent;font-family:Roboto,sans-serif;}
-.vm-search-inp::placeholder{color:var(--color-ph);}
-.vm-filters{display:flex;align-items:center;gap:6px;padding:10px 24px;background:var(--color-bg);border-bottom:1px solid var(--color-border);flex-shrink:0;}
-.vm-pill{font-size:12px;color:var(--color-medium);background:var(--color-bg);border:1px solid var(--color-border);border-radius:9999px;padding:4px 14px;cursor:pointer;transition:background .1s,border-color .1s,color .1s;}
-.vm-pill:hover{background:var(--color-canvas);}
-.vm-pill.on{background:var(--color-primary-lt);border-color:var(--color-primary);color:var(--color-primary);font-weight:500;}
-.vm-table-wrap{flex:1;overflow-y:auto;padding:16px 24px;}
-.vm-table{width:100%;border-collapse:collapse;background:var(--color-bg);border-radius:6px;overflow:hidden;border:1px solid var(--color-border);}
-.vm-table th{background:var(--color-sec-bg);font-size:12px;font-weight:500;color:var(--color-medium);text-align:left;padding:10px 14px;border-bottom:1px solid var(--color-border);white-space:nowrap;}
-.vm-table td{padding:10px 14px;border-bottom:1px solid var(--color-border);vertical-align:middle;font-size:12px;color:var(--color-body);}
-.vm-table tr:last-child td{border-bottom:none;}
-.vm-table tr:hover td{background:var(--color-canvas);}
-.vm-row-unread td:first-child{border-left:3px solid var(--color-primary);}
-.vm-row-unread td{font-weight:500;}
-.vm-cust-cell{display:flex;flex-direction:column;gap:2px;}
-.vm-cust-name{font-size:14px;font-weight:500;color:var(--color-text);}
-.vm-cust-phone{font-size:12px;color:var(--color-ts);}
-.vm-date{font-size:12px;color:var(--color-body);}
-.vm-time-sub{font-size:11px;color:var(--color-ts);margin-top:1px;}
-.vm-player-sm{display:flex;align-items:center;gap:6px;background:var(--color-canvas);border-radius:4px;padding:4px 8px;min-width:200px;max-width:280px;}
-.vm-play-sm{width:24px;height:24px;border-radius:50%;background:var(--color-primary);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;}
-.vm-play-sm:hover{background:var(--color-primary-h);}
-.vm-wf-sm{flex:1;height:22px;display:flex;align-items:center;gap:1.5px;overflow:hidden;}
-.vm-bar-sm{flex-shrink:0;width:2.5px;border-radius:2px;background:#c8d3e0;}
-.vm-bar-sm.p{background:var(--color-primary);}
-.vm-dur-sm{font-size:11px;color:var(--color-ts);font-variant-numeric:tabular-nums;white-space:nowrap;flex-shrink:0;}
-.vm-status{display:inline-flex;align-items:center;gap:4px;border-radius:9999px;padding:2px 10px;font-size:12px;font-weight:500;white-space:nowrap;}
-.vm-status.unread{background:rgba(26,80,163,0.08);color:var(--color-primary);}
-.vm-status.read{background:var(--color-canvas);color:var(--color-muted);}
-.vm-status-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
-.vm-status.unread .vm-status-dot{background:var(--color-primary);}
-.vm-status.read .vm-status-dot{background:var(--color-muted);}
 
 /* ══ DASHBOARD SCREEN ══ */
 .dash-screen{display:none;position:fixed;top:var(--navbar-h);left:var(--sidenav-w);right:0;bottom:0;z-index:20;flex-direction:column;overflow-y:auto;background:#f0f4fa;padding:20px 24px;gap:16px;}
@@ -937,23 +892,9 @@ tr:hover .row-ob-icon{opacity:1;}
 .dark .wu-ai-box{background:#162236;border-color:#254a7a;}
 .dark .wu-tag{background:#292C30;border-color:#3a3f48;color:var(--color-medium);}
 .dark .wu-skip{background:#292C30;border-color:#3a3f48;color:var(--color-medium);}
-/* Customer list screen */
-.dark .cust-screen,.dark .vm-screen,.dark .ticket-screen{background:var(--color-canvas);}
-.dark .list-toolbar{background:var(--color-bg);border-color:var(--color-border);}
-.dark .cust-toolbar,.dark .list-card{background:var(--color-bg);border-color:var(--color-border);}
-.dark .list-search{background:var(--color-sec-bg);border-color:var(--color-border);}
-.dark .list-search input{color:var(--color-body);}
-.dark .tb-btn{background:var(--color-sec-bg);border-color:var(--color-border);color:var(--color-medium);}
-.dark .tb-btn:hover,.dark .tb-btn.active{background:#1a2d4a;border-color:var(--color-primary);color:var(--color-primary);}
-.dark .labels-trigger{background:var(--color-sec-bg);border-color:var(--color-border);}
-.dark .labels-menu{background:var(--color-sec-bg);border-color:var(--color-border);}
-.dark .label-option:hover{background:#2c2f35;}
-.dark .data-table{background:var(--color-bg);}
-.dark .data-table th{background:var(--color-sec-bg);}
-.dark .data-table tbody tr:hover td{background:#1a2d4a;}
-.dark .paginator{background:var(--color-bg);border-color:var(--color-border);}
-.dark .pag-btn{background:var(--color-bg);border-color:var(--color-border);}
-.dark .pag-rpp select{background:var(--color-sec-bg);border-color:var(--color-border);color:var(--color-body);}
+/* Customer / Ticket screen dark mode (list/table + labels shared rules are in screens.js) */
+.dark .cust-screen,.dark .ticket-screen{background:var(--color-canvas);}
+.dark .cust-toolbar{background:var(--color-bg);border-color:var(--color-border);}
 /* ══ IDLE SCREEN — "Your Workspace" (no active conversation) ══ */
 .idle-screen{
   display:none;
@@ -1120,91 +1061,6 @@ tr:hover .row-ob-icon{opacity:1;}
 .tkt-stat-num.warn{color:var(--color-error);}
 .tkt-stat-ico{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .tkt-stat-ico .material-icons{font-size:20px;}
-/* toolbar (copied from list-view) */
-.list-toolbar{background:var(--color-bg);border:1px solid var(--color-border);padding:10px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0;}
-.page-title-wrap{display:flex;align-items:baseline;gap:6px;flex-shrink:0;}
-.page-title{font-size:20px;font-weight:600;color:var(--color-text);}
-.page-title-count{font-size:14px;font-weight:400;color:var(--color-muted);}
-.list-search{display:flex;align-items:center;gap:6px;border:1px solid var(--color-border-i);border-radius:4px;padding:6px 10px;background:var(--color-bg);min-width:220px;}
-.list-search:focus-within{border-color:var(--color-primary);box-shadow:var(--shadow-focus);}
-.list-search input{border:none;background:transparent;font-size:13px;color:var(--color-body);width:100%;outline:none;}
-.list-search input::placeholder{color:var(--color-ph);}
-.toolbar-space{flex:1;}
-.tb-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:4px;font-size:13px;font-weight:500;border:1px solid var(--color-border-i);color:var(--color-medium);background:var(--color-bg);transition:all 0.15s;cursor:pointer;white-space:nowrap;flex-shrink:0;}
-.tb-btn:hover{border-color:var(--color-primary);color:var(--color-primary);background:var(--color-primary-lt);}
-.tb-btn.active{border-color:var(--color-primary);color:var(--color-primary);background:var(--color-primary-lt);}
-/* labels dropdown */
-.labels-dropdown{position:relative;flex-shrink:0;}
-.labels-trigger{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:4px;font-size:13px;font-weight:500;border:1px solid var(--color-border-i);color:var(--color-medium);background:var(--color-bg);cursor:pointer;white-space:nowrap;transition:all 0.15s;}
-.labels-trigger:hover,.labels-trigger.open{border-color:var(--color-primary);color:var(--color-primary);background:var(--color-primary-lt);}
-.labels-chevron{transition:transform 0.2s;}
-.labels-menu{position:absolute;left:0;top:calc(100% + 4px);background:var(--color-bg);border:1px solid var(--color-border-p);border-radius:6px;box-shadow:var(--shadow-card);min-width:180px;z-index:300;display:none;overflow:hidden;}
-.labels-menu.open{display:block;}
-.labels-menu-hdr{padding:10px 14px 6px;font-size:11px;font-weight:600;color:var(--color-muted);text-transform:uppercase;letter-spacing:.04em;}
-.label-option{display:flex;align-items:center;gap:8px;padding:8px 14px;cursor:pointer;font-size:13px;color:var(--color-body);transition:background 0.1s;}
-.label-option:hover{background:var(--color-canvas);}
-.label-option input[type=checkbox]{width:14px;height:14px;accent-color:var(--color-primary);cursor:pointer;flex-shrink:0;}
-.label-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
-.labels-menu-footer{padding:8px 14px;border-top:1px solid var(--color-border);display:flex;justify-content:flex-end;gap:8px;align-items:center;}
-.labels-clear{font-size:12px;color:var(--color-muted);cursor:pointer;padding:4px 8px;background:none;border:none;}
-.labels-clear:hover{color:var(--color-primary);}
-.labels-apply{font-size:12px;color:#fff;background:var(--color-primary);border-radius:4px;padding:5px 12px;cursor:pointer;border:none;font-weight:500;}
-.labels-apply:hover{background:var(--color-primary-h);}
-/* list card + table */
-.list-card{flex:1;overflow:hidden;background:var(--color-bg);border:1px solid var(--color-border);display:flex;flex-direction:column;}
-.table-wrap{flex:1;overflow:auto;}
-.data-table{width:100%;border-collapse:collapse;background:var(--color-bg);table-layout:fixed;}
-.data-table thead{position:sticky;top:0;z-index:20;}
-.data-table th{background:var(--color-sec-bg);font-size:12px;font-weight:500;color:var(--color-medium);text-align:left;padding:0;border-bottom:2px solid var(--color-border);border-right:1px solid var(--color-border);white-space:nowrap;position:relative;user-select:none;}
-.data-table th:last-child{border-right:none;}
-.data-table td{padding:10px 14px;border-bottom:1px solid var(--color-border);border-right:1px solid var(--color-border);vertical-align:middle;font-size:12px;color:var(--color-body);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.data-table td:last-child{border-right:none;}
-.data-table tbody tr:hover td{background:var(--color-primary-lt);}
-.data-table tbody tr:last-child td{border-bottom:none;}
-.data-table tbody tr{cursor:pointer;}
-.th-inner{display:flex;align-items:center;gap:4px;padding:10px 6px 10px 8px;min-height:40px;}
-.col-drag{width:14px;height:20px;display:flex;align-items:center;justify-content:center;cursor:grab;opacity:0.35;flex-shrink:0;border-radius:2px;transition:opacity 0.1s;}
-.col-drag:hover{opacity:0.75;background:rgba(0,0,0,0.06);}
-.col-sort-trigger{display:flex;align-items:center;gap:4px;flex:1;cursor:pointer;min-width:0;padding:2px 0;}
-.col-label{font-size:12px;font-weight:500;color:var(--color-medium);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.col-ch-icon{display:flex;align-items:center;flex-shrink:0;margin-left:2px;}
-.sort-icon{display:flex;flex-direction:column;gap:1px;flex-shrink:0;opacity:0.35;transition:opacity 0.15s;margin-left:2px;}
-.col-sort-trigger:hover .sort-icon{opacity:0.65;}
-.sort-icon.asc,.sort-icon.desc{opacity:1;}
-.sort-icon.asc svg:last-child{opacity:0.3;}
-.sort-icon.desc svg:first-child{opacity:0.3;}
-th.sorted .col-label{color:var(--color-primary);}
-.col-resizer{position:absolute;right:0;top:0;bottom:0;width:5px;cursor:col-resize;background:transparent;z-index:5;}
-.col-resizer:hover{background:rgba(26,80,163,0.35);}
-body.is-resizing *{cursor:col-resize!important;}
-body.is-dragging *{cursor:grabbing!important;}
-/* cell types */
-.cust-cell{display:flex;align-items:center;gap:8px;}
-.cust-av-sm{width:30px;height:30px;min-width:30px;border-radius:50%;background:var(--color-primary-lt);color:var(--color-primary);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;transition:background .15s,color .15s;}
-.data-table tbody tr:hover .cust-av-sm{background:var(--color-primary);color:#fff;}
-.cust-name{font-size:13px;font-weight:600;color:var(--color-text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;}
-.cust-name:hover{color:var(--color-primary);text-decoration:underline;}
-.cell-val{font-size:12px;color:var(--color-body);}
-.cell-empty{color:var(--color-muted);font-size:12px;}
-.cell-link{color:var(--color-link);font-weight:500;font-size:12px;cursor:pointer;}
-.cell-link:hover{text-decoration:underline;}
-/* row actions */
-.row-action{width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;border:none;background:none;color:var(--color-medium);cursor:pointer;transition:all 0.15s;opacity:0;}
-tr:hover .row-action{opacity:1;}
-.row-action:hover{background:var(--color-primary-lt);color:var(--color-primary);}
-.actions-cell{text-align:right;white-space:nowrap;}
-/* paginator */
-.paginator{display:flex;align-items:center;gap:6px;padding:10px 16px;border-top:1px solid var(--color-border);background:var(--color-bg);flex-shrink:0;}
-.pag-info{font-size:12px;color:var(--color-muted);flex-shrink:0;}
-.pag-space{flex:1;}
-.pag-btn{width:30px;height:30px;display:flex;align-items:center;justify-content:center;border:1px solid var(--color-border);border-radius:4px;background:var(--color-bg);color:var(--color-medium);cursor:pointer;font-size:12px;font-weight:500;transition:all 0.15s;flex-shrink:0;}
-.pag-btn:hover:not([disabled]){border-color:var(--color-primary);color:var(--color-primary);background:var(--color-primary-lt);}
-.pag-btn[disabled]{opacity:0.35;cursor:not-allowed;}
-.pag-btn.active{background:var(--color-primary);color:#fff;border-color:var(--color-primary);}
-.pag-gap{font-size:12px;color:var(--color-muted);padding:0 4px;display:flex;align-items:center;}
-.pag-rpp{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--color-muted);flex-shrink:0;margin-left:8px;}
-.pag-rpp select{border:1px solid var(--color-border-i);border-radius:4px;padding:4px 6px;font-size:12px;background:var(--color-bg);color:var(--color-body);cursor:pointer;}
-.pag-rpp select:focus{outline:none;border-color:var(--color-primary);}
 /* ticket-specific */
 .pri-dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0;margin-right:5px;vertical-align:middle;}
 .pri-dot.critical{background:#dc2626;} .pri-dot.high{background:#f97316;} .pri-dot.medium{background:#3b82f6;} .pri-dot.low{background:#9ca3af;}
@@ -2317,132 +2173,10 @@ tr:hover .row-action{opacity:1;}
 
 </div><!-- /dash-screen -->
 
-<!-- ══ VOICEMAIL INBOX — fixed, full viewport below navbar, outside body ══ -->
-<div class="vm-screen" id="vmScreen" role="main" aria-label="Voicemail inbox">
-  <!-- Toolbar -->
-  <div class="list-toolbar">
-    <div class="page-title-wrap">
-      <span class="page-title">Voicemail</span>
-      <span class="vm-unread-badge">3</span>
-    </div>
-    <div class="list-search">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaaaaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input class="vm-search-inp" type="text" placeholder="Search voicemails…" aria-label="Search voicemails">
-    </div>
-    <div class="toolbar-space"></div>
-    <button class="tb-btn vm-filter-btn active" onclick="setVmFilter(this,'all')" aria-pressed="true">All</button>
-    <button class="tb-btn vm-filter-btn" onclick="setVmFilter(this,'unread')" aria-pressed="false">Unread</button>
-    <button class="tb-btn vm-filter-btn" onclick="setVmFilter(this,'read')" aria-pressed="false">Read</button>
-  </div>
-  <!-- Table card -->
-  <div class="list-card">
-    <div class="table-wrap">
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th style="width:230px" data-col="customer">
-              <div class="th-inner">
-                <span class="col-drag" title="Drag to reorder"><svg width="10" height="14" viewBox="0 0 10 14" fill="none"><circle cx="3" cy="2.5" r="1.2" fill="#a3b9da"/><circle cx="7" cy="2.5" r="1.2" fill="#a3b9da"/><circle cx="3" cy="7" r="1.2" fill="#a3b9da"/><circle cx="7" cy="7" r="1.2" fill="#a3b9da"/><circle cx="3" cy="11.5" r="1.2" fill="#a3b9da"/><circle cx="7" cy="11.5" r="1.2" fill="#a3b9da"/></svg></span>
-                <span class="col-sort-trigger"><span class="col-label">Customer</span><span class="sort-icon"><svg width="8" height="6" viewBox="0 0 8 6"><path d="M4 0L8 6H0z" fill="currentColor"/></svg><svg width="8" height="6" viewBox="0 0 8 6"><path d="M4 6L0 0h8z" fill="currentColor"/></svg></span></span>
-              </div>
-              <div class="col-resizer"></div>
-            </th>
-            <th style="width:160px" data-col="received">
-              <div class="th-inner">
-                <span class="col-drag" title="Drag to reorder"><svg width="10" height="14" viewBox="0 0 10 14" fill="none"><circle cx="3" cy="2.5" r="1.2" fill="#a3b9da"/><circle cx="7" cy="2.5" r="1.2" fill="#a3b9da"/><circle cx="3" cy="7" r="1.2" fill="#a3b9da"/><circle cx="7" cy="7" r="1.2" fill="#a3b9da"/><circle cx="3" cy="11.5" r="1.2" fill="#a3b9da"/><circle cx="7" cy="11.5" r="1.2" fill="#a3b9da"/></svg></span>
-                <span class="col-sort-trigger"><span class="col-label">Received On</span><span class="sort-icon"><svg width="8" height="6" viewBox="0 0 8 6"><path d="M4 0L8 6H0z" fill="currentColor"/></svg><svg width="8" height="6" viewBox="0 0 8 6"><path d="M4 6L0 0h8z" fill="currentColor"/></svg></span></span>
-              </div>
-              <div class="col-resizer"></div>
-            </th>
-            <th data-col="duration">
-              <div class="th-inner">
-                <span class="col-drag" title="Drag to reorder"><svg width="10" height="14" viewBox="0 0 10 14" fill="none"><circle cx="3" cy="2.5" r="1.2" fill="#a3b9da"/><circle cx="7" cy="2.5" r="1.2" fill="#a3b9da"/><circle cx="3" cy="7" r="1.2" fill="#a3b9da"/><circle cx="7" cy="7" r="1.2" fill="#a3b9da"/><circle cx="3" cy="11.5" r="1.2" fill="#a3b9da"/><circle cx="7" cy="11.5" r="1.2" fill="#a3b9da"/></svg></span>
-                <span class="col-sort-trigger"><span class="col-label">Recording</span><span class="sort-icon"><svg width="8" height="6" viewBox="0 0 8 6"><path d="M4 0L8 6H0z" fill="currentColor"/></svg><svg width="8" height="6" viewBox="0 0 8 6"><path d="M4 6L0 0h8z" fill="currentColor"/></svg></span></span>
-              </div>
-              <div class="col-resizer"></div>
-            </th>
-            <th style="width:120px" data-col="status">
-              <div class="th-inner">
-                <span class="col-drag" title="Drag to reorder"><svg width="10" height="14" viewBox="0 0 10 14" fill="none"><circle cx="3" cy="2.5" r="1.2" fill="#a3b9da"/><circle cx="7" cy="2.5" r="1.2" fill="#a3b9da"/><circle cx="3" cy="7" r="1.2" fill="#a3b9da"/><circle cx="7" cy="7" r="1.2" fill="#a3b9da"/><circle cx="3" cy="11.5" r="1.2" fill="#a3b9da"/><circle cx="7" cy="11.5" r="1.2" fill="#a3b9da"/></svg></span>
-                <span class="col-sort-trigger"><span class="col-label">Status</span><span class="sort-icon"><svg width="8" height="6" viewBox="0 0 8 6"><path d="M4 0L8 6H0z" fill="currentColor"/></svg><svg width="8" height="6" viewBox="0 0 8 6"><path d="M4 6L0 0h8z" fill="currentColor"/></svg></span></span>
-              </div>
-              <div class="col-resizer"></div>
-            </th>
-            <th style="width:80px" data-col="actions"><div class="th-inner" style="justify-content:center"><span class="col-label">Actions</span></div></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="vm-row vm-row-unread" data-status="unread">
-            <td><div class="cust-cell"><span class="cust-av-sm">SM</span><div class="vm-cust-cell"><span class="vm-cust-name">Sarah Mitchell</span><span class="vm-cust-phone">+1 (415) 882-3041</span></div></div></td>
-            <td><div class="vm-date">May 20, 2025</div><div class="vm-time-sub">09:14 AM</div></td>
-            <td><div class="vm-player-sm"><button class="vm-play-sm" onclick="togglePlay(this)" aria-label="Play voicemail" title="Play"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><div class="vm-wf-sm"><div class="vm-bar-sm p" style="height:55%"></div><div class="vm-bar-sm p" style="height:80%"></div><div class="vm-bar-sm p" style="height:45%"></div><div class="vm-bar-sm p" style="height:90%"></div><div class="vm-bar-sm p" style="height:60%"></div><div class="vm-bar-sm p" style="height:70%"></div><div class="vm-bar-sm p" style="height:50%"></div><div class="vm-bar-sm p" style="height:85%"></div><div class="vm-bar-sm" style="height:65%"></div><div class="vm-bar-sm" style="height:40%"></div><div class="vm-bar-sm" style="height:75%"></div><div class="vm-bar-sm" style="height:55%"></div><div class="vm-bar-sm" style="height:90%"></div><div class="vm-bar-sm" style="height:45%"></div><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:60%"></div><div class="vm-bar-sm" style="height:80%"></div><div class="vm-bar-sm" style="height:50%"></div><div class="vm-bar-sm" style="height:65%"></div><div class="vm-bar-sm" style="height:40%"></div><div class="vm-bar-sm" style="height:75%"></div><div class="vm-bar-sm" style="height:55%"></div><div class="vm-bar-sm" style="height:85%"></div><div class="vm-bar-sm" style="height:45%"></div><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:60%"></div><div class="vm-bar-sm" style="height:50%"></div><div class="vm-bar-sm" style="height:80%"></div></div><span class="vm-dur-sm">1:24</span></div></td>
-            <td><span class="vm-status unread"><span class="vm-status-dot"></span>Unread</span></td>
-            <td class="actions-cell">
-              <button class="row-action" title="Call back" aria-label="Call back"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg></button>
-              <button class="row-action" title="Delete" aria-label="Delete voicemail"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button>
-            </td>
-          </tr>
-          <tr class="vm-row vm-row-unread" data-status="unread">
-            <td><div class="cust-cell"><span class="cust-av-sm">DO</span><div class="vm-cust-cell"><span class="vm-cust-name">David Okonkwo</span><span class="vm-cust-phone">+44 20 7946 0012</span></div></div></td>
-            <td><div class="vm-date">May 20, 2025</div><div class="vm-time-sub">10:52 AM</div></td>
-            <td><div class="vm-player-sm"><button class="vm-play-sm" onclick="togglePlay(this)" aria-label="Play voicemail" title="Play"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><div class="vm-wf-sm"><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:50%"></div><div class="vm-bar-sm" style="height:85%"></div><div class="vm-bar-sm" style="height:40%"></div><div class="vm-bar-sm" style="height:65%"></div><div class="vm-bar-sm" style="height:90%"></div><div class="vm-bar-sm" style="height:55%"></div><div class="vm-bar-sm" style="height:75%"></div><div class="vm-bar-sm" style="height:45%"></div><div class="vm-bar-sm" style="height:80%"></div><div class="vm-bar-sm" style="height:60%"></div><div class="vm-bar-sm" style="height:50%"></div><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:85%"></div><div class="vm-bar-sm" style="height:40%"></div><div class="vm-bar-sm" style="height:65%"></div><div class="vm-bar-sm" style="height:90%"></div><div class="vm-bar-sm" style="height:55%"></div><div class="vm-bar-sm" style="height:75%"></div><div class="vm-bar-sm" style="height:45%"></div><div class="vm-bar-sm" style="height:80%"></div><div class="vm-bar-sm" style="height:60%"></div><div class="vm-bar-sm" style="height:50%"></div><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:85%"></div><div class="vm-bar-sm" style="height:40%"></div><div class="vm-bar-sm" style="height:65%"></div><div class="vm-bar-sm" style="height:55%"></div></div><span class="vm-dur-sm">0:47</span></div></td>
-            <td><span class="vm-status unread"><span class="vm-status-dot"></span>Unread</span></td>
-            <td class="actions-cell">
-              <button class="row-action" title="Call back" aria-label="Call back"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg></button>
-              <button class="row-action" title="Delete" aria-label="Delete voicemail"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button>
-            </td>
-          </tr>
-          <tr class="vm-row vm-row-unread" data-status="unread">
-            <td><div class="cust-cell"><span class="cust-av-sm">PN</span><div class="vm-cust-cell"><span class="vm-cust-name">Priya Nambiar</span><span class="vm-cust-phone">+91 98204 51033</span></div></div></td>
-            <td><div class="vm-date">May 19, 2025</div><div class="vm-time-sub">03:38 PM</div></td>
-            <td><div class="vm-player-sm"><button class="vm-play-sm" onclick="togglePlay(this)" aria-label="Play voicemail" title="Play"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><div class="vm-wf-sm"><div class="vm-bar-sm" style="height:60%"></div><div class="vm-bar-sm" style="height:80%"></div><div class="vm-bar-sm" style="height:45%"></div><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:55%"></div><div class="vm-bar-sm" style="height:90%"></div><div class="vm-bar-sm" style="height:40%"></div><div class="vm-bar-sm" style="height:75%"></div><div class="vm-bar-sm" style="height:65%"></div><div class="vm-bar-sm" style="height:50%"></div><div class="vm-bar-sm" style="height:85%"></div><div class="vm-bar-sm" style="height:60%"></div><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:45%"></div><div class="vm-bar-sm" style="height:80%"></div><div class="vm-bar-sm" style="height:55%"></div><div class="vm-bar-sm" style="height:90%"></div><div class="vm-bar-sm" style="height:40%"></div><div class="vm-bar-sm" style="height:75%"></div><div class="vm-bar-sm" style="height:65%"></div><div class="vm-bar-sm" style="height:50%"></div><div class="vm-bar-sm" style="height:85%"></div><div class="vm-bar-sm" style="height:60%"></div><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:45%"></div><div class="vm-bar-sm" style="height:80%"></div><div class="vm-bar-sm" style="height:55%"></div><div class="vm-bar-sm" style="height:90%"></div></div><span class="vm-dur-sm">2:08</span></div></td>
-            <td><span class="vm-status unread"><span class="vm-status-dot"></span>Unread</span></td>
-            <td class="actions-cell">
-              <button class="row-action" title="Call back" aria-label="Call back"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg></button>
-              <button class="row-action" title="Delete" aria-label="Delete voicemail"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button>
-            </td>
-          </tr>
-          <tr class="vm-row" data-status="read">
-            <td><div class="cust-cell"><span class="cust-av-sm" style="background:#e8edf3;color:#555">JT</span><div class="vm-cust-cell"><span class="vm-cust-name" style="font-weight:400">John Tylor</span><span class="vm-cust-phone">+1 (762) 533-5936</span></div></div></td>
-            <td><div class="vm-date">May 18, 2025</div><div class="vm-time-sub">11:05 AM</div></td>
-            <td><div class="vm-player-sm"><button class="vm-play-sm" onclick="togglePlay(this)" aria-label="Play voicemail" title="Play"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><div class="vm-wf-sm"><div class="vm-bar-sm p" style="height:65%"></div><div class="vm-bar-sm p" style="height:80%"></div><div class="vm-bar-sm p" style="height:50%"></div><div class="vm-bar-sm p" style="height:90%"></div><div class="vm-bar-sm p" style="height:55%"></div><div class="vm-bar-sm p" style="height:75%"></div><div class="vm-bar-sm p" style="height:45%"></div><div class="vm-bar-sm p" style="height:85%"></div><div class="vm-bar-sm p" style="height:60%"></div><div class="vm-bar-sm p" style="height:70%"></div><div class="vm-bar-sm p" style="height:50%"></div><div class="vm-bar-sm p" style="height:80%"></div><div class="vm-bar-sm p" style="height:55%"></div><div class="vm-bar-sm p" style="height:90%"></div><div class="vm-bar-sm p" style="height:45%"></div><div class="vm-bar-sm p" style="height:75%"></div><div class="vm-bar-sm p" style="height:65%"></div><div class="vm-bar-sm p" style="height:50%"></div><div class="vm-bar-sm p" style="height:85%"></div><div class="vm-bar-sm p" style="height:60%"></div><div class="vm-bar-sm p" style="height:70%"></div><div class="vm-bar-sm p" style="height:50%"></div><div class="vm-bar-sm p" style="height:80%"></div><div class="vm-bar-sm p" style="height:55%"></div><div class="vm-bar-sm p" style="height:90%"></div><div class="vm-bar-sm p" style="height:45%"></div><div class="vm-bar-sm p" style="height:75%"></div><div class="vm-bar-sm p" style="height:65%"></div></div><span class="vm-dur-sm">1:52</span></div></td>
-            <td><span class="vm-status read"><span class="vm-status-dot"></span>Read</span></td>
-            <td class="actions-cell">
-              <button class="row-action" title="Call back" aria-label="Call back"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg></button>
-              <button class="row-action" title="Delete" aria-label="Delete voicemail"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button>
-            </td>
-          </tr>
-          <tr class="vm-row" data-status="read">
-            <td><div class="cust-cell"><span class="cust-av-sm" style="background:#e8edf3;color:#555">RK</span><div class="vm-cust-cell"><span class="vm-cust-name" style="font-weight:400">Rob Kelsey</span><span class="vm-cust-phone">+1 (743) 500-3536</span></div></div></td>
-            <td><div class="vm-date">May 17, 2025</div><div class="vm-time-sub">02:21 PM</div></td>
-            <td><div class="vm-player-sm"><button class="vm-play-sm" onclick="togglePlay(this)" aria-label="Play voicemail" title="Play"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><div class="vm-wf-sm"><div class="vm-bar-sm p" style="height:70%"></div><div class="vm-bar-sm p" style="height:55%"></div><div class="vm-bar-sm p" style="height:85%"></div><div class="vm-bar-sm p" style="height:40%"></div><div class="vm-bar-sm p" style="height:75%"></div><div class="vm-bar-sm p" style="height:60%"></div><div class="vm-bar-sm p" style="height:90%"></div><div class="vm-bar-sm p" style="height:50%"></div><div class="vm-bar-sm p" style="height:65%"></div><div class="vm-bar-sm p" style="height:80%"></div><div class="vm-bar-sm p" style="height:45%"></div><div class="vm-bar-sm p" style="height:70%"></div><div class="vm-bar-sm p" style="height:55%"></div><div class="vm-bar-sm p" style="height:85%"></div><div class="vm-bar-sm p" style="height:40%"></div><div class="vm-bar-sm p" style="height:75%"></div><div class="vm-bar-sm p" style="height:60%"></div><div class="vm-bar-sm p" style="height:90%"></div><div class="vm-bar-sm p" style="height:50%"></div><div class="vm-bar-sm p" style="height:65%"></div><div class="vm-bar-sm p" style="height:80%"></div><div class="vm-bar-sm p" style="height:45%"></div><div class="vm-bar-sm p" style="height:70%"></div><div class="vm-bar-sm p" style="height:55%"></div><div class="vm-bar-sm p" style="height:85%"></div><div class="vm-bar-sm p" style="height:40%"></div><div class="vm-bar-sm p" style="height:75%"></div><div class="vm-bar-sm p" style="height:60%"></div></div><span class="vm-dur-sm">0:33</span></div></td>
-            <td><span class="vm-status read"><span class="vm-status-dot"></span>Read</span></td>
-            <td class="actions-cell">
-              <button class="row-action" title="Call back" aria-label="Call back"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg></button>
-              <button class="row-action" title="Delete" aria-label="Delete voicemail"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!-- Paginator -->
-    <div class="paginator">
-      <span class="pag-info">Showing 1–5 of 5</span>
-      <div class="pag-space"></div>
-      <button class="pag-btn" disabled aria-label="Previous page">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
-      <button class="pag-btn active">1</button>
-      <button class="pag-btn" disabled aria-label="Next page">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-      </button>
-      <div class="pag-rpp">
-        <span>Rows per page</span>
-        <select aria-label="Rows per page"><option value="10">10</option><option value="25">25</option><option value="50">50</option></select>
-      </div>
-    </div>
-  </div>
-</div><!-- /vm-screen -->
+<!-- ══ VOICEMAIL INBOX — injected by screens.js ══ -->
+<div id="vmScreenMount"></div>
+
+
 
 <!-- ══ CUSTOMER LIST SCREEN ══ -->
 <div class="cust-screen" id="custScreen">
@@ -2652,9 +2386,10 @@ tr:hover .row-action{opacity:1;}
   </div>
   <div class="ci-div"></div>
   <div class="ci-chs">
-    <button class="ci-ch" aria-label="Call" data-tip="Call"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></button>
-    <button class="ci-ch" aria-label="SMS" data-tip="SMS"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></button>
-    <button class="ci-ch" aria-label="WhatsApp" data-tip="WhatsApp"><svg class="ci-wa-ic" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+    <button class="ci-ch" aria-label="Call" data-tip="Call" onclick="window.startCall&&window.startCall('+1 (762) 533-5936','John Tylor')"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></button>
+    <button class="ci-ch" aria-label="SMS" data-tip="SMS" onclick="window.openSmsComposer&&window.openSmsComposer('+1 (762) 533-5936','John Tylor')"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></button>
+    <button class="ci-ch" aria-label="Email" data-tip="Email" onclick="window.openEmailComposer&&window.openEmailComposer('john.tylor@example.com','John Tylor')"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></button>
+    <button class="ci-ch" aria-label="WhatsApp" data-tip="WhatsApp" onclick="window.openWaComposer&&window.openWaComposer('+1 (762) 533-5936','John Tylor')"><svg class="ci-wa-ic" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
   </div>
   <div class="ci-div"></div>
   <div class="ci-rows">
@@ -2672,9 +2407,10 @@ tr:hover .row-action{opacity:1;}
   </div>
   <div class="ci-div"></div>
   <div class="ci-chs">
-    <button class="ci-ch" aria-label="Call" data-tip="Call"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></button>
-    <button class="ci-ch" aria-label="SMS" data-tip="SMS"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></button>
-    <button class="ci-ch" aria-label="WhatsApp" data-tip="WhatsApp"><svg class="ci-wa-ic" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+    <button class="ci-ch" aria-label="Call" data-tip="Call" onclick="window.startCall&&window.startCall('+1 (762) 533-5936','John Tylor')"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></button>
+    <button class="ci-ch" aria-label="SMS" data-tip="SMS" onclick="window.openSmsComposer&&window.openSmsComposer('+1 (762) 533-5936','John Tylor')"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></button>
+    <button class="ci-ch" aria-label="Email" data-tip="Email" onclick="window.openEmailComposer&&window.openEmailComposer('john.tylor@example.com','John Tylor')"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></button>
+    <button class="ci-ch" aria-label="WhatsApp" data-tip="WhatsApp" onclick="window.openWaComposer&&window.openWaComposer('+1 (762) 533-5936','John Tylor')"><svg class="ci-wa-ic" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
   </div>
   <div class="ci-div"></div>
   <div class="ci-sec-ttl">General Information</div>
@@ -2693,6 +2429,50 @@ tr:hover .row-action{opacity:1;}
     <div class="ci-ch-row"><div class="ci-icons"><span class="ci-ico em"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span></div><span class="ci-num">jt@eflcom</span></div>
   </div>
   <button class="ci-view" onclick="collapseCi()">View less <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg></button>
+</div>
+
+<!-- ══ CUSTOMER LIST CONTACT CARD — PEEK ══ -->
+<div class="ci-card" id="lccPeek" onmouseenter="cancelHideCard()" onmouseleave="startHideCard()">
+  <div class="ci-top">
+    <div class="ci-av" id="lcc-av">--</div>
+    <div class="ci-meta">
+      <div class="ci-name" id="lcc-name">--</div>
+      <div class="ci-status"><span class="ci-id">Identified</span><span id="lcc-dots" style="display:inline-flex;gap:4px;align-items:center;margin-left:4px;"></span></div>
+    </div>
+    <button class="ci-edit" aria-label="Copy link" data-tip="Copy link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.8"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></button>
+    <button class="ci-edit" aria-label="Edit" data-tip="Edit" onclick="openEditCustomer()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.8"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+  </div>
+  <div class="ci-div"></div>
+  <div class="ci-chs" id="lcc-chs"></div>
+  <div class="ci-div"></div>
+  <div class="ci-rows">
+    <div class="ci-row">
+      <div class="ci-f"><div class="ci-lbl">Phone</div><div class="ci-val" id="lcc-phone">—</div></div>
+      <div class="ci-f"><div class="ci-lbl">Email</div><div class="ci-val" id="lcc-email">—</div></div>
+    </div>
+  </div>
+  <button class="ci-view" onclick="expandLcc()">View more <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
+</div>
+
+<!-- ══ CUSTOMER LIST CONTACT CARD — EXPANDED ══ -->
+<div class="ci-card" id="lccExpanded" onmouseenter="cancelHideCard()" onmouseleave="startHideCard()">
+  <div class="ci-top">
+    <div class="ci-av" id="lce-av">--</div>
+    <div class="ci-meta">
+      <div class="ci-name" id="lce-name">--</div>
+      <div class="ci-status"><span class="ci-id">Identified</span><span id="lce-dots" style="display:inline-flex;gap:4px;align-items:center;margin-left:4px;"></span></div>
+    </div>
+    <button class="ci-edit" aria-label="Copy link" data-tip="Copy link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.8"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></button>
+    <button class="ci-edit" aria-label="Edit" data-tip="Edit" onclick="openEditCustomer()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.8"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+  </div>
+  <div class="ci-div"></div>
+  <div class="ci-chs" id="lce-chs"></div>
+  <div class="ci-div"></div>
+  <div class="ci-sec-ttl">General Information</div>
+  <div class="ci-fields-box" id="lce-fields"></div>
+  <div class="ci-sec-ttl" style="margin-top:12px;">Channel Identifiers</div>
+  <div class="ci-ch-list" id="lce-channels"></div>
+  <button class="ci-view" onclick="collapseLcc()">View less <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg></button>
 </div>
 
 <!-- ══ EDIT CUSTOMER PANEL ══ -->
@@ -3170,6 +2950,7 @@ tr:hover .row-action{opacity:1;}
 </div><!-- /app -->
 
 <script src="navbar.js"></script>
+<script src="screens.js"></script>
 <script>
 (function(){try{if(sessionStorage.getItem('ef-dark')==='1')document.getElementById('app').classList.add('dark')}catch(e){}})();
 
@@ -3221,19 +3002,9 @@ ciPeek.addEventListener('mouseleave',hidePeek);
 document.addEventListener('mousedown',e=>{if(!ciAv.contains(e.target)&&!(ciName&&ciName.contains(e.target))&&!ciPeek.contains(e.target)&&!ciExp.contains(e.target))collapseCi();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')collapseCi();});
 /* Voicemail toggle */
-const vmScreen=document.getElementById('vmScreen'),vmSnavItem=document.getElementById('vmSnavItem');
 let vmOpen=false;
 function toggleVm(){openVm();}
-function closeVm(){vmOpen=false;vmScreen.classList.remove('open');}
-/* VM filter */
-function setVmFilter(btn,filter){document.querySelectorAll('.vm-filter-btn').forEach(p=>{p.classList.remove('active');p.setAttribute('aria-pressed','false');});btn.classList.add('active');btn.setAttribute('aria-pressed','true');document.querySelectorAll('.vm-row').forEach(row=>{row.style.display=(filter==='all'||row.dataset.status===filter)?'':'none';});}
-/* VM search */
-document.querySelector('.vm-search-inp')?.addEventListener('input',function(){const q=this.value.toLowerCase();document.querySelectorAll('.vm-row').forEach(row=>{row.style.display=row.textContent.toLowerCase().includes(q)?'':'none';});});
-/* Play toggle in table */
-const playIco='<svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg>';
-const pauseIco='<svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>';
-let activeBtn=null;
-function togglePlay(btn){if(activeBtn&&activeBtn!==btn)activeBtn.innerHTML=playIco;const playing=btn.innerHTML.includes('rect');btn.innerHTML=playing?playIco:pauseIco;activeBtn=playing?null:btn;}
+function closeVm(){vmOpen=false;var s=document.getElementById('vmScreen');if(s)s.classList.remove('open');}
 /* Chat voicemail player */
 let chatPlaying=false;
 function toggleChatPlay(){chatPlaying=!chatPlaying;const btn=document.getElementById('vmChatPlayBtn');btn.setAttribute('aria-label',chatPlaying?'Pause':'Play voicemail');document.getElementById('vmChatIco').outerHTML=chatPlaying?'<svg id="vmChatIco" width="12" height="12" viewBox="0 0 24 24" fill="#fff"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>':'<svg id="vmChatIco" width="12" height="12" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg>';}
@@ -3302,13 +3073,97 @@ function _custRowIcons(r){
   }).join('')+'</div>';
 }
 
+/* ── Customer list contact card popup ── */
+const _lccPeek=document.getElementById('lccPeek'),_lccExp=document.getElementById('lccExpanded');
+let _lccData=null,_cardHideTimer=null;
+const _LCC_PH_ICO='<svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.11 19.79 19.79 0 01.78.5 2 2 0 012.78 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.14 6.14l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>';
+const _LCC_WA_ICO='<svg width="8" height="8" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>';
+const _LCC_EM_ICO='<svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>';
+
+function _posLcc(target){
+  const r=target.getBoundingClientRect();
+  const left=Math.min(r.left,window.innerWidth-310);
+  const top=r.bottom+8;
+  [_lccPeek,_lccExp].forEach(c=>{c.style.left=Math.max(8,left)+'px';c.style.top=top+'px';});
+}
+function showContactCard(event,id){
+  cancelHideCard();
+  if(_lccExp.classList.contains('visible'))return;
+  const r=CUST_ALL.find(x=>x.id===id);
+  if(!r)return;
+  _lccData=r;
+  document.getElementById('lcc-av').textContent=_custMkInit(r.name);
+  document.getElementById('lcc-name').textContent=r.name;
+  document.getElementById('lcc-phone').textContent=r.phone||'—';
+  document.getElementById('lcc-email').textContent=r.email||'—';
+  document.getElementById('lcc-dots').innerHTML=(r.labels||[]).map(l=>`<span class="ci-dot" style="background:${CUST_LABEL_COLORS[l]||'#999'}"></span>`).join('');
+  document.getElementById('lcc-chs').innerHTML=(r.channels||[]).map(ch=>{
+    const p=_custEsc(r.phone||''),e=_custEsc(r.email||''),n=_custEsc(r.name);
+    if(ch==='call')    return`<button class="ci-ch" data-tip="Call" onclick="event.stopPropagation();window.startCall&&window.startCall('${p}','${n}')"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.11 19.79 19.79 0 01.78.5 2 2 0 012.78 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.14 6.14l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></button>`;
+    if(ch==='sms')     return`<button class="ci-ch" data-tip="SMS" onclick="event.stopPropagation();window.openSmsComposer&&window.openSmsComposer('${p}','${n}')"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></button>`;
+    if(ch==='email')   return`<button class="ci-ch" data-tip="Email" onclick="event.stopPropagation();window.openEmailComposer&&window.openEmailComposer('${e}','${n}')"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></button>`;
+    if(ch==='whatsapp')return`<button class="ci-ch" data-tip="WhatsApp" onclick="event.stopPropagation();window.openWaComposer&&window.openWaComposer('${p}','${n}')"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" class="ci-wa-ic"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></button>`;
+    return'';
+  }).join('');
+  _posLcc(event.target);
+  _lccPeek.classList.add('visible');
+  _ciSetTips(_lccPeek);
+}
+function expandLcc(){
+  if(!_lccData)return;
+  const r=_lccData;
+  document.getElementById('lce-av').textContent=_custMkInit(r.name);
+  document.getElementById('lce-name').textContent=r.name;
+  document.getElementById('lce-dots').innerHTML=(r.labels||[]).map(l=>`<span class="ci-dot" style="background:${CUST_LABEL_COLORS[l]||'#999'}"></span>`).join('');
+  const pairs=[['Web',r.web],['Voice',r.voice],['LinkedIn',r.linkedin],['Instagram',r.instagram],['Facebook',r.facebook],['Twitter',r.twitter],['Telegram',r.telegram]].filter(f=>f[1]);
+  let fh='';
+  for(let i=0;i<pairs.length;i+=2){
+    fh+=`<div class="ci-row"><div class="ci-f"><div class="ci-lbl">${pairs[i][0]}</div><div class="ci-val">${_custEsc(pairs[i][1])}</div></div>`;
+    fh+=pairs[i+1]?`<div class="ci-f"><div class="ci-lbl">${pairs[i+1][0]}</div><div class="ci-val">${_custEsc(pairs[i+1][1])}</div></div>`:`<div class="ci-f"></div>`;
+    fh+='</div>';
+  }
+  document.getElementById('lce-fields').innerHTML=fh||`<div class="ci-val" style="color:var(--color-muted)">No additional info</div>`;
+  let ch='';
+  if(r.phone){
+    const hasWa=(r.channels||[]).includes('whatsapp');
+    ch+=`<div class="ci-ch-row hi"><div class="ci-icons"><span class="ci-ico ph">${_LCC_PH_ICO}</span>${hasWa?`<span class="ci-ico wa">${_LCC_WA_ICO}</span>`:''}</div><span class="ci-num">${_custEsc(r.phone)}</span></div>`;
+  }
+  if(r.email){
+    if(ch)ch+=`<div class="ci-div"></div>`;
+    ch+=`<div class="ci-ch-row"><div class="ci-icons"><span class="ci-ico em">${_LCC_EM_ICO}</span></div><span class="ci-num">${_custEsc(r.email)}</span></div>`;
+  }
+  if(r.facebook){
+    if(ch)ch+=`<div class="ci-div"></div>`;
+    ch+=`<div class="ci-ch-row"><div class="ci-icons"><span class="ci-ico fb">f</span></div><span class="ci-num">${_custEsc(r.facebook)}</span></div>`;
+  }
+  document.getElementById('lce-channels').innerHTML=ch||`<div style="color:var(--color-muted);font-size:12px;padding:6px 0">No channel data</div>`;
+  var lceChs=document.getElementById('lce-chs');
+  if(lceChs)lceChs.innerHTML=document.getElementById('lcc-chs').innerHTML;
+  _lccExp.style.left=_lccPeek.style.left;
+  _lccExp.style.top=_lccPeek.style.top;
+  _lccPeek.classList.remove('visible');
+  _lccExp.classList.add('visible');
+  _ciSetTips(_lccExp);
+}
+function collapseLcc(){
+  _lccExp.classList.remove('visible');
+  _lccPeek.classList.add('visible');
+}
+function startHideCard(){_cardHideTimer=setTimeout(()=>{_lccPeek.classList.remove('visible');_lccExp.classList.remove('visible');_lccData=null;},220);}
+function cancelHideCard(){clearTimeout(_cardHideTimer);}
+document.addEventListener('mousedown',function(e){
+  if(!_lccPeek.contains(e.target)&&!_lccExp.contains(e.target)){
+    _lccPeek.classList.remove('visible');_lccExp.classList.remove('visible');_lccData=null;
+  }
+});
+
 function custRenderTable(){
   const s=(_custPage-1)*_custRpp,e=Math.min(s+_custRpp,_custFiltered.length),page=_custFiltered.slice(s,e);
   const tb=document.getElementById('custTableBody');
   tb.innerHTML=page.length?page.map(r=>`<tr>
     <td><div class="cust-cell">
-      <div class="cust-av-sm">${_custMkInit(r.name)}</div>
-      <div class="cust-name-wrap"><span class="cust-name" onclick="closeCust()" style="cursor:pointer">${_custEsc(r.name)}</span>${_custLabDots(r.labels)}</div>
+      <div class="cust-av-sm" onmouseenter="showContactCard(event,${r.id})" onmouseleave="startHideCard()">${_custMkInit(r.name)}</div>
+      <div class="cust-name-wrap"><span class="cust-name" onclick="closeCust()" onmouseenter="showContactCard(event,${r.id})" onmouseleave="startHideCard()" style="cursor:pointer">${_custEsc(r.name)}</span>${_custLabDots(r.labels)}</div>
     </div></td>
     <td>${_custCv(r.phone)}</td>
     <td>${_custCv(r.web)}</td>
@@ -3938,7 +3793,7 @@ function openDashboard(){
 function openVm(){
   _closeAllScreens();
   vmOpen=true;
-  document.getElementById('vmScreen').classList.add('open');
+  var s=document.getElementById('vmScreen');if(s)s.classList.add('open');
 }
 function openCust(){
   _closeAllScreens();
