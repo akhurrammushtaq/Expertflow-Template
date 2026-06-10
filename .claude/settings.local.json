@@ -3,7 +3,9 @@
     "allow": [
       "Bash(open \"/Users/mac/Desktop/EF/Claude/Expertflow Template/list-view-template.html\")",
       "Bash(open \"/Users/mac/Desktop/EF/Claude/Expertflow Template/agent-desk-v2-template.html\")",
-      "Bash(open \"/Users/mac/Desktop/EF/Claude/Expertflow Template/AgentDesk-preview.html\")"
+      "Bash(open \"/Users/mac/Desktop/EF/Claude/Expertflow Template/AgentDesk-preview.html\")",
+      "Bash(awk -F: '{print $1}')",
+      "Bash(awk -F: 'BEGIN{min=99999;max=0}{n=$1+0; if\\(n<min\\)min=n; if\\(n>max\\)max=n}END{print \"CSS/HTML from line \" min \" to \" max}')"
     ]
   }
 }

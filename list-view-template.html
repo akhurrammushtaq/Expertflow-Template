@@ -77,7 +77,6 @@ a{text-decoration:none;color:inherit;}
 .nav-btn:hover{background:var(--color-canvas);transform:scale(1.1);border-radius:50%;}
 .nav-btn.active{background:var(--color-primary);border-radius:50%;}
 .nav-btn.active svg{stroke:#fff;}
-.nav-btn.active .material-icons{color:#fff;}
 .nav-btn.active span[style*="color:#1a50a3"]{color:#fff!important;}
 .nav-badge{position:absolute;top:-1px;right:-1px;min-width:14px;height:14px;border-radius:7px;background:var(--color-error);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 3px;border:1.5px solid var(--color-bg);}
 .state-pill{display:inline-flex;align-items:center;gap:6px;border:1.5px solid #d8dde6;border-radius:9999px;padding:5px 12px 5px 8px;height:32px;font-size:14px;color:var(--color-text);background:var(--color-bg);flex-shrink:0;cursor:pointer;margin-left:4px;white-space:nowrap;}
@@ -256,7 +255,7 @@ th.sorted .col-label{color:var(--color-primary);}
 }
 tr:hover .row-action{opacity:1;}
 .row-action:hover{background:var(--color-primary-lt);color:var(--color-primary);}
-.actions-cell{text-align:center;}
+.actions-cell{text-align:right;}
 
 /* ══ PAGINATOR ══ */
 .paginator{
@@ -310,12 +309,10 @@ body.is-dragging *{cursor:grabbing!important;}
 
 /* ══ ROW OUTBOUND ICONS ══ */
 .row-ob-icons{display:inline-flex;align-items:center;gap:2px;}
-.row-ob-icon{width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;border:none;background:none;color:var(--color-medium);cursor:pointer;transition:all .15s;opacity:0;flex-shrink:0;padding:0;}
+.row-ob-icon{width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;border-radius:4px;border:none;background:none;color:var(--color-muted);cursor:pointer;transition:color .15s,background .15s;opacity:0;flex-shrink:0;padding:0;}
 tr:hover .row-ob-icon{opacity:1;}
-.row-ob-icon:hover{background:var(--color-primary-lt);color:var(--color-primary);transform:scale(1.15);}
-.row-ob-icon .material-icons{font-size:15px;color:inherit;}
-.row-ob-icon .row-wa-ic{width:14px;height:14px;fill:var(--color-medium);flex-shrink:0;transition:fill .15s;}
-.row-ob-icon:hover .row-wa-ic{fill:var(--color-primary);}
+.row-ob-icon:hover{background:var(--color-primary-lt);color:var(--color-primary);}
+.row-ob-icon svg{fill:currentColor;width:16px;height:16px;}
 
 /* ══ CONTACT CARD (hover popup) ══ */
 .ci-card{opacity:0;pointer-events:none;transform:translateY(-6px);transition:opacity .18s ease,transform .18s ease;position:fixed;z-index:500;background:#fff;border-radius:10px;box-shadow:0 4px 24px rgba(0,0,0,.16);padding:14px;width:260px;}
@@ -333,8 +330,7 @@ tr:hover .row-ob-icon{opacity:1;}
 .ci-chs{display:flex;align-items:center;justify-content:center;gap:10px;padding:4px 0;}
 .ci-ch{width:36px;height:36px;border-radius:50%;border:1px solid var(--color-border);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s;}
 .ci-ch:hover{background:var(--color-primary-lt);}
-.ci-ch .material-icons{font-size:17px;color:#555;}
-.ci-ch:hover .material-icons{color:var(--color-primary);}
+.ci-ch svg{width:17px;height:17px;transition:stroke .15s,fill .15s;}
 .ci-ch .ci-wa-ic{width:15px;height:15px;fill:#555;transition:fill .15s;}
 .ci-ch:hover .ci-wa-ic{fill:#25d366;}
 .ci-rows{display:flex;flex-direction:column;gap:10px;margin:4px 0;}
@@ -391,100 +387,6 @@ tr:hover .row-ob-icon{opacity:1;}
 .ecp-btn-save{background:var(--color-primary);color:#fff;}
 .ecp-btn-save:hover{opacity:.9;}
 .dark .ecp-inp,.dark .ecp-ch-add-inp,.dark .ecp-ch-val-inp{background:#292C30;border-color:#3a3f48;}
-
-/* ══ CALL CONTROLLER ══ */
-.call-ctrl{position:fixed;bottom:24px;right:24px;width:268px;background:#111827;border-radius:20px;padding:20px 16px 16px;z-index:700;display:none;flex-direction:column;gap:14px;box-shadow:0 16px 48px rgba(0,0,0,.55);border:1px solid #1e2a42;}
-.call-ctrl.active{display:flex;}
-.cc-top{display:flex;align-items:center;gap:12px;}
-.cc-av{width:54px;height:54px;border-radius:50%;background:#1c2540;color:#7b9cde;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.cc-info{flex:1;min-width:0;}
-.cc-name{font-size:14px;font-weight:600;color:#dce6f5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.cc-status{font-size:11px;color:#6b7fa8;margin-top:2px;}
-.cc-timer{font-size:28px;font-weight:700;color:#fff;text-align:center;letter-spacing:4px;font-variant-numeric:tabular-nums;}
-.cc-btns{display:flex;align-items:center;justify-content:space-between;}
-.cc-btn{display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;background:none;border:none;padding:0;}
-.cc-ic{width:48px;height:48px;border-radius:50%;background:#1c2540;border:1px solid #2a3050;display:flex;align-items:center;justify-content:center;transition:background .15s;}
-.cc-btn:hover .cc-ic{background:#263060;}
-.cc-ic .material-icons{font-size:20px;color:#7b9cde;}
-.cc-lbl{font-size:10px;color:#6b7fa8;}
-.cc-btn.cc-on .cc-ic{background:#1c4a3a;border-color:#1c4a3a;}
-.cc-btn.cc-on .cc-ic .material-icons{color:#26c98c;}
-.cc-end .cc-ic{background:#b91c1c;border-color:#b91c1c;}
-.cc-end:hover .cc-ic{background:#991111;}
-.cc-end .cc-ic .material-icons{color:#fff;}
-
-/* ══ OUTBOUND MODAL ══ */
-.outbound-modal{position:fixed;top:0;right:0;width:396px;height:100vh;background:var(--color-bg);border-left:1px solid var(--color-border);z-index:400;transform:translateX(100%);transition:transform 0.3s ease;box-shadow:-4px 0 20px rgba(0,0,0,.12);display:flex;flex-direction:column;}
-.outbound-modal.open{transform:translateX(0);}
-.outbound-header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--color-border);flex-shrink:0;}
-.outbound-header h3{font-size:16px;font-weight:600;color:var(--color-text);margin:0;}
-.close-btn{background:none;border:none;cursor:pointer;color:var(--color-muted);width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:6px;}
-.close-btn:hover{background:var(--color-canvas);}
-.ob-act-btn.wa svg{fill:currentColor;width:16px;height:16px;}
-.ob-search-row{padding:10px 12px 6px;flex-shrink:0;display:flex;align-items:center;gap:10px;}
-.ob-search-wrap{flex:1;display:flex;align-items:center;gap:0;border:1px solid var(--color-border);border-radius:8px;background:var(--color-canvas);overflow:hidden;height:38px;}
-.ob-search-ic{font-size:18px;color:var(--color-muted);padding:0 8px;flex-shrink:0;}
-.ob-search-inp{flex:1;border:none;background:transparent;padding:0 4px;font-size:13px;color:var(--color-text);outline:none;min-width:0;height:100%;}
-.ob-search-inp::placeholder{color:var(--color-muted);}
-.ob-dialpad-tog{border:1px solid var(--color-border);background:var(--color-canvas);border-radius:8px;cursor:pointer;padding:0 12px;color:var(--color-muted);display:flex;align-items:center;justify-content:center;height:38px;min-width:44px;transition:all .15s;flex-shrink:0;}
-.ob-dialpad-tog:hover,.ob-dialpad-tog.active{color:var(--color-primary);background:var(--color-primary-lt);border-color:var(--color-primary);}
-.ob-dialpad-tog .material-icons{font-size:22px;}
-.ob-add-bar{display:none;margin:0 12px 6px;padding:8px 12px;background:var(--color-primary-lt);border-radius:8px;align-items:center;justify-content:space-between;gap:8px;}
-.ob-add-bar.show{display:flex;}
-.ob-add-txt{font-size:12px;color:var(--color-primary);}
-.ob-add-btn{display:flex;align-items:center;gap:4px;padding:5px 10px;background:var(--color-primary);color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;}
-.ob-add-btn .material-icons{font-size:14px;}
-.ob-dialpad{display:none;flex-direction:column;gap:6px;padding:8px 12px 10px;border-bottom:1px solid var(--color-border);flex-shrink:0;}
-.ob-dialpad.show{display:flex;}
-.ob-dialpad-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
-.dial-btn{padding:14px 8px;background:var(--color-canvas);border:1px solid var(--color-border);border-radius:8px;cursor:pointer;font-size:16px;font-weight:600;color:var(--color-text);transition:all .15s;}
-.dial-btn:hover{background:var(--color-primary);color:#fff;border-color:var(--color-primary);}
-.ob-dialpad-foot{display:flex;gap:6px;}
-.backspace-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:9px;background:var(--color-canvas);border:1px solid var(--color-border);border-radius:8px;cursor:pointer;font-size:12px;color:var(--color-text);}
-.backspace-btn:hover{background:var(--color-error);color:#fff;border-color:var(--color-error);}
-.backspace-btn .material-icons{font-size:16px;}
-.ob-contacts{flex:1;overflow-y:auto;}
-.ob-group-hdr{padding:8px 12px 4px;font-size:10px;font-weight:700;color:var(--color-muted);text-transform:uppercase;letter-spacing:.5px;background:var(--color-canvas);position:sticky;top:0;}
-.ob-contact{display:flex;align-items:center;padding:9px 12px;cursor:pointer;transition:background .12s;gap:10px;border-bottom:1px solid var(--color-canvas);}
-.ob-contact:hover{background:var(--color-canvas);}
-.ob-av{width:32px;height:32px;border-radius:50%;background:var(--color-primary-lt);color:var(--color-primary);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.ob-info{flex:1;min-width:0;}
-.ob-name{font-size:13px;font-weight:500;color:var(--color-text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.ob-sub{font-size:11px;color:var(--color-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.ob-actions{display:none;gap:2px;flex-shrink:0;}
-.ob-contact:hover .ob-actions{display:flex;}
-.ob-act-btn{background:none;border:none;cursor:pointer;padding:4px;border-radius:4px;color:var(--color-muted);}
-.ob-act-btn:hover{color:var(--color-primary);background:var(--color-primary-lt);}
-.ob-act-btn .material-icons{font-size:16px;}
-.ob-footer{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--color-border);flex-shrink:0;}
-.ob-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:10px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;transition:all .15s;}
-.ob-btn.primary{background:var(--color-primary);color:#fff;border:none;}
-.ob-btn.primary:hover{opacity:.9;}
-.ob-btn.secondary{background:var(--color-canvas);color:var(--color-text);border:1px solid var(--color-border);}
-.ob-btn.secondary:hover{background:#e8edf3;}
-.ob-btn .material-icons{font-size:16px;}
-.ob-sms-gap{display:none;height:50px;flex-shrink:0;}
-.ob-sms-gap.show{display:block;}
-.ob-sms-composer{display:none;flex:0 0 40%;flex-direction:column;border-top:2px solid var(--color-border);min-height:0;}
-.ob-sms-composer.open{display:flex;}
-.sms-cmp-body{padding:12px 14px 8px;display:flex;flex-direction:column;gap:8px;flex:1;min-height:0;}
-.sms-to-lbl{font-size:13px;font-weight:600;color:var(--color-text);}
-.sms-to-inp{padding:10px 12px;border:1px solid var(--color-border);border-radius:10px;font-size:13px;background:var(--color-canvas);color:var(--color-text);outline:none;font-family:inherit;width:100%;box-sizing:border-box;flex-shrink:0;}
-.sms-to-inp:focus{border-color:var(--color-primary);}
-.sms-msg-inp{padding:12px;border:1px solid var(--color-border);border-radius:10px;font-size:13px;resize:none;background:var(--color-canvas);color:var(--color-text);font-family:inherit;outline:none;flex:1;min-height:0;width:100%;box-sizing:border-box;}
-.sms-msg-inp:focus{border-color:var(--color-primary);}
-.sms-counter{font-size:12px;color:var(--color-muted);text-align:right;flex-shrink:0;}
-.sms-cmp-footer{display:flex;gap:10px;padding:8px 14px 14px;flex-shrink:0;}
-.sms-cancel-btn{flex:1;padding:11px 0;background:var(--color-bg);color:var(--color-text);border:1px solid var(--color-border);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;}
-.sms-cancel-btn:hover{background:var(--color-canvas);}
-.sms-send-btn{flex:1;padding:11px 0;background:#1a50a3;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;}
-.sms-send-btn:hover{opacity:.9;}
-.ob-email-composer,.ob-wa-composer{display:none;flex:0 0 40%;flex-direction:column;border-top:2px solid var(--color-border);min-height:0;}
-.ob-email-composer.open,.ob-wa-composer.open{display:flex;}
-.email-send-btn{flex:1;padding:11px 0;background:#1a50a3;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;}
-.email-send-btn:hover{opacity:.9;}
-.wa-send-btn{flex:1;padding:11px 0;background:#25d366;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;}
-.wa-send-btn:hover{opacity:.9;}
 
 /* ══ VOICEMAIL INBOX — fixed overlay, full viewport below navbar ══ */
 .vm-screen{
@@ -782,103 +684,6 @@ tr:hover .row-ob-icon{opacity:1;}
 
 </div><!-- /page-body -->
 
-<!-- ══ OUTBOUND MODAL ══ -->
-<div class="outbound-modal" id="outboundModal">
-
-  <div class="outbound-header">
-    <h3>Outbound</h3>
-    <button class="close-btn" data-tip="Close" onclick="closeOutbound()"><span class="material-icons" style="font-size:20px">close</span></button>
-  </div>
-
-  <!-- Search + dialpad toggle -->
-  <div class="ob-search-row">
-    <div class="ob-search-wrap">
-      <span class="material-icons ob-search-ic">search</span>
-      <input type="text" id="callSearch" class="ob-search-inp" placeholder="Search or enter number…" oninput="obCallSearch(this.value)">
-    </div>
-    <button class="ob-dialpad-tog" id="dialpadTogBtn" onclick="toggleDialpad()" data-tip="Dialpad">
-      <span class="material-icons">dialpad</span>
-    </button>
-  </div>
-
-  <!-- Add contact bar -->
-  <div class="ob-add-bar" id="addContactBar">
-    <span class="ob-add-txt">Number not found in contacts</span>
-    <button class="ob-add-btn" onclick="addContactFromDialpad()">
-      <span class="material-icons">person_add</span>Add
-    </button>
-  </div>
-
-  <!-- Dialpad -->
-  <div class="ob-dialpad" id="dialpadSection">
-    <div class="ob-dialpad-grid">
-      <button class="dial-btn" onclick="dialpadDigit('1')">1</button>
-      <button class="dial-btn" onclick="dialpadDigit('2')">2</button>
-      <button class="dial-btn" onclick="dialpadDigit('3')">3</button>
-      <button class="dial-btn" onclick="dialpadDigit('4')">4</button>
-      <button class="dial-btn" onclick="dialpadDigit('5')">5</button>
-      <button class="dial-btn" onclick="dialpadDigit('6')">6</button>
-      <button class="dial-btn" onclick="dialpadDigit('7')">7</button>
-      <button class="dial-btn" onclick="dialpadDigit('8')">8</button>
-      <button class="dial-btn" onclick="dialpadDigit('9')">9</button>
-      <button class="dial-btn" onclick="dialpadDigit('*')">*</button>
-      <button class="dial-btn" onclick="dialpadDigit('0')">0</button>
-      <button class="dial-btn" onclick="dialpadDigit('#')">#</button>
-    </div>
-    <div class="ob-dialpad-foot">
-      <button class="backspace-btn" onclick="dialpadBackspace()"><span class="material-icons">backspace</span>Backspace</button>
-    </div>
-  </div>
-
-  <!-- Contact list -->
-  <div class="ob-contacts" id="callContactList"></div>
-
-
-  <!-- SMS COMPOSER -->
-  <div class="ob-sms-gap" id="obSmsGap"></div>
-  <div class="ob-sms-composer" id="obSmsComposer">
-    <div class="sms-cmp-body">
-      <div class="sms-to-lbl">To:</div>
-      <input class="sms-to-inp" id="smsToInp" type="tel" placeholder="Phone number">
-      <textarea class="sms-msg-inp" id="smsMsgInp" placeholder="Type your SMS message…" oninput="smsCount()"></textarea>
-      <div class="sms-counter"><span id="smsCntSpan">0</span>/160</div>
-    </div>
-    <div class="sms-cmp-footer">
-      <button class="sms-cancel-btn" onclick="closeSmsComposer()">Cancel</button>
-      <button class="sms-send-btn" onclick="sendSmsMsg()">Send SMS</button>
-    </div>
-  </div>
-
-  <!-- EMAIL COMPOSER -->
-  <div class="ob-email-composer" id="obEmailComposer">
-    <div class="sms-cmp-body">
-      <div class="sms-to-lbl">To:</div>
-      <input class="sms-to-inp" id="emailToInp" type="email" placeholder="Email address">
-      <input class="sms-to-inp" id="emailSubjInp" type="text" placeholder="Subject">
-      <textarea class="sms-msg-inp" id="emailMsgInp" placeholder="Type your email…"></textarea>
-    </div>
-    <div class="sms-cmp-footer">
-      <button class="sms-cancel-btn" onclick="closeEmailComposer()">Cancel</button>
-      <button class="email-send-btn" onclick="sendEmailMsg()">Send Email</button>
-    </div>
-  </div>
-
-  <!-- WHATSAPP COMPOSER -->
-  <div class="ob-wa-composer" id="obWaComposer">
-    <div class="sms-cmp-body">
-      <div class="sms-to-lbl">To:</div>
-      <input class="sms-to-inp" id="waToInp" type="tel" placeholder="Phone number">
-      <textarea class="sms-msg-inp" id="waMsgInp" placeholder="Type your WhatsApp message…" oninput="waCount()"></textarea>
-      <div class="sms-counter"><span id="waCntSpan">0</span> characters</div>
-    </div>
-    <div class="sms-cmp-footer">
-      <button class="sms-cancel-btn" onclick="closeWaComposer()">Cancel</button>
-      <button class="wa-send-btn" onclick="sendWaMsg()">Send WhatsApp</button>
-    </div>
-  </div>
-
-</div><!-- /outbound-modal -->
-
 <!-- ══ CONTACT CARD — PEEK ══ -->
 <div class="ci-card" id="lccPeek" onmouseenter="cancelHideCard()" onmouseleave="startHideCard()">
   <div class="ci-top">
@@ -1023,36 +828,6 @@ tr:hover .row-ob-icon{opacity:1;}
   </div>
 </div>
 
-<!-- ══ CALL CONTROLLER ══ -->
-<div class="call-ctrl" id="callCtrl">
-  <div class="cc-top">
-    <div class="cc-av" id="ccAv">JT</div>
-    <div class="cc-info">
-      <div class="cc-name" id="ccName">John Tylor</div>
-      <div class="cc-status" id="ccStatus">Calling…</div>
-    </div>
-  </div>
-  <div class="cc-timer" id="ccTimer">00:00</div>
-  <div class="cc-btns">
-    <button class="cc-btn" id="ccMuteBtn" onclick="ccMute()" aria-label="Mute">
-      <div class="cc-ic"><span class="material-icons">mic</span></div>
-      <span class="cc-lbl">Mute</span>
-    </button>
-    <button class="cc-btn" id="ccHoldBtn" onclick="ccHold()" aria-label="Hold">
-      <div class="cc-ic"><span class="material-icons">pause</span></div>
-      <span class="cc-lbl">Hold</span>
-    </button>
-    <button class="cc-btn" aria-label="Keypad">
-      <div class="cc-ic"><span class="material-icons">dialpad</span></div>
-      <span class="cc-lbl">Keypad</span>
-    </button>
-    <button class="cc-btn cc-end" onclick="endCall()" aria-label="End call">
-      <div class="cc-ic"><span class="material-icons">call_end</span></div>
-      <span class="cc-lbl">End</span>
-    </button>
-  </div>
-</div>
-
 <!-- ══ VOICEMAIL INBOX — fixed overlay ══ -->
 <div class="vm-screen" id="vmScreen" role="main" aria-label="Voicemail inbox">
   <div class="vm-top-card">
@@ -1174,14 +949,14 @@ function cv(v){return v?`<span class="cell-val">${esc(v)}</span>`:`<span class="
 function labDots(ls){return ls&&ls.length?`<span class="cust-labels">${ls.map(l=>`<span class="cust-label-dot" style="background:${LABEL_COLORS[l]||'#999'}" data-tip="${esc(l)}"></span>`).join('')}</span>`:'';}
 function mkInitials(name){return name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();}
 
-const _WA_ROW='<svg class="row-wa-ic" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>';
+const _WA_ROW='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>';
 const _WA_CARD='<svg class="ci-wa-ic" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>';
 
 function rowObIcons(r){
   return '<div class="row-ob-icons">'+r.channels.map(ch=>{
-    if(ch==='call') return `<button class="row-ob-icon" data-tip="Call" onclick="startCall('${esc(r.phone)}','${esc(r.name)}')"><span class="material-icons">call</span></button>`;
-    if(ch==='sms')  return `<button class="row-ob-icon" data-tip="SMS" onclick="openSmsComposer('${esc(r.phone)}','${esc(r.name)}')"><span class="material-icons">sms</span></button>`;
-    if(ch==='email')return `<button class="row-ob-icon" data-tip="Email" onclick="openEmailComposer('${esc(r.email)}','${esc(r.name)}')"><span class="material-icons">email</span></button>`;
+    if(ch==='call') return `<button class="row-ob-icon" data-tip="Call" onclick="startCall('${esc(r.phone)}','${esc(r.name)}')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></button>`;
+    if(ch==='sms')  return `<button class="row-ob-icon" data-tip="SMS" onclick="openSmsComposer('${esc(r.phone)}','${esc(r.name)}')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></button>`;
+    if(ch==='email')return `<button class="row-ob-icon" data-tip="Email" onclick="openEmailComposer('${esc(r.email)}','${esc(r.name)}')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></button>`;
     if(ch==='whatsapp') return `<button class="row-ob-icon" data-tip="WhatsApp" onclick="openWaComposer('${esc(r.phone)}','${esc(r.name)}')">${_WA_ROW}</button>`;
     return '';
   }).join('')+'</div>';
@@ -1201,7 +976,7 @@ function renderTable(){
     <td>${cv(r.phone)}</td><td>${cv(r.web)}</td><td>${cv(r.voice)}</td>
     <td>${cv(r.facebook)}</td><td>${cv(r.twitter)}</td><td>${cv(r.telegram)}</td>
     <td>${cv(r.email)}</td><td>${cv(r.linkedin)}</td><td>${cv(r.instagram)}</td>
-    <td class="actions-cell" style="text-align:left;padding:6px 8px;">${rowObIcons(r)}</td>
+    <td class="actions-cell" style="padding:6px 8px;">${rowObIcons(r)}</td>
   </tr>`).join(''):`<tr><td colspan="11" style="text-align:center;padding:48px;color:var(--color-muted);font-size:13px;">No records found</td></tr>`;
   updatePaginator(filtered.length);
 }
@@ -1320,161 +1095,7 @@ document.addEventListener('mouseup',e=>{
 
 renderTable();
 
-// ════ OUTBOUND ════
-const OB_CONTACTS={
-  recent:[
-    {name:'James Carter',    phone:'+1 (415) 882-3041', email:'james.carter@example.com',    channels:['call','sms','whatsapp']},
-    {name:'Emily Turner',    phone:'+1 (310) 445-7823', email:'emily.turner@mail.com',        channels:['call','email']},
-    {name:'Noah Williams',   phone:'+1 (762) 533-5936', email:'noah.williams@corp.com',       channels:['call','sms','email','whatsapp']},
-    {name:'Sophia Bennett',  phone:'+1 (743) 500-3536', email:'sophia.bennett@example.com',   channels:['sms','whatsapp']},
-    {name:'Oliver Hughes',   phone:'+44 20 7946 0012',  email:'oliver.hughes@uk.com',         channels:['call']},
-    {name:'Mia Robinson',    phone:'+1 (555) 012-5000', email:'mia.robinson@email.com',       channels:['call','sms','email']},
-  ],
-  all:[
-    {name:'Ethan Murphy',    phone:'+1 (212) 334-5678', email:'ethan.murphy@corp.com',        channels:['call','sms','email','whatsapp']},
-    {name:'Charlotte Davis', phone:'+1 (617) 290-4412', email:'charlotte.davis@mail.com',     channels:['call','email']},
-    {name:'Liam Anderson',   phone:'+44 20 1234 5678',  email:'liam.anderson@uk.org',         channels:['call','sms']},
-    {name:'Ava Thompson',    phone:'+1 (702) 881-2200', email:'ava.thompson@example.com',     channels:['call','sms','email','whatsapp']},
-    {name:'William Scott',   phone:'+1 (404) 556-9900', email:'william.scott@biz.com',        channels:['call']},
-    {name:'Isabella Martin', phone:'+61 2 9876 5432',   email:'isabella.martin@aus.com',      channels:['sms','email','whatsapp']},
-    {name:'Benjamin Clark',  phone:'+1 (786) 300-1122', email:'ben.clark@example.com',        channels:['call','sms']},
-    {name:'Harper Lewis',    phone:'+1 (303) 770-8899', email:'harper.lewis@mail.com',        channels:['call','sms','email']},
-  ]
-};
-const WA_SVG=`<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
-
-function openOutbound(){document.getElementById('outboundModal').classList.add('open');obRenderContacts('callContactList','');}
-function closeOutbound(){document.getElementById('outboundModal').classList.remove('open');}
-
-function obInitials(name){return name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();}
-function obChannelBtn(ch,phone,email,name){
-  if(ch==='call')    return `<button class="ob-act-btn" data-tip="Call"     onclick="event.stopPropagation();startCall('${phone}','${name}')"><span class="material-icons">call</span></button>`;
-  if(ch==='sms')     return `<button class="ob-act-btn" data-tip="SMS"      onclick="event.stopPropagation();openSmsComposer('${phone}','${name}')"><span class="material-icons">sms</span></button>`;
-  if(ch==='email')   return `<button class="ob-act-btn" data-tip="Email"    onclick="event.stopPropagation();openEmailComposer('${email}','${name}')"><span class="material-icons">email</span></button>`;
-  if(ch==='whatsapp')return `<button class="ob-act-btn wa" data-tip="WhatsApp" onclick="event.stopPropagation();openWaComposer('${phone}','${name}')">${WA_SVG}</button>`;
-  return '';
-}
-function obContactRow(c){
-  const btns=c.channels.map(ch=>obChannelBtn(ch,c.phone,c.email,c.name)).join('');
-  return `<div class="ob-contact" onclick="obSelectCall('${c.phone}','${c.name}')">
-    <div class="ob-av">${obInitials(c.name)}</div>
-    <div class="ob-info"><div class="ob-name">${c.name}</div><div class="ob-sub">${c.phone}</div></div>
-    <div class="ob-actions">${btns}</div>
-  </div>`;
-}
-function obRenderContacts(listId,query){
-  const el=document.getElementById(listId);
-  const q=query.toLowerCase().trim();
-  const filter=list=>q?list.filter(c=>c.name.toLowerCase().includes(q)||c.phone.includes(q)):list;
-  const recent=filter(OB_CONTACTS.recent),all=filter(OB_CONTACTS.all);
-  if(!recent.length&&!all.length){el.innerHTML='<div style="padding:16px 12px;font-size:13px;color:var(--color-muted);text-align:center;">No contacts found</div>';return;}
-  let html='';
-  if(recent.length)html+=`<div class="ob-group-hdr">Recent Contacts</div>`+recent.map(obContactRow).join('');
-  if(all.length)html+=`<div class="ob-group-hdr">All Contacts</div>`+all.map(obContactRow).join('');
-  el.innerHTML=html;
-}
-let dialpadVisible=false;
-function toggleDialpad(){
-  dialpadVisible=!dialpadVisible;
-  document.getElementById('dialpadSection').classList.toggle('show',dialpadVisible);
-  document.getElementById('dialpadTogBtn').classList.toggle('active',dialpadVisible);
-}
-function dialpadDigit(d){const inp=document.getElementById('callSearch');inp.value+=d;obCallSearch(inp.value);}
-function dialpadBackspace(){const inp=document.getElementById('callSearch');inp.value=inp.value.slice(0,-1);obCallSearch(inp.value);}
-function obCallSearch(val){
-  obRenderContacts('callContactList',val);
-  const allContacts=[...OB_CONTACTS.recent,...OB_CONTACTS.all];
-  const isNumber=/[\d\+\(\)\-\s]{4,}/.test(val.trim());
-  const found=val.trim()&&allContacts.some(c=>c.phone.replace(/\D/g,'').includes(val.replace(/\D/g,'')));
-  document.getElementById('addContactBar').classList.toggle('show',isNumber&&!found&&val.trim().length>3);
-}
-function obCallClear(){document.getElementById('callSearch').value='';obCallSearch('');document.getElementById('addContactBar').classList.remove('show');}
-function obSelectCall(phone,name){document.getElementById('callSearch').value=phone;obCallSearch(phone);}
-function initiateCall(){const p=document.getElementById('callSearch').value.trim();if(p)startCall(p,p);else alert('Enter or select a number');}
-function addContactFromDialpad(){const p=document.getElementById('callSearch').value.trim();if(p)alert('Add contact: '+p);else alert('Enter a number first');}
-
-function _closeAllComposers(){
-  ['obSmsComposer','obEmailComposer','obWaComposer'].forEach(id=>document.getElementById(id).classList.remove('open'));
-  document.getElementById('obSmsGap').classList.remove('show');
-}
-function _openComposer(id,focusId){
-  _closeAllComposers();
-  document.getElementById('obSmsGap').classList.add('show');
-  document.getElementById(id).classList.add('open');
-  setTimeout(()=>document.getElementById(focusId).focus(),50);
-}
-function openSmsComposer(phone,name){
-  if(!document.getElementById('outboundModal').classList.contains('open'))openOutbound();
-  document.getElementById('smsToInp').value=phone||'';
-  document.getElementById('smsMsgInp').value='';
-  document.getElementById('smsCntSpan').textContent='0';
-  _openComposer('obSmsComposer','smsMsgInp');
-}
-function closeSmsComposer(){_closeAllComposers();}
-function openEmailComposer(email,name){
-  if(!document.getElementById('outboundModal').classList.contains('open'))openOutbound();
-  document.getElementById('emailToInp').value=email||'';
-  document.getElementById('emailSubjInp').value='';
-  document.getElementById('emailMsgInp').value='';
-  _openComposer('obEmailComposer','emailSubjInp');
-}
-function closeEmailComposer(){_closeAllComposers();}
-function openWaComposer(phone,name){
-  if(!document.getElementById('outboundModal').classList.contains('open'))openOutbound();
-  document.getElementById('waToInp').value=phone||'';
-  document.getElementById('waMsgInp').value='';
-  document.getElementById('waCntSpan').textContent='0';
-  _openComposer('obWaComposer','waMsgInp');
-}
-function closeWaComposer(){_closeAllComposers();}
-function smsCount(){document.getElementById('smsCntSpan').textContent=document.getElementById('smsMsgInp').value.length;}
-function waCount(){document.getElementById('waCntSpan').textContent=document.getElementById('waMsgInp').value.length;}
-function sendSmsMsg(){const to=document.getElementById('smsToInp').value,msg=document.getElementById('smsMsgInp').value;if(to&&msg)alert('SMS sent to '+to);else alert('Fill in recipient and message');}
-function sendEmailMsg(){const to=document.getElementById('emailToInp').value,sub=document.getElementById('emailSubjInp').value,msg=document.getElementById('emailMsgInp').value;if(to&&sub&&msg)alert('Email sent to '+to);else alert('Fill in all fields');}
-function sendWaMsg(){const to=document.getElementById('waToInp').value,msg=document.getElementById('waMsgInp').value;if(to&&msg)alert('WhatsApp sent to '+to);else alert('Fill in recipient and message');}
-
-// ════ CALL CONTROLLER ════
-let _ccTimer=null,_ccSec=0,_ccMuted=false,_ccHeld=false;
-function startCall(phone,name){
-  closeOutbound();
-  const ctrl=document.getElementById('callCtrl');
-  document.getElementById('ccAv').textContent=obInitials(name&&name!==phone?name:phone);
-  document.getElementById('ccName').textContent=name&&name!==phone?name:phone;
-  document.getElementById('ccStatus').textContent='Connecting…';
-  document.getElementById('ccTimer').textContent='00:00';
-  _ccMuted=false;_ccHeld=false;_ccSec=0;
-  document.getElementById('ccMuteBtn').classList.remove('cc-on');
-  document.getElementById('ccMuteBtn').querySelector('.material-icons').textContent='mic';
-  document.getElementById('ccHoldBtn').classList.remove('cc-on');
-  clearInterval(_ccTimer);
-  ctrl.classList.add('active');
-  setTimeout(()=>{
-    document.getElementById('ccStatus').textContent='Connected';
-    _ccTimer=setInterval(()=>{
-      _ccSec++;
-      const m=String(Math.floor(_ccSec/60)).padStart(2,'0'),s=String(_ccSec%60).padStart(2,'0');
-      document.getElementById('ccTimer').textContent=m+':'+s;
-    },1000);
-  },1400);
-}
-function endCall(){clearInterval(_ccTimer);document.getElementById('callCtrl').classList.remove('active');}
-function ccMute(){
-  _ccMuted=!_ccMuted;
-  const btn=document.getElementById('ccMuteBtn');
-  btn.classList.toggle('cc-on',_ccMuted);
-  btn.querySelector('.material-icons').textContent=_ccMuted?'mic_off':'mic';
-}
-function ccHold(){
-  _ccHeld=!_ccHeld;
-  const btn=document.getElementById('ccHoldBtn');
-  btn.classList.toggle('cc-on',_ccHeld);
-  btn.querySelector('.material-icons').textContent=_ccHeld?'play_arrow':'pause';
-  document.getElementById('ccStatus').textContent=_ccHeld?'On Hold':'Connected';
-  if(_ccHeld)clearInterval(_ccTimer);
-  else{_ccTimer=setInterval(()=>{_ccSec++;const m=String(Math.floor(_ccSec/60)).padStart(2,'0'),s=String(_ccSec%60).padStart(2,'0');document.getElementById('ccTimer').textContent=m+':'+s;},1000);}
-}
-
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeOutbound();closeEditCustomer();}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(typeof closeOutbound==='function')closeOutbound();if(typeof closeEditCustomer==='function')closeEditCustomer();}});
 
 // ════ CONTACT CARD ════
 function _ciSetTips(card){card.querySelectorAll('.ci-val').forEach(function(el){if(el.scrollWidth>el.clientWidth)el.setAttribute('data-tip',el.textContent.trim());else el.removeAttribute('data-tip');});}
@@ -1503,9 +1124,9 @@ function showContactCard(event,id){
   document.getElementById('lcc-email').textContent=r.email||'—';
   document.getElementById('lcc-dots').innerHTML=(r.labels||[]).map(l=>`<span class="ci-dot" style="background:${LABEL_COLORS[l]||'#999'}"></span>`).join('');
   document.getElementById('lcc-chs').innerHTML=r.channels.map(ch=>{
-    if(ch==='call')     return `<button class="ci-ch" data-tip="Call" onclick="startCall('${esc(r.phone)}','${esc(r.name)}')"><span class="material-icons">call</span></button>`;
-    if(ch==='sms')      return `<button class="ci-ch" data-tip="SMS" onclick="openSmsComposer('${esc(r.phone)}','${esc(r.name)}')"><span class="material-icons">sms</span></button>`;
-    if(ch==='email')    return `<button class="ci-ch" data-tip="Email" onclick="openEmailComposer('${esc(r.email)}','${esc(r.name)}')"><span class="material-icons">email</span></button>`;
+    if(ch==='call')     return `<button class="ci-ch" data-tip="Call" onclick="startCall('${esc(r.phone)}','${esc(r.name)}')"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.11 19.79 19.79 0 01.78.5 2 2 0 012.78 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.14 6.14l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></button>`;
+    if(ch==='sms')      return `<button class="ci-ch" data-tip="SMS" onclick="openSmsComposer('${esc(r.phone)}','${esc(r.name)}')"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></button>`;
+    if(ch==='email')    return `<button class="ci-ch" data-tip="Email" onclick="openEmailComposer('${esc(r.email)}','${esc(r.name)}')"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></button>`;
     if(ch==='whatsapp') return `<button class="ci-ch" data-tip="WhatsApp" onclick="openWaComposer('${esc(r.phone)}','${esc(r.name)}')">${_WA_CARD}</button>`;
     return '';
   }).join('');

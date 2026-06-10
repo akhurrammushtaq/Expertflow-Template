@@ -91,7 +91,13 @@ a{text-decoration:none;color:inherit;}
 .nav-btn.active span[style*="color:#1a50a3"]{color:#fff!important;}
 .nav-badge{position:absolute;top:-1px;right:-1px;min-width:14px;height:14px;border-radius:7px;background:var(--color-error);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 3px;border:1.5px solid var(--color-bg);}
 .state-pill{display:inline-flex;align-items:center;gap:6px;border:1.5px solid #d8dde6;border-radius:9999px;padding:5px 12px 5px 8px;height:32px;font-size:14px;color:var(--color-text);background:var(--color-bg);flex-shrink:0;cursor:pointer;margin-left:4px;white-space:nowrap;}
-.state-check{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;}
+.state-check{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;background:transparent!important;}
+.sp-pulse{position:relative;width:18px;height:18px;flex-shrink:0;}
+.sp-dot{position:absolute;inset:50%;transform:translate(-50%,-50%);width:8px;height:8px;border-radius:50%;background:var(--sp-c,#26c98c);}
+.sp-ring{position:absolute;inset:50%;transform:translate(-50%,-50%);border-radius:50%;border:1.5px solid var(--sp-c,#26c98c);opacity:0;animation:spPulse 2s ease-out infinite;}
+.sp-ring:nth-child(2){animation-delay:.65s;}
+.sp-ring:nth-child(3){animation-delay:1.3s;}
+@keyframes spPulse{0%{width:8px;height:8px;opacity:.65;}100%{width:26px;height:26px;opacity:0;}}
 .state-dot{width:9px;height:9px;border-radius:50%;background:var(--color-success);position:relative;z-index:1;flex-shrink:0;}
 @keyframes ripple{0%{transform:scale(1);opacity:.6}100%{transform:scale(2.8);opacity:0}}
 .state-dot::before,.state-dot::after{content:'';position:absolute;inset:0;border-radius:50%;background:var(--color-success);animation:ripple 2s ease-out infinite;}
@@ -224,30 +230,66 @@ a{text-decoration:none;color:inherit;}
 .ch-info{flex:1;min-width:0;overflow:hidden;}
 .ch-name{font-size:14px;font-weight:500;color:var(--color-text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .ch-status{font-size:11px;color:var(--color-success);}
-.toolbar{display:flex;align-items:center;gap:6px;flex-shrink:0;position:relative;}
+.toolbar{display:flex;align-items:center;gap:10px;flex-shrink:0;position:relative;}
 .tb{width:34px;height:34px;min-width:34px;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;transition:background .2s;background:transparent;border:none;padding:0;border-radius:50%;position:relative;}
 #tb-tooltip{position:fixed;background:#2c2c2c;color:#fff;font-size:11px;font-weight:500;padding:4px 9px;border-radius:5px;white-space:nowrap;pointer-events:none;z-index:9999;opacity:0;transition:opacity .15s;top:0;left:0;}
-.tb .material-icons{font-size:22px;color:#555555;transition:color .2s,transform .2s;}
+.tb svg{fill:#555555;width:24px;height:24px;flex-shrink:0;transition:fill .2s,transform .2s;}
 .tb .tb-wa-ic{width:20px;height:20px;fill:#555555;flex-shrink:0;transition:fill .2s,transform .2s;}
 .tb.act{background:#555555;}
-.tb.act .material-icons{color:#fff;}
-.tb.act .tb-wa-ic{fill:#fff;}
-/* Channel group (Call, SMS, WhatsApp, Email) — outline on hover, icons zoom out */
+.tb.act svg{fill:#fff;width:20px;height:20px;}
+.tb.act .tb-wa-ic{fill:#fff;width:20px;height:20px;}
+/* Channel group — outline on hover */
 .tb-ch-grp{display:flex;align-items:center;gap:2px;padding:3px;border-radius:28px;border:1.5px solid transparent;transition:border-color .2s;}
 .tb-ch-grp:hover{border-color:#d0d0d0;}
-.tb-ch-grp .tb:hover .material-icons{color:#222;transform:scale(1.18);}
-.tb-ch-grp .tb:hover .tb-wa-ic{fill:#222;transform:scale(1.18);}
-/* Action buttons (Chat, Pause, Exit, More) — keep individual hover bg */
+.tb-ch-grp .tb:hover svg{fill:#222;}
+.tb-ch-grp .tb:hover .tb-wa-ic{fill:#222;}
+/* Action buttons */
 .tb-act-grp .tb:hover{background:var(--color-canvas);}
-.tb-act-grp .tb:hover .material-icons{color:#222;transform:scale(1.18);}
-.tb-div{width:1px;height:20px;background:var(--color-border);margin:0 4px;flex-shrink:0;}
+.tb-act-grp .tb:hover svg{fill:#222;}
+.tb.tb-danger svg{fill:var(--color-error);}
+.tb.tb-danger:hover svg{fill:#e05555;}
+.tb-div{width:1px;height:20px;background:#b0b8c8;margin:0 2px;flex-shrink:0;}
 .more-menu{position:absolute;top:48px;right:0;background:var(--color-bg);border:1px solid var(--color-border);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.12);z-index:100;min-width:220px;display:none;flex-direction:column;overflow:hidden;}
 .more-menu.open{display:flex;}
 .menu-item{display:flex;align-items:center;gap:12px;padding:10px 16px;color:var(--color-text);cursor:pointer;font-size:14px;border-bottom:1px solid var(--color-canvas);transition:background 0.2s ease;}
 .menu-item:last-child{border-bottom:none;}
 .menu-item:hover{background:var(--color-canvas);}
-.menu-item .material-icons{font-size:18px;color:var(--color-muted);flex-shrink:0;}
+.menu-item svg{width:18px;height:18px;fill:var(--color-muted);flex-shrink:0;}
 .menu-item .tb-wa-ic{width:18px;height:18px;fill:var(--color-muted);flex-shrink:0;}
+/* Channel switch dropdown */
+.ch-chip{display:inline-flex;align-items:center;gap:4px;background:var(--color-bg);border:1px solid #dfdfdf;border-radius:9999px;padding:3px 8px;font-size:11px;color:var(--color-medium);cursor:pointer;position:relative;user-select:none;}
+.ch-chip:hover{border-color:var(--color-primary);color:var(--color-primary);}
+.ch-chip-dot{width:11px;height:11px;border-radius:2px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ch-dd{position:absolute;bottom:calc(100% + 8px);left:0;background:var(--color-bg);border:1px solid var(--color-border);border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.14);min-width:178px;z-index:300;display:none;flex-direction:column;overflow:hidden;padding:4px 0;}
+.ch-dd.open{display:flex;animation:ddSlide .12s ease;}
+.ch-dd-hdr{padding:7px 12px 4px;font-size:10px;font-weight:700;color:var(--color-muted);text-transform:uppercase;letter-spacing:.5px;}
+.ch-dd-item{display:flex;align-items:center;gap:9px;padding:9px 12px;cursor:pointer;font-size:13px;color:var(--color-text);transition:background .1s;border:none;background:none;width:100%;text-align:left;font-family:inherit;}
+.ch-dd-item:hover{background:var(--color-canvas);}
+.ch-dd-item.active{background:var(--color-primary-lt);}
+.ch-dd-dot{width:11px;height:11px;border-radius:2px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.ch-dd-lbl{flex:1;font-size:13px;}
+.ch-dd-check{color:var(--color-primary);display:flex;align-items:center;margin-left:auto;}
+/* Email compose panel */
+.email-compose{display:none;border:1px solid var(--color-border-i);border-radius:6px;overflow:hidden;margin-bottom:4px;}
+.email-compose.visible{display:flex;flex-direction:column;}
+.ec-row{display:flex;align-items:flex-start;padding:5px 10px;border-bottom:1px solid var(--color-border);gap:8px;min-height:30px;}
+.ec-lbl{font-size:11px;font-weight:500;color:#9a9a9a;padding-top:5px;min-width:44px;flex-shrink:0;}
+.ec-field{display:flex;flex-wrap:wrap;align-items:center;gap:4px;flex:1;min-width:0;padding-top:3px;}
+.ec-chip{display:inline-flex;align-items:center;gap:3px;background:var(--color-canvas);border:1px solid var(--color-border);border-radius:9999px;padding:1px 4px 1px 8px;font-size:12px;color:var(--color-text-body);}
+.ec-chip-rm{border:none;background:none;padding:0;width:14px;height:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#9a9a9a;font-size:14px;line-height:1;font-family:inherit;}
+.ec-chip-rm:hover{color:var(--color-error);}
+.ec-addr{border:none;outline:none;font-size:13px;color:var(--color-text-body);font-family:Roboto,sans-serif;background:transparent;min-width:80px;height:22px;}
+.ec-addr::placeholder{color:var(--color-ph);}
+.ec-cc-bcc{display:flex;gap:4px;padding-top:5px;flex-shrink:0;}
+.ec-cc-btn{font-size:11px;font-weight:600;color:#9a9a9a;border:none;background:none;cursor:pointer;padding:1px 5px;font-family:Roboto,sans-serif;border-radius:3px;}
+.ec-cc-btn:hover{color:var(--color-primary);background:var(--color-primary-lt);}
+.ec-cc-btn.on{color:var(--color-primary);}
+.ec-subj-inp{border:none;outline:none;font-size:13px;color:var(--color-text-body);font-family:Roboto,sans-serif;background:transparent;flex:1;min-width:0;height:22px;padding-top:3px;}
+.ec-subj-inp::placeholder{color:var(--color-ph);}
+.ec-body-wrap{padding:6px 10px;}
+.ec-body{width:100%;border:none;outline:none;font-size:14px;color:var(--color-body);font-family:Roboto,sans-serif;resize:none;min-height:56px;max-height:110px;background:transparent;line-height:1.4;box-sizing:border-box;}
+.ec-body::placeholder{color:var(--color-ph);}
+.ec-foot{display:flex;align-items:center;justify-content:space-between;padding:4px 8px;border-top:1px solid var(--color-border);}
 
 /* Quick action buttons (next to customer name) */
 .qa-toolbar{display:flex;align-items:center;gap:8px;margin-left:12px;position:relative;}
@@ -594,7 +636,7 @@ a{text-decoration:none;color:inherit;}
 /* Customer info card */
 .ci-card{opacity:0;pointer-events:none;transform:translateY(-6px);transition:opacity .18s ease,transform .18s ease;position:fixed;z-index:200;background:#fff;border-radius:10px;box-shadow:var(--shadow-card);padding:14px;}
 .ci-card.visible{opacity:1;pointer-events:all;transform:translateY(0);}
-#ciPeek{width:280px;}
+#ciPeek{width:260px;}
 #ciExpanded{width:300px;max-height:calc(100vh - 160px);overflow-y:auto;}
 .ci-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
 .ci-av{width:42px;height:42px;border-radius:50%;border:2px solid var(--color-success);background:#f5f6f9;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--color-primary);flex-shrink:0;}
@@ -608,12 +650,16 @@ a{text-decoration:none;color:inherit;}
 .ci-div{height:1px;background:var(--color-border);margin:10px 0;}
 .ci-chs{display:flex;align-items:center;justify-content:center;gap:10px;padding:4px 0;}
 .ci-ch{width:36px;height:36px;border-radius:50%;border:1px solid var(--color-border);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.ci-ch svg{width:17px;height:17px;fill:#555;transition:fill .15s;}
+.ci-ch:hover svg{fill:var(--color-primary);}
+.ci-ch .ci-wa-ic{fill:#555;}
+.ci-ch:hover .ci-wa-ic{fill:#25D366;}
 .ci-ch:hover{background:var(--color-canvas);}
 .ci-rows{display:flex;flex-direction:column;gap:10px;margin:4px 0;}
 .ci-row{display:flex;gap:16px;}
 .ci-f{flex:1;min-width:0;}
 .ci-lbl{font-size:11px;color:#9a9a9a;margin-bottom:2px;}
-.ci-val{font-size:13px;font-weight:500;color:var(--color-body);}
+.ci-val{font-size:13px;font-weight:500;color:var(--color-body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .ci-view{display:flex;align-items:center;justify-content:center;gap:4px;width:100%;padding:8px 0 2px;font-size:12px;color:var(--color-muted);background:none;border:none;cursor:pointer;}
 .ci-view:hover{color:var(--color-primary);}
 .ci-sec-ttl{font-size:13px;font-weight:500;color:var(--color-text);margin-bottom:8px;}
@@ -737,14 +783,67 @@ a{text-decoration:none;color:inherit;}
 .cust-name-wrap{display:flex;align-items:center;gap:5px;min-width:0;overflow:hidden;}
 .cust-labels{display:inline-flex;gap:4px;flex-shrink:0;}
 .cust-label-dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0;}
-.row-ob-icons{display:flex;align-items:center;gap:2px;}
-.row-ob-icon{width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;border:none;background:none;cursor:pointer;transition:all .15s;opacity:0;}
+.row-ob-icons{display:inline-flex;align-items:center;gap:2px;}
+.row-ob-icon{width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;border-radius:4px;border:none;background:none;color:var(--color-muted);cursor:pointer;transition:color .15s,background .15s;opacity:0;flex-shrink:0;padding:0;}
 tr:hover .row-ob-icon{opacity:1;}
-.row-ob-icon:hover{background:var(--color-primary-lt);}
-.row-ob-icon .material-icons{font-size:15px;color:var(--color-medium);}
-.row-ob-icon:hover .material-icons{color:var(--color-primary);}
-.row-wa-ic{width:15px;height:15px;fill:var(--color-medium);}
-.row-ob-icon:hover .row-wa-ic{fill:var(--color-primary);}
+.row-ob-icon:hover{background:var(--color-primary-lt);color:var(--color-primary);}
+.row-ob-icon svg{fill:currentColor;width:16px;height:16px;}
+
+/* ══ WRAP-UP ══ */
+.wu-backdrop{display:none;position:fixed;inset:0;z-index:98;background:rgba(0,0,0,0.25);}
+.wu-backdrop.open{display:block;}
+.wu-overlay{position:fixed;top:50px;right:0;width:380px;height:calc(100vh - 50px);z-index:99;background:#fff;
+  border-left:1px solid var(--color-border);display:flex;flex-direction:column;
+  transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);}
+.wu-overlay.open{transform:translateX(0);}
+.wu-hdr{display:flex;align-items:center;padding:0 14px;height:48px;border-bottom:1px solid var(--color-border);flex-shrink:0;gap:8px;}
+.wu-title{font-size:15px;font-weight:600;color:var(--color-text);flex:1;}
+.wu-timer-wrap{display:flex;align-items:center;gap:6px;background:#fff7ed;border:1px solid #fdb635;border-radius:9999px;padding:3px 10px;}
+.wu-timer-dot{width:7px;height:7px;border-radius:50%;background:#fdb635;animation:wu-pulse 1.2s ease-in-out infinite;}
+@keyframes wu-pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.wu-timer-lbl{font-size:12px;font-weight:600;color:#92620a;font-variant-numeric:tabular-nums;}
+.wu-close{width:28px;height:28px;border:none;background:none;cursor:pointer;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#555;flex-shrink:0;}
+.wu-close:hover{background:var(--color-canvas);}
+.wu-body{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:14px;}
+.wu-summary-card{background:var(--color-canvas);border:1px solid var(--color-border);border-radius:6px;padding:10px 12px;display:flex;align-items:center;gap:10px;}
+.wu-cust-av{width:36px;height:36px;border-radius:50%;background:var(--color-primary-light);color:var(--color-primary);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;}
+.wu-cust-info{flex:1;min-width:0;}
+.wu-cust-name{font-size:13px;font-weight:500;color:var(--color-text);}
+.wu-cust-meta{font-size:12px;color:var(--color-text-muted);margin-top:1px;display:flex;align-items:center;gap:5px;}
+.wu-dur{font-size:12px;font-weight:600;color:var(--color-primary);margin-left:auto;flex-shrink:0;}
+.wu-ai-card{background:#fffbf0;border:1px solid #fde68a;border-radius:6px;padding:10px 12px;display:flex;flex-direction:column;gap:8px;}
+.wu-ai-hdr{display:flex;align-items:center;gap:6px;}
+.wu-ai-badge{display:flex;align-items:center;gap:4px;background:#fdb635;color:#fff;border-radius:4px;padding:2px 7px;font-size:11px;font-weight:700;}
+.wu-ai-edit{margin-left:auto;font-size:12px;color:var(--color-text-link);cursor:pointer;background:none;border:none;padding:0;}
+.wu-ai-text{font-size:13px;color:#3d2f00;line-height:1.5;width:100%;box-sizing:border-box;border:1px solid transparent;border-radius:4px;background:transparent;font-family:inherit;resize:none;outline:none;padding:2px 4px;min-height:72px;}
+.wu-ai-text:focus{border-color:#fdb635;background:#fff;padding:4px 6px;}
+.wu-section{display:flex;flex-direction:column;gap:6px;}
+.wu-label{font-size:11px;font-weight:600;color:#9a9a9a;text-transform:uppercase;letter-spacing:.4px;}
+.wu-label span{color:var(--color-error);margin-left:2px;}
+.wu-disp-search{display:flex;align-items:center;gap:8px;border:1px solid var(--color-border-input);border-radius:6px;padding:7px 10px;background:#fff;}
+.wu-disp-search input{flex:1;border:none;outline:none;font-size:13px;color:var(--color-text);background:transparent;}
+.wu-disp-search input::placeholder{color:var(--color-text-ph);}
+.wu-disp-list{display:flex;flex-direction:column;gap:3px;max-height:180px;overflow-y:auto;}
+.wu-disp-group{font-size:11px;font-weight:700;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.5px;padding:5px 4px 2px;}
+.wu-disp-opt{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--color-border);border-radius:6px;cursor:pointer;font-size:13px;color:var(--color-text);background:#fff;transition:border-color .15s,background .15s;}
+.wu-disp-opt:hover{border-color:var(--color-primary);background:var(--color-primary-light);}
+.wu-disp-opt.selected{border-color:var(--color-primary);background:var(--color-primary-light);font-weight:500;}
+.wu-disp-opt .wu-disp-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.wu-disp-check{margin-left:auto;color:var(--color-primary);display:none;}
+.wu-disp-opt.selected .wu-disp-check{display:flex;}
+.wu-notes{width:100%;box-sizing:border-box;border:1px solid var(--color-border-input);border-radius:6px;padding:8px 10px;font-size:13px;color:var(--color-text);font-family:inherit;resize:vertical;min-height:72px;outline:none;background:#fff;}
+.wu-notes:focus{border-color:var(--color-primary);box-shadow:var(--shadow-focus);}
+.wu-notes::placeholder{color:var(--color-text-ph);}
+.wu-tags-row{display:flex;flex-wrap:wrap;gap:5px;}
+.wu-tag{display:inline-flex;align-items:center;padding:3px 10px;border:1px solid var(--color-border);border-radius:9999px;font-size:12px;color:var(--color-text-medium);background:#fff;cursor:pointer;transition:all .15s;}
+.wu-tag:hover{border-color:var(--color-primary);color:var(--color-primary);}
+.wu-tag.selected{background:var(--color-primary-light);border-color:var(--color-primary);color:var(--color-primary);font-weight:500;}
+.wu-footer{display:flex;align-items:center;gap:8px;padding:10px 14px;border-top:1px solid var(--color-border);flex-shrink:0;}
+.wu-skip{background:#fff;border:1px solid var(--color-border);border-radius:4px;padding:0 14px;height:32px;font-size:13px;color:var(--color-text-medium);cursor:pointer;}
+.wu-skip:hover{border-color:var(--color-border-input);color:var(--color-text);}
+.wu-complete{background:var(--color-primary);color:#fff;border:none;border-radius:4px;padding:0 16px;height:32px;font-size:13px;font-weight:500;cursor:pointer;opacity:.45;pointer-events:none;transition:opacity .15s;margin-left:auto;}
+.wu-complete.enabled{opacity:1;pointer-events:all;}
+.wu-complete.enabled:hover{background:var(--color-primary-hover);}
 
 /* Dark overrides */
 .dark .navbar,.dark .left,.dark .center,.dark .right{background:var(--color-bg);}
@@ -982,7 +1081,7 @@ tr:hover .row-ob-icon{opacity:1;}
 .row-action{width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;border:none;background:none;color:var(--color-medium);cursor:pointer;transition:all 0.15s;opacity:0;}
 tr:hover .row-action{opacity:1;}
 .row-action:hover{background:var(--color-primary-lt);color:var(--color-primary);}
-.actions-cell{text-align:center;white-space:nowrap;}
+.actions-cell{text-align:right;white-space:nowrap;}
 /* paginator */
 .paginator{display:flex;align-items:center;gap:6px;padding:10px 16px;border-top:1px solid var(--color-border);background:var(--color-bg);flex-shrink:0;}
 .pag-info{font-size:12px;color:var(--color-muted);flex-shrink:0;}
@@ -1121,11 +1220,11 @@ tr:hover .row-action{opacity:1;}
       <span class="material-icons">forum</span>
       <span class="snav-label">Conversations</span>
     </div>
-    <div class="snav-item" onclick="snavNav(this,openOutbound)">
+    <div class="snav-item" id="snavOutbound" onclick="snavNav(this,openOutbound)">
       <span class="material-icons">call_made</span>
       <span class="snav-label">Outbound</span>
     </div>
-    <div class="snav-item" onclick="snavNav(this,callCustomer)">
+    <div class="snav-item" id="snavCall" onclick="snavNav(this,callCustomer)">
       <span class="material-icons">call</span>
       <span class="snav-label">Call</span>
     </div>
@@ -1133,7 +1232,7 @@ tr:hover .row-action{opacity:1;}
       <span class="material-icons">contacts</span>
       <span class="snav-label">Contacts</span>
     </div>
-    <div class="snav-item" onclick="snavNav(this,null)">
+    <div class="snav-item" id="snavQuickLinks" onclick="snavNav(this,null)">
       <span class="material-icons">bookmarks</span>
       <span class="snav-label">Quick Links</span>
     </div>
@@ -1143,7 +1242,7 @@ tr:hover .row-action{opacity:1;}
       <span class="snav-dot"></span>
       <span class="snav-badge">3</span>
     </div>
-    <div class="snav-item" onclick="snavNav(this,openTickets)" style="position:relative">
+    <div class="snav-item" id="snavTickets" onclick="snavNav(this,openTickets)" style="position:relative">
       <span class="material-icons">confirmation_number</span>
       <span class="snav-label">Tickets</span>
       <span class="snav-dot orange"></span>
@@ -1177,8 +1276,15 @@ tr:hover .row-action{opacity:1;}
   </button>
   <!-- State pill -->
   <div class="state-pill" role="button" aria-label="Ready" onclick="toggleStateDD(event)">
-    <div class="state-check"><div class="state-dot"></div></div>
-    <span>Ready</span>
+    <div class="state-check">
+      <span class="sp-pulse">
+        <span class="sp-ring"></span>
+        <span class="sp-ring"></span>
+        <span class="sp-ring"></span>
+        <span class="sp-dot"></span>
+      </span>
+    </div>
+    <span class="state-name">Ready</span>
     <span style="font-variant-numeric:tabular-nums;">00:03:46</span>
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#9CA3AF" stroke-width="2"/></svg>
   </div>
@@ -1196,25 +1302,25 @@ tr:hover .row-action{opacity:1;}
   <div class="center">
     <!-- ── CONVERSATION TABS ── -->
     <div class="conv-tabs" id="convTabs">
-      <div class="conv-tab active" onclick="switchConvTab(this)">
+      <div class="conv-tab active" onclick="switchConvTab(this)" data-contact="jt">
         <div class="conv-tab-av" style="background:#26c98c;">JT</div>
         <span class="conv-tab-name">John Tylor</span>
         <span class="conv-tab-badge grey">3</span>
         <button class="conv-tab-close" onclick="event.stopPropagation()">&#215;</button>
       </div>
-      <div class="conv-tab" onclick="switchConvTab(this)">
+      <div class="conv-tab" onclick="switchConvTab(this)" data-contact="rk">
         <div class="conv-tab-av" style="background:#fdb635;">RK</div>
         <span class="conv-tab-name">Rob Kelsey</span>
         <span class="conv-tab-badge grey">1</span>
         <button class="conv-tab-close" onclick="event.stopPropagation()">&#215;</button>
       </div>
-      <div class="conv-tab" onclick="switchConvTab(this)">
+      <div class="conv-tab" onclick="switchConvTab(this)" data-contact="aj">
         <div class="conv-tab-av" style="background:#ff6767;">AJ</div>
         <span class="conv-tab-name">Adeel Javed</span>
         <span class="conv-tab-badge red">7</span>
         <button class="conv-tab-close" onclick="event.stopPropagation()">&#215;</button>
       </div>
-      <div class="conv-tab" onclick="switchConvTab(this)">
+      <div class="conv-tab" onclick="switchConvTab(this)" data-contact="tb">
         <div class="conv-tab-av" style="background:#fdb635;"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg></div>
         <span class="conv-tab-name">Tash Barley</span>
         <button class="conv-tab-close" onclick="event.stopPropagation()">&#215;</button>
@@ -1231,31 +1337,88 @@ tr:hover .row-action{opacity:1;}
       <div class="toolbar" role="toolbar">
         <!-- Left side: Communication channels — group outline on hover -->
         <div class="tb-ch-grp">
-          <button class="tb" data-tip="Call" aria-label="Call" onclick="callCustomer()"><span class="material-icons">call</span></button>
-          <button class="tb" data-tip="SMS" aria-label="SMS" onclick="sendMessage()"><span class="material-icons">sms</span></button>
-          <button class="tb" data-tip="WhatsApp" aria-label="WhatsApp" onclick="sendWhatsapp()"><svg class="tb-wa-ic" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
-          <button class="tb" data-tip="Email" aria-label="Email" onclick="sendEmail()"><span class="material-icons">email</span></button>
+          <button class="tb" data-tip="Call" aria-label="Call" onclick="callCustomer()"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></button>
         </div>
         <!-- Separator -->
         <div class="tb-div"></div>
         <!-- Right side: Actions -->
-        <div class="tb-act-grp" style="display:flex;align-items:center;gap:2px;">
-          <button class="tb act" data-tip="Chat" aria-label="Chat"><span class="material-icons">chat</span></button>
-          <button class="tb" data-tip="Pause" aria-label="Pause"><span class="material-icons">pause_circle_outline</span></button>
-          <button class="tb" data-tip="End Call" aria-label="Exit"><span class="material-icons">call_end</span></button>
-          <button class="tb" data-tip="More" aria-label="More options" id="moreBtn" onclick="toggleMoreMenu()"><span class="material-icons">more_horiz</span></button>
+        <div class="tb-act-grp" style="display:flex;align-items:center;gap:6px;">
+          <button class="tb act" data-tip="Chat" aria-label="Chat"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></button>
+          <button class="tb" data-tip="Pause" aria-label="Pause"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg></button>
+          <button class="tb tb-danger" data-tip="End Conversation" aria-label="End Conversation" onclick="openWrapup()"><svg viewBox="0 0 24 24"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/></svg></button>
+          <button class="tb" data-tip="More" aria-label="More options" id="moreBtn" onclick="toggleMoreMenu()"><svg viewBox="0 0 24 24"><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg></button>
         </div>
         <!-- More menu dropdown -->
         <div class="more-menu" id="moreMenu">
-          <div class="menu-item" onclick="callCustomer();closeMoreMenu();"><span class="material-icons">call</span><span>Call</span></div>
-          <div class="menu-item" onclick="sendMessage();closeMoreMenu();"><span class="material-icons">sms</span><span>Send message</span></div>
+          <div class="menu-item" onclick="callCustomer();closeMoreMenu();"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg><span>Call</span></div>
+          <div class="menu-item" onclick="sendMessage();closeMoreMenu();"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg><span>Send message</span></div>
           <div class="menu-item" onclick="sendWhatsapp();closeMoreMenu();"><svg class="tb-wa-ic" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg><span>WhatsApp</span></div>
-          <div class="menu-item" onclick="sendEmail();closeMoreMenu();"><span class="material-icons">email</span><span>Email</span></div>
-          <div class="menu-item" onclick="sendFeedback();closeMoreMenu();"><span class="material-icons">feedback</span><span>Send feedback</span></div>
-          <div class="menu-item" onclick="exitCall();closeMoreMenu();"><span class="material-icons">call_end</span><span>Exit</span></div>
+          <div class="menu-item" onclick="sendEmail();closeMoreMenu();"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span>Email</span></div>
+          <div class="menu-item" onclick="sendFeedback();closeMoreMenu();"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 12h-2v-2h2v2zm0-4h-2V6h2v4z"/></svg><span>Send feedback</span></div>
+          <div class="menu-item" onclick="exitCall();closeMoreMenu();"><svg viewBox="0 0 24 24"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/></svg><span>End Conversation</span></div>
         </div>
       </div>
     </div>
+
+    <!-- Wrap-up backdrop + side modal -->
+    <div class="wu-backdrop" id="wuBackdrop" onclick="wuComplete(true)"></div>
+    <div class="wu-overlay" id="wuOverlay">
+      <div class="wu-hdr">
+        <div class="wu-title">Wrap-up</div>
+        <div class="wu-timer-wrap">
+          <div class="wu-timer-dot"></div>
+          <span class="wu-timer-lbl" id="wuTimer">00:00</span>
+        </div>
+        <button class="wu-close" onclick="wuComplete(true)" title="Close" aria-label="Close wrap-up">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="wu-body">
+        <div class="wu-summary-card">
+          <div class="wu-cust-av">JT</div>
+          <div class="wu-cust-info">
+            <div class="wu-cust-name">John Tylor</div>
+            <div class="wu-cust-meta">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              Chat · WhatsApp
+            </div>
+          </div>
+          <div class="wu-dur" id="wuConvDur">14:32</div>
+        </div>
+        <div class="wu-section">
+          <div class="wu-ai-card">
+            <div class="wu-ai-hdr">
+              <div class="wu-ai-badge">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2M4.22 4.22l1.42 1.42m12.72 12.72 1.42 1.42M2 12h2m16 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                AI Summary
+              </div>
+              <button class="wu-ai-edit" onclick="wuFocusSummary()" title="Edit summary">Edit</button>
+            </div>
+            <textarea class="wu-ai-text" id="wuAiSummary" rows="4">Customer contacted regarding a billing discrepancy on their account. Agent verified identity and reviewed account history. An incorrect charge of $29.99 was identified from the previous billing cycle. Refund request initiated; customer confirmed satisfaction with the resolution.</textarea>
+          </div>
+        </div>
+        <div class="wu-section">
+          <div class="wu-label">Disposition Code <span>*</span></div>
+          <div class="wu-disp-search">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="wuDispSearch" placeholder="Search disposition..." oninput="wuFilterDisp(this.value)">
+          </div>
+          <div class="wu-disp-list" id="wuDispList"></div>
+        </div>
+        <div class="wu-section">
+          <div class="wu-label">Internal Notes</div>
+          <textarea class="wu-notes" id="wuNotes" placeholder="Add notes about this interaction…" rows="3"></textarea>
+        </div>
+        <div class="wu-section">
+          <div class="wu-label">Tags</div>
+          <div class="wu-tags-row" id="wuTagsRow"></div>
+        </div>
+      </div>
+      <div class="wu-footer">
+        <button class="wu-skip" onclick="wuComplete(true)">Skip</button>
+        <button class="wu-complete" id="wuCompleteBtn" onclick="wuComplete(false)">Complete Wrap-up</button>
+      </div>
+    </div><!-- /wu-overlay -->
 
     <!-- Messages -->
     <div class="msgs" role="log" aria-label="Conversation">
@@ -1334,16 +1497,77 @@ tr:hover .row-action{opacity:1;}
     <!-- Composer -->
     <div class="composer">
       <div class="comp-top">
-        <div class="ch-chip" role="button" aria-label="LinkedIn channel">
-          <div class="ch-chip-dot"><svg width="7" height="7" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></div>
-          <span>LinkedIn</span>
-          <svg width="10" height="10" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="#9CA3AF"/></svg>
+        <div class="ch-chip" id="chChip" role="button" aria-haspopup="true" aria-label="Switch channel" onclick="toggleChDD(event)">
+          <div class="ch-chip-dot" id="chChipDot" style="background:#0A66C2"><svg width="7" height="7" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></div>
+          <span id="chChipLabel">LinkedIn</span>
+          <svg width="10" height="10" viewBox="0 0 24 24" id="chChipChev" style="transition:transform .2s"><path d="M6 9l6 6 6-6" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"/></svg>
+          <div class="ch-dd" id="chDD">
+            <div class="ch-dd-hdr">Switch Channel</div>
+            <button class="ch-dd-item active" onclick="selectComposerCh(event,'linkedin','LinkedIn','#0A66C2')">
+              <span class="ch-dd-dot" style="background:#0A66C2"><svg width="7" height="7" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></span>
+              <span class="ch-dd-lbl">LinkedIn</span>
+              <span class="ch-dd-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span>
+            </button>
+            <button class="ch-dd-item" onclick="selectComposerCh(event,'whatsapp','WhatsApp','#25D366')">
+              <span class="ch-dd-dot" style="background:#25D366"><svg width="7" height="7" viewBox="0 0 24 24" fill="white"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.39-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51-.17-.01-.37-.01-.57-.01-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.87 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35m-5.42 7.4h-.004a9.87 9.87 0 01-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37A9.86 9.86 0 012.16 11.9C2.16 6.44 6.6 2 12.05 2c2.64 0 5.12 1.03 6.99 2.9a9.82 9.82 0 012.89 6.99c-.003 5.45-4.44 9.88-9.88 9.88"/></svg></span>
+              <span class="ch-dd-lbl">WhatsApp</span>
+            </button>
+            <button class="ch-dd-item" onclick="selectComposerCh(event,'sms','SMS','#1a50a3')">
+              <span class="ch-dd-dot" style="background:#1a50a3"><svg width="7" height="7" viewBox="0 0 24 24" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></span>
+              <span class="ch-dd-lbl">SMS</span>
+            </button>
+            <button class="ch-dd-item" onclick="selectComposerCh(event,'email','Email','#f59e0b')">
+              <span class="ch-dd-dot" style="background:#f59e0b"><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
+              <span class="ch-dd-lbl">Email</span>
+            </button>
+          </div>
         </div>
         <div class="comp-gap"></div>
         <span class="cust-tag">John Tylor</span>
         <span class="w-tag">Whisper</span>
       </div>
-      <div class="r-form">
+      <!-- Email compose (shown only when email channel is active) -->
+      <div class="email-compose" id="emailCompose">
+        <div class="ec-row">
+          <span class="ec-lbl">To</span>
+          <div class="ec-field" id="ecToField">
+            <span class="ec-chip">john.tylor@email.com<button class="ec-chip-rm" onclick="ecRemoveChip(this)" aria-label="Remove">×</button></span>
+            <input class="ec-addr" id="ecToInp" placeholder="Add recipient…" aria-label="To" onkeydown="ecKeydown(event,'to')">
+          </div>
+          <div class="ec-cc-bcc">
+            <button class="ec-cc-btn" id="ecCcBtn" onclick="ecToggleCc()" title="Add CC">CC</button>
+            <button class="ec-cc-btn" id="ecBccBtn" onclick="ecToggleBcc()" title="Add BCC">BCC</button>
+          </div>
+        </div>
+        <div class="ec-row" id="ecCcRow" style="display:none">
+          <span class="ec-lbl">CC</span>
+          <div class="ec-field" id="ecCcField">
+            <input class="ec-addr" id="ecCcInp" placeholder="Add CC…" aria-label="CC" onkeydown="ecKeydown(event,'cc')">
+          </div>
+        </div>
+        <div class="ec-row" id="ecBccRow" style="display:none">
+          <span class="ec-lbl">BCC</span>
+          <div class="ec-field" id="ecBccField">
+            <input class="ec-addr" id="ecBccInp" placeholder="Add BCC…" aria-label="BCC" onkeydown="ecKeydown(event,'bcc')">
+          </div>
+        </div>
+        <div class="ec-row">
+          <span class="ec-lbl">Subject</span>
+          <input class="ec-subj-inp" id="ecSubject" placeholder="Add a subject…" aria-label="Email subject">
+        </div>
+        <div class="ec-body-wrap">
+          <textarea class="ec-body" id="ecBody" placeholder="Type your email…" aria-label="Email body"></textarea>
+        </div>
+        <div class="ec-foot">
+          <div style="display:flex;gap:2px;">
+            <button class="c-btn" aria-label="Attach" title="Attach file"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" stroke-width="1.8"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg></button>
+            <button class="c-btn" aria-label="Canned response" title="Canned response"><svg width="18" height="18" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="#2c3e50"/></svg></button>
+          </div>
+          <button class="send" aria-label="Send email" title="Send email"><svg width="15" height="15" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13" stroke="#fff" stroke-width="2"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="#fff"/></svg></button>
+        </div>
+      </div>
+      <!-- Normal message input -->
+      <div class="r-form" id="rForm">
         <textarea id="compInp" class="c-inp" rows="1" placeholder="Type a message..." aria-label="Type a message"></textarea>
         <button class="c-btn" aria-label="Emoji"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9" stroke-width="3"/><line x1="15" y1="9" x2="15.01" y2="9" stroke-width="3"/></svg></button>
         <button class="c-btn" aria-label="Video"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" stroke-width="1.8"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></button>
@@ -1655,9 +1879,9 @@ tr:hover .row-action{opacity:1;}
                 <div class="idle-contact-phone">555-0123</div>
               </div>
               <div class="idle-contact-actions">
-                <button class="idle-contact-action" data-tip="Call" onclick="idleOpenOutbound('call'); document.getElementById('dialDisplay').value='+1 (555) 0123';">☎️</button>
-                <button class="idle-contact-action" data-tip="SMS" onclick="idleOpenOutbound('sms');">💬</button>
-                <button class="idle-contact-action" data-tip="Email" onclick="idleOpenOutbound('email');">📧</button>
+                <button class="idle-contact-action" data-tip="Call" onclick="closeIdle();startCall('+1 (555) 0123','John Tylor');">☎️</button>
+                <button class="idle-contact-action" data-tip="SMS" onclick="idleOpenOutbound('sms');setTimeout(function(){window.openSmsComposer('+1 (555) 0123','John Tylor');},250);">💬</button>
+                <button class="idle-contact-action" data-tip="Email" onclick="idleOpenOutbound('email');setTimeout(function(){window.openEmailComposer('john.tylor@example.com','John Tylor');},250);">📧</button>
               </div>
             </div>
 
@@ -1667,9 +1891,9 @@ tr:hover .row-action{opacity:1;}
                 <div class="idle-contact-phone">555-0124</div>
               </div>
               <div class="idle-contact-actions">
-                <button class="idle-contact-action" data-tip="Call" onclick="idleOpenOutbound('call'); document.getElementById('dialDisplay').value='+1 (555) 0124';">☎️</button>
-                <button class="idle-contact-action" data-tip="SMS" onclick="idleOpenOutbound('sms');">💬</button>
-                <button class="idle-contact-action" data-tip="Email" onclick="idleOpenOutbound('email');">📧</button>
+                <button class="idle-contact-action" data-tip="Call" onclick="closeIdle();startCall('+1 (555) 0124','Sarah Smith');">☎️</button>
+                <button class="idle-contact-action" data-tip="SMS" onclick="idleOpenOutbound('sms');setTimeout(function(){window.openSmsComposer('+1 (555) 0124','Sarah Smith');},250);">💬</button>
+                <button class="idle-contact-action" data-tip="Email" onclick="idleOpenOutbound('email');setTimeout(function(){window.openEmailComposer('sarah.smith@example.com','Sarah Smith');},250);">📧</button>
               </div>
             </div>
 
@@ -1679,9 +1903,9 @@ tr:hover .row-action{opacity:1;}
                 <div class="idle-contact-phone">555-0125</div>
               </div>
               <div class="idle-contact-actions">
-                <button class="idle-contact-action" data-tip="Call" onclick="idleOpenOutbound('call'); document.getElementById('dialDisplay').value='+1 (555) 0125';">☎️</button>
-                <button class="idle-contact-action" data-tip="SMS" onclick="idleOpenOutbound('sms');">💬</button>
-                <button class="idle-contact-action" data-tip="Email" onclick="idleOpenOutbound('email');">📧</button>
+                <button class="idle-contact-action" data-tip="Call" onclick="closeIdle();startCall('+1 (555) 0125','Mike Johnson');">☎️</button>
+                <button class="idle-contact-action" data-tip="SMS" onclick="idleOpenOutbound('sms');setTimeout(function(){window.openSmsComposer('+1 (555) 0125','Mike Johnson');},250);">💬</button>
+                <button class="idle-contact-action" data-tip="Email" onclick="idleOpenOutbound('email');setTimeout(function(){window.openEmailComposer('mike.johnson@example.com','Mike Johnson');},250);">📧</button>
               </div>
             </div>
           </div>
@@ -1747,109 +1971,6 @@ tr:hover .row-action{opacity:1;}
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- ── OUTBOUND MODAL ── -->
-  <div class="outbound-modal" id="outboundModal">
-
-    <div class="outbound-header">
-      <h3>Outbound</h3>
-      <button class="close-btn" data-tip="Close" onclick="closeOutbound()"><span class="material-icons" style="font-size:20px">close</span></button>
-    </div>
-
-      <!-- Search + dialpad toggle -->
-      <div class="ob-search-row">
-        <div class="ob-search-wrap">
-          <span class="material-icons ob-search-ic">search</span>
-          <input type="text" id="callSearch" class="ob-search-inp" placeholder="Search or enter number…" oninput="obCallSearch(this.value)">
-          <button class="ob-dialpad-tog" id="dialpadTogBtn" onclick="toggleDialpad()" data-tip="Dialpad">
-            <span class="material-icons">dialpad</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Add contact bar — only when number not in contacts -->
-      <div class="ob-add-bar" id="addContactBar">
-        <span class="ob-add-txt">Number not found in contacts</span>
-        <button class="ob-add-btn" onclick="addContactFromDialpad()">
-          <span class="material-icons">person_add</span>Add
-        </button>
-      </div>
-
-      <!-- Dialpad — hidden by default -->
-      <div class="ob-dialpad" id="dialpadSection">
-        <div class="ob-dialpad-grid">
-          <button class="dial-btn" onclick="dialpadDigit('1')">1</button>
-          <button class="dial-btn" onclick="dialpadDigit('2')">2</button>
-          <button class="dial-btn" onclick="dialpadDigit('3')">3</button>
-          <button class="dial-btn" onclick="dialpadDigit('4')">4</button>
-          <button class="dial-btn" onclick="dialpadDigit('5')">5</button>
-          <button class="dial-btn" onclick="dialpadDigit('6')">6</button>
-          <button class="dial-btn" onclick="dialpadDigit('7')">7</button>
-          <button class="dial-btn" onclick="dialpadDigit('8')">8</button>
-          <button class="dial-btn" onclick="dialpadDigit('9')">9</button>
-          <button class="dial-btn" onclick="dialpadDigit('*')">*</button>
-          <button class="dial-btn" onclick="dialpadDigit('0')">0</button>
-          <button class="dial-btn" onclick="dialpadDigit('#')">#</button>
-        </div>
-        <div class="ob-dialpad-foot">
-          <button class="backspace-btn" onclick="dialpadBackspace()"><span class="material-icons">backspace</span>Backspace</button>
-        </div>
-      </div>
-
-      <!-- Contact list -->
-      <div class="ob-contacts" id="callContactList"></div>
-
-      <div class="ob-footer" id="obMainFooter">
-        <button class="ob-btn secondary" onclick="obCallClear()"><span class="material-icons">clear</span>Clear</button>
-        <button class="ob-btn primary" onclick="initiateCall()"><span class="material-icons">call</span>Call</button>
-      </div>
-
-    <!-- 50px gap between contacts and composer -->
-    <div class="ob-sms-gap" id="obSmsGap"></div>
-
-    <!-- SMS COMPOSER — in-flow, takes 40% of panel -->
-    <div class="ob-sms-composer" id="obSmsComposer">
-      <div class="sms-cmp-body">
-        <div class="sms-to-lbl">To:</div>
-        <input class="sms-to-inp" id="smsToInp" type="tel" placeholder="Phone number">
-        <textarea class="sms-msg-inp" id="smsMsgInp" placeholder="Type your SMS message…" oninput="smsCount()"></textarea>
-        <div class="sms-counter"><span id="smsCntSpan">0</span>/160</div>
-      </div>
-      <div class="sms-cmp-footer">
-        <button class="sms-cancel-btn" onclick="closeSmsComposer()">Cancel</button>
-        <button class="sms-send-btn" onclick="sendSmsMsg()">Send SMS</button>
-      </div>
-    </div>
-
-    <!-- EMAIL COMPOSER -->
-    <div class="ob-email-composer" id="obEmailComposer">
-      <div class="sms-cmp-body">
-        <div class="sms-to-lbl">To:</div>
-        <input class="sms-to-inp" id="emailToInp" type="email" placeholder="Email address">
-        <input class="sms-to-inp" id="emailSubjInp" type="text" placeholder="Subject">
-        <textarea class="sms-msg-inp" id="emailMsgInp" placeholder="Type your email…"></textarea>
-      </div>
-      <div class="sms-cmp-footer">
-        <button class="sms-cancel-btn" onclick="closeEmailComposer()">Cancel</button>
-        <button class="email-send-btn" onclick="sendEmailMsg()">Send Email</button>
-      </div>
-    </div>
-
-    <!-- WHATSAPP COMPOSER -->
-    <div class="ob-wa-composer" id="obWaComposer">
-      <div class="sms-cmp-body">
-        <div class="sms-to-lbl">To:</div>
-        <input class="sms-to-inp" id="waToInp" type="tel" placeholder="Phone number">
-        <textarea class="sms-msg-inp" id="waMsgInp" placeholder="Type your WhatsApp message…" oninput="waCount()"></textarea>
-        <div class="sms-counter"><span id="waCntSpan">0</span> characters</div>
-      </div>
-      <div class="sms-cmp-footer">
-        <button class="sms-cancel-btn" onclick="closeWaComposer()">Cancel</button>
-        <button class="wa-send-btn" onclick="sendWaMsg()">Send WhatsApp</button>
-      </div>
-    </div>
-
   </div>
 
   <!-- ── RIGHT PANEL ── -->
@@ -2228,21 +2349,19 @@ tr:hover .row-action{opacity:1;}
 <div id="ciPeek" class="ci-card">
   <div class="ci-top">
     <div class="ci-av">JT</div>
-    <div class="ci-meta"><div class="ci-name">John Tylor</div><div class="ci-status"><span class="ci-id">Identified</span><span class="ci-dot" style="background:#26c98c;"></span><span class="ci-dot" style="background:#fdb635;"></span><span class="ci-dot" style="background:#ff6767;"></span></div></div>
+    <div class="ci-meta"><div class="ci-name">John Tylor</div><div class="ci-status"><span class="ci-id">Identified</span><span style="display:inline-flex;gap:4px;align-items:center;margin-left:4px;"><span class="ci-dot" style="background:#ff6767;"></span><span class="ci-dot" style="background:#1a50a3;"></span></span></div></div>
     <button class="ci-edit" aria-label="Copy link" data-tip="Copy link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.8"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></button>
     <button class="ci-edit" aria-label="Edit" data-tip="Edit" onclick="openEditCustomer()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.8"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
   </div>
   <div class="ci-div"></div>
   <div class="ci-chs">
-    <button class="ci-ch" aria-label="Call" data-tip="Call"><img src="icons/Button.svg" alt="Call" style="width:16px;height:16px;"/></button>
-    <button class="ci-ch" aria-label="Chat" data-tip="Chat"><img src="icons/Button-1.svg" alt="Chat" style="width:16px;height:16px;"/></button>
-    <button class="ci-ch" aria-label="WhatsApp" data-tip="WhatsApp"><img src="icons/Button-2.svg" alt="WhatsApp" style="width:16px;height:16px;"/></button>
-    <button class="ci-ch" aria-label="Email" data-tip="Email"><img src="icons/Button-3.svg" alt="Email" style="width:16px;height:16px;"/></button>
+    <button class="ci-ch" aria-label="Call" data-tip="Call"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></button>
+    <button class="ci-ch" aria-label="SMS" data-tip="SMS"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></button>
+    <button class="ci-ch" aria-label="WhatsApp" data-tip="WhatsApp"><svg class="ci-wa-ic" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
   </div>
   <div class="ci-div"></div>
   <div class="ci-rows">
-    <div class="ci-row"><div class="ci-f"><div class="ci-lbl">First Name:</div><div class="ci-val">John Tylor</div></div><div class="ci-f"><div class="ci-lbl">City</div><div class="ci-val">NYC</div></div></div>
-    <div class="ci-row"><div class="ci-f"><div class="ci-lbl">First Name:</div><div class="ci-val">John Tylor</div></div><div class="ci-f"><div class="ci-lbl">City</div><div class="ci-val">NYC</div></div></div>
+    <div class="ci-row"><div class="ci-f"><div class="ci-lbl">Phone</div><div class="ci-val">+1 (762) 533-5936</div></div><div class="ci-f"><div class="ci-lbl">Email</div><div class="ci-val">john.tylor@example.com</div></div></div>
   </div>
   <button class="ci-view" onclick="expandCi()">View more <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
 </div>
@@ -2782,17 +2901,20 @@ document.addEventListener('mousemove',e=>{if(!srResizing||!kb)return;const nh=Ma
 document.addEventListener('mouseup',()=>{if(srResizing){srResizing=false;document.body.style.cursor='';document.body.style.userSelect='';}});
 /* Customer Info Card */
 const ciAv=document.getElementById('ciAvatar'),ciPeek=document.getElementById('ciPeek'),ciExp=document.getElementById('ciExpanded');
+const ciName=document.querySelector('.ch-name');
 let peekTimer=null;
 function posCards(){const r=ciAv.getBoundingClientRect();[ciPeek,ciExp].forEach(el=>{el.style.left=r.left+'px';el.style.top=(r.bottom+8)+'px';});}
-function showPeek(){if(ciExp.classList.contains('visible'))return;clearTimeout(peekTimer);posCards();ciPeek.classList.add('visible');}
+function _ciSetTips(card){card.querySelectorAll('.ci-val').forEach(function(el){if(el.scrollWidth>el.clientWidth)el.setAttribute('data-tip',el.textContent.trim());else el.removeAttribute('data-tip');});}
+function showPeek(){if(ciExp.classList.contains('visible'))return;clearTimeout(peekTimer);posCards();ciPeek.classList.add('visible');_ciSetTips(ciPeek);}
 function hidePeek(){peekTimer=setTimeout(()=>{if(!ciExp.classList.contains('visible'))ciPeek.classList.remove('visible');},200);}
-function expandCi(){posCards();ciPeek.classList.remove('visible');ciExp.classList.add('visible');}
+function expandCi(){posCards();ciPeek.classList.remove('visible');ciExp.classList.add('visible');_ciSetTips(ciExp);}
 function collapseCi(){ciExp.classList.remove('visible');ciPeek.classList.remove('visible');}
 ciAv.addEventListener('mouseenter',showPeek);
 ciAv.addEventListener('mouseleave',hidePeek);
+if(ciName){ciName.addEventListener('mouseenter',showPeek);ciName.addEventListener('mouseleave',hidePeek);}
 ciPeek.addEventListener('mouseenter',()=>clearTimeout(peekTimer));
 ciPeek.addEventListener('mouseleave',hidePeek);
-document.addEventListener('mousedown',e=>{if(!ciAv.contains(e.target)&&!ciPeek.contains(e.target)&&!ciExp.contains(e.target))collapseCi();});
+document.addEventListener('mousedown',e=>{if(!ciAv.contains(e.target)&&!(ciName&&ciName.contains(e.target))&&!ciPeek.contains(e.target)&&!ciExp.contains(e.target))collapseCi();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')collapseCi();});
 /* Voicemail toggle */
 const vmScreen=document.getElementById('vmScreen'),vmSnavItem=document.getElementById('vmSnavItem');
@@ -2862,14 +2984,19 @@ function _custEsc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&l
 function _custCv(v){return v?`<span class="cell-val">${_custEsc(v)}</span>`:`<span class="cell-empty">—</span>`;}
 function _custMkInit(n){return n.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();}
 function _custLabDots(ls){return ls&&ls.length?`<span class="cust-labels">${ls.map(l=>`<span class="cust-label-dot" style="background:${CUST_LABEL_COLORS[l]||'#999'}" data-tip="${_custEsc(l)}"></span>`).join('')}</span>`:'';}
-const _WA_ICON='<svg class="row-wa-ic" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>';
-function _custRowIcons(r){return '<div class="row-ob-icons">'+r.channels.map(ch=>{
-  if(ch==='call')return`<button class="row-ob-icon" data-tip="Call"><span class="material-icons">call</span></button>`;
-  if(ch==='sms')return`<button class="row-ob-icon" data-tip="SMS"><span class="material-icons">sms</span></button>`;
-  if(ch==='email')return`<button class="row-ob-icon" data-tip="Email"><span class="material-icons">email</span></button>`;
-  if(ch==='whatsapp')return`<button class="row-ob-icon" data-tip="WhatsApp">${_WA_ICON}</button>`;
-  return'';
-}).join('')+'</div>';}
+const _WA_ICON='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>';
+function _custRowIcons(r){
+  const p=(r.phone||'').replace(/'/g,"\\'");
+  const e=(r.email||'').replace(/'/g,"\\'");
+  const n=(r.name||'').replace(/'/g,"\\'");
+  return '<div class="row-ob-icons">'+r.channels.map(ch=>{
+    if(ch==='call')return`<button class="row-ob-icon" data-tip="Call" onclick="event.stopPropagation();startCall('${p}','${n}');"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></button>`;
+    if(ch==='sms')return`<button class="row-ob-icon" data-tip="SMS" onclick="event.stopPropagation();window.openSmsComposer('${p}','${n}');"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></button>`;
+    if(ch==='email')return`<button class="row-ob-icon" data-tip="Email" onclick="event.stopPropagation();window.openEmailComposer('${e}','${n}');"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></button>`;
+    if(ch==='whatsapp')return`<button class="row-ob-icon" data-tip="WhatsApp" onclick="event.stopPropagation();window.openWaComposer('${p}','${n}');">${_WA_ICON}</button>`;
+    return'';
+  }).join('')+'</div>';
+}
 
 function custRenderTable(){
   const s=(_custPage-1)*_custRpp,e=Math.min(s+_custRpp,_custFiltered.length),page=_custFiltered.slice(s,e);
@@ -2884,7 +3011,7 @@ function custRenderTable(){
     <td>${_custCv(r.linkedin)}</td>
     <td>${_custCv(r.instagram)}</td>
     <td>${_custCv(r.twitter)}</td>
-    <td>${_custRowIcons(r)}</td>
+    <td class="actions-cell">${_custRowIcons(r)}</td>
   </tr>`).join(''):`<tr><td colspan="7" style="text-align:center;padding:48px;color:var(--color-muted);font-size:13px;">No records found</td></tr>`;
   _custUpdatePag();
 }
@@ -2954,110 +3081,26 @@ function sortRecent(sortBy){console.log('Sort by:',sortBy);}
 function searchConversations(){const query=document.getElementById('queueSearchInput').value.toLowerCase();const resultsList=document.getElementById('searchResultsList');if(query.length<2){document.getElementById('searchResults').style.display='none';return;}const mockResults=[{name:'John Tylor',phone:'555-0123',channel:'SMS'},{name:'Sarah Smith',phone:'555-0124',channel:'Chat'},{name:'Mike Johnson',phone:'555-0125',channel:'Email'}];const filtered=mockResults.filter(c=>c.name.toLowerCase().includes(query)||c.phone.includes(query));if(filtered.length>0){resultsList.innerHTML=filtered.map(c=>`<div class="conversation-card" onclick="resumeConversation('${c.name}','${c.phone}')"><div class="conv-avatar">${c.name.split(' ').map(w=>w[0]).join('')}</div><div class="conv-details"><div class="conv-name">${c.name}</div><div class="conv-preview">${c.channel}</div></div></div>`).join('');document.getElementById('searchResults').style.display='block';}else{resultsList.innerHTML='<p style="color:var(--color-muted);font-size:12px;">No results found</p>';document.getElementById('searchResults').style.display='block';}}
 
 /* ══ OUTBOUND DATA ══ */
-const OB_CONTACTS={
-  recent:[
-    {name:'James Carter',    phone:'+1 (415) 882-3041', email:'james.carter@example.com',    channels:['call','sms','whatsapp']},
-    {name:'Emily Turner',    phone:'+1 (310) 445-7823', email:'emily.turner@mail.com',        channels:['call','email']},
-    {name:'Noah Williams',   phone:'+1 (762) 533-5936', email:'noah.williams@corp.com',       channels:['call','sms','email','whatsapp']},
-    {name:'Sophia Bennett',  phone:'+1 (743) 500-3536', email:'sophia.bennett@example.com',   channels:['sms','whatsapp']},
-    {name:'Oliver Hughes',   phone:'+44 20 7946 0012',  email:'oliver.hughes@uk.com',         channels:['call']},
-    {name:'Mia Robinson',    phone:'+1 (555) 012-5000', email:'mia.robinson@email.com',       channels:['call','sms','email']},
-  ],
-  all:[
-    {name:'Ethan Murphy',    phone:'+1 (212) 334-5678', email:'ethan.murphy@corp.com',        channels:['call','sms','email','whatsapp']},
-    {name:'Charlotte Davis', phone:'+1 (617) 290-4412', email:'charlotte.davis@mail.com',     channels:['call','email']},
-    {name:'Liam Anderson',   phone:'+44 20 1234 5678',  email:'liam.anderson@uk.org',         channels:['call','sms']},
-    {name:'Ava Thompson',    phone:'+1 (702) 881-2200', email:'ava.thompson@example.com',     channels:['call','sms','email','whatsapp']},
-    {name:'William Scott',   phone:'+1 (404) 556-9900', email:'william.scott@biz.com',        channels:['call']},
-    {name:'Isabella Martin', phone:'+61 2 9876 5432',   email:'isabella.martin@aus.com',      channels:['sms','email','whatsapp']},
-    {name:'Benjamin Clark',  phone:'+1 (786) 300-1122', email:'ben.clark@example.com',        channels:['call','sms']},
-    {name:'Harper Lewis',    phone:'+1 (303) 770-8899', email:'harper.lewis@mail.com',        channels:['call','sms','email']},
-  ]
-};
-
-const WA_SVG=`<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
-
-/* ══ OUTBOUND FUNCTIONS ══ */
-function openOutbound(){
-  document.getElementById('outboundModal').classList.add('open');
-  obRenderContacts('callContactList','');
-}
-function closeOutbound(){document.getElementById('outboundModal').classList.remove('open');}
-
-/* ── CONTACT RENDERER ── */
-function obInitials(name){return name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();}
-function obChannelBtn(ch,phone,email,name){
-  const n=encodeURIComponent(name||'');
-  if(ch==='call')    return `<button class="ob-act-btn" data-tip="Call"     onclick="event.stopPropagation();startCall('${phone}','${name}')"><span class="material-icons">call</span></button>`;
-  if(ch==='sms')     return `<button class="ob-act-btn" data-tip="SMS"      onclick="event.stopPropagation();openSmsComposer('${phone}','${name}')"><span class="material-icons">sms</span></button>`;
-  if(ch==='email')   return `<button class="ob-act-btn" data-tip="Email"    onclick="event.stopPropagation();openEmailComposer('${email}','${name}')"><span class="material-icons">email</span></button>`;
-  if(ch==='whatsapp')return `<button class="ob-act-btn wa" data-tip="WhatsApp" onclick="event.stopPropagation();openWaComposer('${phone}','${name}')">${WA_SVG}</button>`;
-  return '';
-}
-function obContactRow(c){
-  const btns=c.channels.map(ch=>obChannelBtn(ch,c.phone,c.email,c.name)).join('');
-  return `<div class="ob-contact" onclick="obSelectCall('${c.phone}','${c.name}')">
-    <div class="ob-av">${obInitials(c.name)}</div>
-    <div class="ob-info"><div class="ob-name">${c.name}</div><div class="ob-sub">${c.phone}</div></div>
-    <div class="ob-actions">${btns}</div>
-  </div>`;
-}
-function obRenderContacts(listId,query){
-  const el=document.getElementById(listId);
-  const q=query.toLowerCase().trim();
-  const filter=list=>q?list.filter(c=>c.name.toLowerCase().includes(q)||c.phone.includes(q)):list;
-  const recent=filter(OB_CONTACTS.recent);
-  const all=filter(OB_CONTACTS.all);
-  if(!recent.length&&!all.length){el.innerHTML='<div style="padding:16px 12px;font-size:13px;color:var(--color-muted);text-align:center;">No contacts found</div>';return;}
-  let html='';
-  if(recent.length){html+=`<div class="ob-group-hdr">Recent Contacts</div>`+recent.map(obContactRow).join('');}
-  if(all.length){html+=`<div class="ob-group-hdr">All Contacts</div>`+all.map(obContactRow).join('');}
-  el.innerHTML=html;
-}
-
-/* ── DIALPAD ── */
-let dialpadVisible=false;
-function toggleDialpad(){
-  dialpadVisible=!dialpadVisible;
-  document.getElementById('dialpadSection').classList.toggle('show',dialpadVisible);
-  document.getElementById('dialpadTogBtn').classList.toggle('active',dialpadVisible);
-}
-function dialpadDigit(d){
-  const inp=document.getElementById('callSearch');
-  inp.value+=d;
-  obCallSearch(inp.value);
-}
-function dialpadBackspace(){
-  const inp=document.getElementById('callSearch');
-  inp.value=inp.value.slice(0,-1);
-  obCallSearch(inp.value);
-}
-function obCallSearch(val){
-  obRenderContacts('callContactList',val);
-  const allContacts=[...OB_CONTACTS.recent,...OB_CONTACTS.all];
-  const isNumber=/[\d\+\(\)\-\s]{4,}/.test(val.trim());
-  const found=val.trim()&&allContacts.some(c=>c.phone.replace(/\D/g,'').includes(val.replace(/\D/g,'')));
-  document.getElementById('addContactBar').classList.toggle('show',isNumber&&!found&&val.trim().length>3);
-}
-function obCallClear(){document.getElementById('callSearch').value='';obCallSearch('');document.getElementById('addContactBar').classList.remove('show');}
-function obSelectCall(phone,name){document.getElementById('callSearch').value=phone;obCallSearch(phone);}
-function initiateCall(){const p=document.getElementById('callSearch').value.trim();if(p)startCall(p,p);else alert('Enter or select a number');}
-function addContactFromDialpad(){const p=document.getElementById('callSearch').value.trim();if(p)showNewContactModal(p);else alert('Enter a number first');}
-
 /* ══ CALL CONTROLLER ══ */
 let _ccTimer=null,_ccSec=0,_ccMuted=false,_ccHeld=false;
+var _CC_MIC_SVG='<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>';
+var _CC_MIC_OFF_SVG='<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z"/></svg>';
+var _CC_PAUSE_SVG='<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+var _CC_PLAY_SVG='<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+
 function startCall(phone,name){
   closeOutbound();
-  const ctrl=document.getElementById('callCtrl');
-  document.getElementById('ccAv').textContent=obInitials(name&&name!==phone?name:phone);
-  document.getElementById('ccName').textContent=name&&name!==phone?name:phone;
+  var ctrl=document.getElementById('callCtrl');
+  var dispName=name&&name!==phone?name:phone;
+  document.getElementById('ccAv').textContent=obInitials(dispName);
+  document.getElementById('ccName').textContent=dispName;
   document.getElementById('ccStatus').textContent='Connecting…';
   document.getElementById('ccTimer').textContent='00:00';
   _ccMuted=false; _ccHeld=false; _ccSec=0;
-  document.getElementById('ccMuteBtn').classList.remove('cc-on');
-  document.getElementById('ccMuteBtn').querySelector('.material-icons').textContent='mic';
-  document.getElementById('ccMuteBtn').querySelector('.cc-lbl').textContent='Mute';
-  document.getElementById('ccHoldBtn').classList.remove('cc-on');
+  var muteBtn=document.getElementById('ccMuteBtn');
+  if(muteBtn){muteBtn.classList.remove('cc-on');document.getElementById('ccMuteIc').innerHTML=_CC_MIC_SVG;document.getElementById('ccMuteLbl').textContent='Mute';}
+  var holdBtn=document.getElementById('ccHoldBtn');
+  if(holdBtn){holdBtn.classList.remove('cc-on');document.getElementById('ccHoldIc').innerHTML=_CC_PAUSE_SVG;document.getElementById('ccHoldLbl').textContent='Hold';}
   clearInterval(_ccTimer);
   ctrl.classList.add('active');
   setTimeout(function(){
@@ -3078,15 +3121,15 @@ function ccMute(){
   _ccMuted=!_ccMuted;
   var btn=document.getElementById('ccMuteBtn');
   btn.classList.toggle('cc-on',_ccMuted);
-  btn.querySelector('.material-icons').textContent=_ccMuted?'mic_off':'mic';
-  btn.querySelector('.cc-lbl').textContent=_ccMuted?'Unmute':'Mute';
+  document.getElementById('ccMuteIc').innerHTML=_ccMuted?_CC_MIC_OFF_SVG:_CC_MIC_SVG;
+  document.getElementById('ccMuteLbl').textContent=_ccMuted?'Unmute':'Mute';
 }
 function ccHold(){
   _ccHeld=!_ccHeld;
   var btn=document.getElementById('ccHoldBtn');
   btn.classList.toggle('cc-on',_ccHeld);
-  btn.querySelector('.material-icons').textContent=_ccHeld?'play_arrow':'pause';
-  btn.querySelector('.cc-lbl').textContent=_ccHeld?'Resume':'Hold';
+  document.getElementById('ccHoldIc').innerHTML=_ccHeld?_CC_PLAY_SVG:_CC_PAUSE_SVG;
+  document.getElementById('ccHoldLbl').textContent=_ccHeld?'Resume':'Hold';
   document.getElementById('ccStatus').textContent=_ccHeld?'On Hold':'Connected';
   if(_ccHeld)clearInterval(_ccTimer); else{
     _ccTimer=setInterval(function(){
@@ -3101,73 +3144,6 @@ function ccKeypad(){
   document.getElementById('ccKpBtn').classList.toggle('cc-on');
 }
 
-/* ══ SMS COMPOSER ══ */
-function _closeAllComposers(){
-  ['obSmsComposer','obEmailComposer','obWaComposer'].forEach(function(id){document.getElementById(id).classList.remove('open');});
-  document.getElementById('obSmsGap').classList.remove('show');
-  document.getElementById('obMainFooter').style.display='';
-}
-function _openComposer(id,focusId){
-  _closeAllComposers();
-  document.getElementById('obSmsGap').classList.add('show');
-  document.getElementById(id).classList.add('open');
-  document.getElementById('obMainFooter').style.display='none';
-  setTimeout(function(){document.getElementById(focusId).focus();},50);
-}
-/* ── SMS ── */
-function openSmsComposer(phone,name){
-  document.getElementById('smsToInp').value=phone||'';
-  document.getElementById('smsMsgInp').value='';
-  document.getElementById('smsCntSpan').textContent='0';
-  _openComposer('obSmsComposer','smsMsgInp');
-}
-function closeSmsComposer(){_closeAllComposers();}
-/* ── EMAIL ── */
-function openEmailComposer(email,name){
-  document.getElementById('emailToInp').value=email||'';
-  document.getElementById('emailSubjInp').value='';
-  document.getElementById('emailMsgInp').value='';
-  _openComposer('obEmailComposer','emailSubjInp');
-}
-function closeEmailComposer(){_closeAllComposers();}
-function sendEmailMsg(){
-  var to=document.getElementById('emailToInp').value.trim();
-  var sub=document.getElementById('emailSubjInp').value.trim();
-  var msg=document.getElementById('emailMsgInp').value.trim();
-  if(!to){alert('Enter an email address');return;}
-  if(!sub){alert('Enter a subject');return;}
-  if(!msg){alert('Type a message');return;}
-  alert('Email sent to '+to);
-  _closeAllComposers();
-}
-/* ── WHATSAPP ── */
-function openWaComposer(phone,name){
-  document.getElementById('waToInp').value=phone||'';
-  document.getElementById('waMsgInp').value='';
-  document.getElementById('waCntSpan').textContent='0';
-  _openComposer('obWaComposer','waMsgInp');
-}
-function closeWaComposer(){_closeAllComposers();}
-function waCount(){document.getElementById('waCntSpan').textContent=document.getElementById('waMsgInp').value.length;}
-function sendWaMsg(){
-  var to=document.getElementById('waToInp').value.trim();
-  var msg=document.getElementById('waMsgInp').value.trim();
-  if(!to){alert('Enter a phone number');return;}
-  if(!msg){alert('Type a message');return;}
-  alert('WhatsApp sent to '+to);
-  _closeAllComposers();
-}
-function smsCount(){
-  document.getElementById('smsCntSpan').textContent=document.getElementById('smsMsgInp').value.length;
-}
-function sendSmsMsg(){
-  var to=document.getElementById('smsToInp').value.trim();
-  var msg=document.getElementById('smsMsgInp').value.trim();
-  if(!to){alert('Enter a phone number');return;}
-  if(!msg){alert('Type a message');return;}
-  alert('SMS sent to '+to);
-  closeSmsComposer();
-}
 /* ── LEGACY STUBS (keep for other callers) ── */
 function showNewContactModal(phone){document.getElementById('newContactPhone').value=phone;document.getElementById('newContactFirstName').value='';document.getElementById('newContactLastName').value='';document.getElementById('newContactEmail').value='';document.getElementById('newContactCompany').value='';document.getElementById('newContactNotes').value='';document.getElementById('callAfterSave').checked=true;document.getElementById('newContactModal').classList.add('open');}
 function closeNewContactModal(){document.getElementById('newContactModal').classList.remove('open');}
@@ -3175,9 +3151,219 @@ function saveNewContact(){const phone=document.getElementById('newContactPhone')
 function smsContact(phone){alert('SMS to '+phone);}
 function whatsappContact(phone){alert('Opening WhatsApp for '+phone);}
 /* Quick action handlers */
-function setActiveButton(button){const buttons=document.querySelectorAll('.tb');buttons.forEach(b=>b.classList.remove('act'));button.classList.add('act');}function changeChannel(channel,button){const chip=document.querySelector('.ch-chip span');const dot=document.querySelector('.ch-chip-dot');chip.textContent=channel;if(channel==='SMS'){dot.innerHTML='<svg width="7" height="7" viewBox="0 0 24 24" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>';}else if(channel==='Email'){dot.innerHTML='<svg width="7" height="7" viewBox="0 0 24 24" fill="white"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>';}else if(channel==='WhatsApp'){dot.innerHTML='<svg width="7" height="7" viewBox="0 0 24 24" fill="white"><path d="M17.6 6.3c-1.5-1.5-3.5-2.3-5.6-2.3-4.4 0-8 3.6-8 8 0 1.4.4 2.8 1.1 4l-1.2 4.4 4.5-1.2c1.2.6 2.5 1 3.9 1 4.4 0 8-3.6 8-8 0-2.1-.8-4.1-2.3-5.6z"/></svg>';}if(button)setActiveButton(button);document.getElementById('compInp').focus();}function callCustomer(){startCall('+1 (762) 533-5936','John Tylor');}function sendMessage(e){const btn=e?e.currentTarget:document.querySelector('.tb:nth-child(2)');changeChannel('SMS',btn);closeMoreMenu();}function sendWhatsapp(e){const btn=e?e.currentTarget:document.querySelector('.tb:nth-child(4)');changeChannel('WhatsApp',btn);closeMoreMenu();}function sendEmail(e){const btn=e?e.currentTarget:document.querySelector('.tb:nth-child(4)');changeChannel('Email',btn);closeMoreMenu();}
+/* ── COMPOSER CHANNEL SWITCHER ── */
+var _chDDOpen = false;
+var _CH_ICONS = {
+  linkedin: '<svg width="7" height="7" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>',
+  whatsapp: '<svg width="7" height="7" viewBox="0 0 24 24" fill="white"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.39-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51-.17-.01-.37-.01-.57-.01-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.87 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35m-5.42 7.4h-.004a9.87 9.87 0 01-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37A9.86 9.86 0 012.16 11.9C2.16 6.44 6.6 2 12.05 2c2.64 0 5.12 1.03 6.99 2.9a9.82 9.82 0 012.89 6.99c-.003 5.45-4.44 9.88-9.88 9.88"/></svg>',
+  sms:      '<svg width="7" height="7" viewBox="0 0 24 24" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>',
+  email:    '<svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>'
+};
+var _CH_PH = {linkedin:'Type a LinkedIn message…', whatsapp:'Type a WhatsApp message…', sms:'Type an SMS…', email:'Type your email…'};
+
+function toggleChDD(e) {
+  e.stopPropagation();
+  _chDDOpen = !_chDDOpen;
+  var dd = document.getElementById('chDD');
+  var chev = document.getElementById('chChipChev');
+  if (dd) dd.classList.toggle('open', _chDDOpen);
+  if (chev) chev.style.transform = _chDDOpen ? 'rotate(180deg)' : '';
+}
+
+function _applyChannel(ch, label, color) {
+  document.getElementById('chChipLabel').textContent = label;
+  var dot = document.getElementById('chChipDot');
+  dot.style.background = color;
+  dot.innerHTML = _CH_ICONS[ch] || '';
+  var inp = document.getElementById('compInp');
+  if (inp) inp.placeholder = _CH_PH[ch] || 'Type a message…';
+  document.querySelectorAll('.ch-dd-item').forEach(function(el) {
+    el.classList.remove('active');
+    var ck = el.querySelector('.ch-dd-check');
+    if (ck) ck.remove();
+    var lbl = el.querySelector('.ch-dd-lbl');
+    if (lbl && lbl.textContent.trim() === label) {
+      el.classList.add('active');
+      var ckEl = document.createElement('span');
+      ckEl.className = 'ch-dd-check';
+      ckEl.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>';
+      el.appendChild(ckEl);
+    }
+  });
+  var isEmail = ch === 'email';
+  var ec = document.getElementById('emailCompose');
+  var rf = document.getElementById('rForm');
+  if (ec) ec.classList.toggle('visible', isEmail);
+  if (rf) rf.style.display = isEmail ? 'none' : '';
+  _chDDOpen = false;
+  var dd = document.getElementById('chDD');
+  if (dd) dd.classList.remove('open');
+  var chev = document.getElementById('chChipChev');
+  if (chev) chev.style.transform = '';
+}
+
+function selectComposerCh(e, ch, label, color) {
+  e.stopPropagation();
+  _applyChannel(ch, label, color);
+  if (ch === 'email') { var s = document.getElementById('ecSubject'); if (s) s.focus(); }
+  else { var inp = document.getElementById('compInp'); if (inp) inp.focus(); }
+}
+
+document.addEventListener('click', function(e) {
+  if (_chDDOpen && document.getElementById('chChip') && !document.getElementById('chChip').contains(e.target)) {
+    _chDDOpen = false;
+    var dd = document.getElementById('chDD');
+    if (dd) dd.classList.remove('open');
+    var chev = document.getElementById('chChipChev');
+    if (chev) chev.style.transform = '';
+  }
+});
+
+function ecToggleCc() {
+  var row = document.getElementById('ecCcRow');
+  var btn = document.getElementById('ecCcBtn');
+  var open = row.style.display === 'flex';
+  row.style.display = open ? 'none' : 'flex';
+  btn.classList.toggle('on', !open);
+  if (!open) document.getElementById('ecCcInp').focus();
+}
+function ecToggleBcc() {
+  var row = document.getElementById('ecBccRow');
+  var btn = document.getElementById('ecBccBtn');
+  var open = row.style.display === 'flex';
+  row.style.display = open ? 'none' : 'flex';
+  btn.classList.toggle('on', !open);
+  if (!open) document.getElementById('ecBccInp').focus();
+}
+function ecKeydown(e, field) {
+  if (e.key !== 'Enter' && e.key !== ',') return;
+  e.preventDefault();
+  var val = e.target.value.trim().replace(/,+$/, '');
+  if (!val) return;
+  var fieldIds = {to:'ecToField', cc:'ecCcField', bcc:'ecBccField'};
+  var container = document.getElementById(fieldIds[field]);
+  var chip = document.createElement('span');
+  chip.className = 'ec-chip';
+  chip.innerHTML = val + '<button class="ec-chip-rm" onclick="ecRemoveChip(this)" aria-label="Remove">×</button>';
+  container.insertBefore(chip, e.target);
+  e.target.value = '';
+}
+function ecRemoveChip(btn) { btn.parentElement.remove(); }
+
+function setActiveButton(button){const buttons=document.querySelectorAll('.tb');buttons.forEach(b=>b.classList.remove('act'));button.classList.add('act');}
+function callCustomer(){startCall('+1 (762) 533-5936','John Tylor');}
+function sendMessage(){_applyChannel('sms','SMS','#1a50a3');closeMoreMenu();}
+function sendWhatsapp(){_applyChannel('whatsapp','WhatsApp','#25D366');closeMoreMenu();}
+function sendEmail(){_applyChannel('email','Email','#f59e0b');closeMoreMenu();}
 function sendFeedback(){console.log('Sending feedback...');closeQaDropdown();}
-function exitCall(){console.log('Exiting call...');closeQaDropdown();}
+function exitCall(){closeQaDropdown();openWrapup();}
+
+/* ── WRAP-UP ── */
+const WU_DISPOSITIONS=[
+  {group:'Sales',     color:'#26c98c', label:'Completed Sale'},
+  {group:'Sales',     color:'#26c98c', label:'Demo Scheduled'},
+  {group:'Sales',     color:'#26c98c', label:'Follow-up Required'},
+  {group:'Support',   color:'#1a50a3', label:'Issue Resolved'},
+  {group:'Support',   color:'#1a50a3', label:'Escalated'},
+  {group:'Support',   color:'#1a50a3', label:'Callback Scheduled'},
+  {group:'General',   color:'#929292', label:'No Answer'},
+  {group:'General',   color:'#929292', label:'Wrong Number'},
+  {group:'General',   color:'#ff6767', label:'Do Not Contact'},
+  {group:'General',   color:'#929292', label:'General Inquiry'},
+];
+const WU_TAGS=['Billing','Technical','Complaint','Feedback','Password Reset','Account Issues','VIP','Escalation'];
+let _wuTimer=null,_wuSecs=0,_wuSelected=null,_wuTags=[];
+
+function wuRenderDisp(q){
+  const list=document.getElementById('wuDispList');
+  if(!list)return;
+  const f=(q||'').toLowerCase();
+  const filtered=WU_DISPOSITIONS.filter(d=>!f||d.label.toLowerCase().includes(f)||d.group.toLowerCase().includes(f));
+  const groups=[...new Set(filtered.map(d=>d.group))];
+  let h='';
+  groups.forEach(function(g){
+    h+='<div class="wu-disp-group">'+g+'</div>';
+    filtered.filter(d=>d.group===g).forEach(function(d){
+      const sel=_wuSelected===d.label;
+      h+='<div class="wu-disp-opt'+(sel?' selected':'')+'" onclick="wuSelectDisp(this,\''+d.label+'\')">'+
+        '<span class="wu-disp-dot" style="background:'+d.color+'"></span>'+
+        '<span>'+d.label+'</span>'+
+        '<span class="wu-disp-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span>'+
+      '</div>';
+    });
+  });
+  list.innerHTML=h||'<div style="padding:12px;font-size:13px;color:var(--color-muted);text-align:center;">No results</div>';
+}
+
+function wuRenderTags(){
+  const row=document.getElementById('wuTagsRow');
+  if(!row)return;
+  row.innerHTML=WU_TAGS.map(function(t){
+    return '<button class="wu-tag'+((_wuTags.includes(t))?' selected':'')+'" onclick="wuToggleTag(\''+t+'\')">'+t+'</button>';
+  }).join('');
+}
+
+function wuSelectDisp(el,label){
+  _wuSelected=label;
+  wuRenderDisp(document.getElementById('wuDispSearch').value);
+  var btn=document.getElementById('wuCompleteBtn');
+  if(btn)btn.classList.add('enabled');
+}
+
+function wuFilterDisp(q){wuRenderDisp(q);}
+
+function wuToggleTag(tag){
+  var i=_wuTags.indexOf(tag);
+  if(i===-1)_wuTags.push(tag);else _wuTags.splice(i,1);
+  wuRenderTags();
+}
+
+function wuFmtTime(s){
+  var m=Math.floor(s/60),ss=s%60;
+  return String(m).padStart(2,'0')+':'+String(ss).padStart(2,'0');
+}
+
+function openWrapup(){
+  _wuSecs=0;_wuSelected=null;_wuTags=[];
+  var ov=document.getElementById('wuOverlay');
+  var bd=document.getElementById('wuBackdrop');
+  if(!ov)return;
+  ov.classList.add('open');
+  if(bd)bd.classList.add('open');
+  var t=document.getElementById('wuTimer');
+  if(t)t.textContent='00:00';
+  var btn=document.getElementById('wuCompleteBtn');
+  if(btn)btn.classList.remove('enabled');
+  var notes=document.getElementById('wuNotes');
+  if(notes)notes.value='';
+  var search=document.getElementById('wuDispSearch');
+  if(search)search.value='';
+  var ai=document.getElementById('wuAiSummary');
+  if(ai)ai.value='Customer contacted regarding a billing discrepancy on their account. Agent verified identity and reviewed account history. An incorrect charge of $29.99 was identified from the previous billing cycle. Refund request initiated; customer confirmed satisfaction with the resolution.';
+  wuRenderDisp('');
+  wuRenderTags();
+  clearInterval(_wuTimer);
+  _wuTimer=setInterval(function(){
+    _wuSecs++;
+    if(t)t.textContent=wuFmtTime(_wuSecs);
+  },1000);
+  window.selectState&&window.selectState('Wrap-up','#fdb635');
+}
+
+function wuComplete(skip){
+  if(!skip&&!_wuSelected)return;
+  clearInterval(_wuTimer);
+  var ov=document.getElementById('wuOverlay');
+  var bd=document.getElementById('wuBackdrop');
+  if(ov)ov.classList.remove('open');
+  if(bd)bd.classList.remove('open');
+  window.selectState&&window.selectState('Ready','#26c98c');
+}
+
+function wuFocusSummary(){
+  var ai=document.getElementById('wuAiSummary');
+  if(ai){ai.focus();ai.select();}
+}
 
 /* ══ IDLE SCREEN FUNCTIONS ══ */
 const idleScreen=document.getElementById('idleScreen'),idleNavBtn=document.getElementById('idleNavBtn');
@@ -3193,7 +3379,8 @@ function idleDeleteDigit(){const display=document.getElementById('idleDialDispla
 function idleFormatPhoneNumber(){const input=document.getElementById('idleDialDisplay').value.replace(/\D/g,'');let formatted='';if(input.length>0){if(input.length<=3)formatted=input;else if(input.length<=6)formatted=`(${input.slice(0,3)}) ${input.slice(3)}`;else formatted=`+1 (${input.slice(0,3)}) ${input.slice(3,6)}-${input.slice(6,10)}`;}document.getElementById('idleDialDisplay').value=formatted;}
 function idleDialCall(){const phone=document.getElementById('idleDialDisplay').value;if(phone.trim()){alert(`Calling ${phone}...`);closeIdle();}else{alert('Please enter a number');}}
 function idleCallCallback(initials,phone){alert(`Calling ${initials} at ${phone}...`);closeIdle();}
-function idleOpenOutbound(channel){closeIdle();setTimeout(()=>{openOutbound();if(channel==='call')switchTab('call');else if(channel==='sms')switchTab('sms');else if(channel==='email')switchTab('email');},200);}
+function switchTab(channel){ /* outbound modal has a single unified list — no separate tabs */ }
+function idleOpenOutbound(channel){closeIdle();setTimeout(()=>{openOutbound();},200);}
 
 // ════ EDIT CUSTOMER PANEL ════
 function openEditCustomer(){
@@ -3271,9 +3458,128 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeTicket
 
 
 /* ══ CONVERSATION TABS ══ */
+const CONV_CONTACTS = {
+  jt: {
+    initials:'JT', color:'#1a50a3', name:'John Tylor', status:'Identified',
+    phone:'+1 (762) 533-5936', email:'john.tylor@example.com',
+    fields:[
+      {l:'First Name',v:'John Tylor'},{l:'City',v:'Basel'},
+      {l:'City',v:'NYC'},{l:'Registered plan',v:'Health care'},
+      {l:'Role',v:'Supervisor'},{l:'Company',v:'CureMD'}
+    ],
+    channels:[
+      {type:'wa', num:'+1 (762) 533-5936', active:true},
+      {type:'ph', num:'+1 (762) 533-5936', active:false},
+      {type:'em', num:'john.tylor@example.com', active:false}
+    ]
+  },
+  rk: {
+    initials:'RK', color:'#fdb635', name:'Rob Kelsey', status:'Identified',
+    phone:'+1 (415) 200-1122', email:'rob.kelsey@example.com',
+    fields:[
+      {l:'First Name',v:'Rob Kelsey'},{l:'City',v:'London'},
+      {l:'City',v:'NYC'},{l:'Registered plan',v:'Premium'},
+      {l:'Role',v:'Manager'},{l:'Company',v:'Acme Corp'}
+    ],
+    channels:[
+      {type:'ph', num:'+1 (415) 200-1122', active:true},
+      {type:'em', num:'rob.kelsey@example.com', active:false}
+    ]
+  },
+  aj: {
+    initials:'AJ', color:'#ff6767', name:'Adeel Javed', status:'Identified',
+    phone:'+92 321 555-0987', email:'adeel.javed@example.com',
+    fields:[
+      {l:'First Name',v:'Adeel Javed'},{l:'City',v:'Lahore'},
+      {l:'City',v:'Lahore'},{l:'Registered plan',v:'Basic'},
+      {l:'Role',v:'Developer'},{l:'Company',v:'TechPk'}
+    ],
+    channels:[
+      {type:'wa', num:'+92 321 555-0987', active:true},
+      {type:'em', num:'adeel.javed@example.com', active:false}
+    ]
+  },
+  tb: {
+    initials:'TB', color:'#fdb635', name:'Tash Barley', status:'Identified',
+    phone:'+44 7700 900123', email:'tash.barley@example.com',
+    fields:[
+      {l:'First Name',v:'Tash Barley'},{l:'City',v:'Manchester'},
+      {l:'City',v:'UK'},{l:'Registered plan',v:'Standard'},
+      {l:'Role',v:'Analyst'},{l:'Company',v:'FinGroup'}
+    ],
+    channels:[
+      {type:'ph', num:'+44 7700 900123', active:true},
+      {type:'em', num:'tash.barley@example.com', active:false}
+    ]
+  }
+};
+
+function _ciChIcon(type){
+  if(type==='wa') return '<svg width="8" height="8" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>';
+  if(type==='ph') return '<svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.11 19.79 19.79 0 01.78.5 2 2 0 012.78 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.14 6.14l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>';
+  return '<svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>';
+}
+
+function updateContactCard(contactId){
+  var c = CONV_CONTACTS[contactId];
+  if(!c) return;
+
+  /* ── peek card ── */
+  var peek = document.getElementById('ciPeek');
+  if(peek){
+    var peekAv = peek.querySelector('.ci-av');
+    if(peekAv){ peekAv.textContent = c.initials; peekAv.style.color = c.color; }
+    var peekName = peek.querySelector('.ci-name');
+    if(peekName) peekName.textContent = c.name;
+    var peekVals = peek.querySelectorAll('.ci-val');
+    if(peekVals[0]) peekVals[0].textContent = c.phone;
+    if(peekVals[1]) peekVals[1].textContent = c.email;
+  }
+
+  /* ── expanded card ── */
+  var exp = document.getElementById('ciExpanded');
+  if(exp){
+    var expAv = exp.querySelector('.ci-av');
+    if(expAv){ expAv.textContent = c.initials; expAv.style.color = c.color; }
+    var expName = exp.querySelector('.ci-name');
+    if(expName) expName.textContent = c.name;
+    var expVals = exp.querySelectorAll('.ci-val');
+    c.fields.forEach(function(f, i){ if(expVals[i]) expVals[i].textContent = f.v; });
+    var chList = exp.querySelector('.ci-ch-list');
+    if(chList){
+      chList.innerHTML = c.channels.map(function(ch){
+        var hi = ch.active ? ' hi' : '';
+        return '<div class="ci-ch-row'+hi+'"><div class="ci-icons"><span class="ci-ico '+ch.type+'">'+_ciChIcon(ch.type)+'</span></div><span class="ci-num">'+ch.num+'</span></div>';
+      }).join('');
+    }
+  }
+}
+
 function switchConvTab(el){
   document.querySelectorAll('.conv-tab').forEach(function(t){t.classList.remove('active');});
   el.classList.add('active');
+
+  var tabAv   = el.querySelector('.conv-tab-av');
+  var tabName = el.querySelector('.conv-tab-name');
+  var hdrAv   = document.getElementById('ciAvatar');
+  var hdrName = document.querySelector('.ch-name');
+
+  if(tabName && hdrName){
+    var name = tabName.textContent.trim();
+    hdrName.textContent = name;
+    if(hdrAv) hdrAv.setAttribute('aria-label', name + ' — view details');
+  }
+  if(tabAv && hdrAv){
+    hdrAv.style.background = tabAv.style.background || 'var(--color-primary)';
+    var svg = tabAv.querySelector('svg');
+    if(svg){ hdrAv.innerHTML = svg.outerHTML; }
+    else { hdrAv.textContent = tabAv.textContent.trim(); }
+  }
+
+  /* close any open card, then sync data */
+  collapseCi();
+  var contactId = el.getAttribute('data-contact');
+  if(contactId) updateContactCard(contactId);
 }
 /* ══ SIDE NAV ══ */
 function toggleSidenav(){
@@ -3289,11 +3595,31 @@ function snavClick(el){
 function snavNav(el,action){
   document.querySelectorAll('.snav-item').forEach(function(i){i.classList.remove('active');});
   el.classList.add('active');
+  if(el.id)sessionStorage.setItem('efActiveNav',el.id);
   if(action)action();
 }
+var _SNAV_ACTIONS={
+  snavDashboard:openDashboard,
+  snavConversations:showConversations,
+  snavOutbound:function(){if(window.openOutbound)window.openOutbound();},
+  snavContacts:openCust,
+  snavQuickLinks:null,
+  vmSnavItem:openVm,
+  snavTickets:openTickets
+};
+function _restoreNav(){
+  var saved=sessionStorage.getItem('efActiveNav');
+  if(!saved)return;
+  var el=document.getElementById(saved);
+  if(!el)return;
+  var action=_SNAV_ACTIONS[saved];
+  snavNav(el,action||null);
+}
+_restoreNav();
 function _closeAllScreens(){
   [document.getElementById('dashScreen'),document.getElementById('vmScreen'),document.getElementById('custScreen'),document.getElementById('ticketScreen'),document.getElementById('queueScreen')].forEach(function(s){if(s)s.classList.remove('open');});
   vmOpen=false;custOpen=false;
+  if(window.closeOutbound)window.closeOutbound();
 }
 function showConversations(){_closeAllScreens();}
 function openDashboard(){
@@ -3324,19 +3650,19 @@ function openCust(){
   <div class="cc-timer" id="ccTimer">00:00</div>
   <div class="cc-btns">
     <button class="cc-btn" id="ccMuteBtn" onclick="ccMute()" data-tip="Mute">
-      <div class="cc-ic"><span class="material-icons">mic</span></div>
-      <span class="cc-lbl">Mute</span>
+      <div class="cc-ic" id="ccMuteIc"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg></div>
+      <span class="cc-lbl" id="ccMuteLbl">Mute</span>
     </button>
     <button class="cc-btn" id="ccHoldBtn" onclick="ccHold()" data-tip="Hold">
-      <div class="cc-ic"><span class="material-icons">pause</span></div>
-      <span class="cc-lbl">Hold</span>
+      <div class="cc-ic" id="ccHoldIc"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg></div>
+      <span class="cc-lbl" id="ccHoldLbl">Hold</span>
     </button>
     <button class="cc-btn" id="ccKpBtn" onclick="ccKeypad()" data-tip="Keypad">
-      <div class="cc-ic"><span class="material-icons">dialpad</span></div>
+      <div class="cc-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="6" cy="4" r="2"/><circle cx="12" cy="4" r="2"/><circle cx="18" cy="4" r="2"/><circle cx="6" cy="10" r="2"/><circle cx="12" cy="10" r="2"/><circle cx="18" cy="10" r="2"/><circle cx="6" cy="16" r="2"/><circle cx="12" cy="16" r="2"/><circle cx="18" cy="16" r="2"/><circle cx="12" cy="22" r="2"/></svg></div>
       <span class="cc-lbl">Keypad</span>
     </button>
     <button class="cc-btn cc-end" onclick="endCall()" data-tip="End Call">
-      <div class="cc-ic"><span class="material-icons">call_end</span></div>
+      <div class="cc-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08c-.18-.17-.29-.42-.29-.7 0-.28.11-.53.29-.71C3.34 8.78 7.46 7 12 7s8.66 1.78 11.71 4.67c.18.18.29.43.29.71 0 .28-.11.53-.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.1-.7-.28-.79-.74-1.69-1.36-2.67-1.85-.33-.16-.56-.5-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z"/></svg></div>
       <span class="cc-lbl" style="color:#f87171;">End</span>
     </button>
   </div>

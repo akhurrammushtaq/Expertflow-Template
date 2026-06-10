@@ -27,6 +27,8 @@ license: Proprietary — ExpertFlow internal use only.
 7. **WCAG AA minimum.** Muted/timestamp text at 12px minimum. `#646464` is the floor for readable text on white.
 8. **Table uses `border-collapse: collapse` + `table-layout: fixed`.** This is required for column resize to work correctly.
 9. **Column features are always three-part:** drag-handle | sort-trigger (label + channel icon + sort arrows) | resize-handle. Never omit any part.
+10. **Icons:** Always use icons from google material icon library
+
 
 ---
 
