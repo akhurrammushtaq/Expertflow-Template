@@ -9,124 +9,193 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --color-primary:        #1a50a3;
-      --color-primary-hover:  #1e5bb9;
-      --color-primary-light:  #ECF3FF;
-      --color-bg:             #ffffff;
-      --color-canvas:         #F3F6FA;
-      --color-border:         #ececec;
-      --color-border-panel:   #d1dced;
-      --color-border-input:   #c5c5c5;
-      --color-text:           #282828;
-      --color-text-body:      #212121;
-      --color-text-medium:    #555555;
-      --color-text-muted:     #929292;
-      --color-text-ph:        #aaaaaa;
-      --color-success:        #26c98c;
-      --color-error:          #ff6767;
-      --shadow-card:          0 4px 24px rgba(0,0,0,0.12);
-      --shadow-focus:         0 0 0 3px rgba(26,80,163,0.2);
+      --primary:        #1a50a3;
+      --primary-hover:  #1e5bb9;
+      --primary-light:  #ECF3FF;
+      --bg:             #ffffff;
+      --canvas:         #F3F6FA;
+      --border:         #ececec;
+      --border-input:   #c5c5c5;
+      --text:           #282828;
+      --text-body:      #212121;
+      --text-medium:    #555555;
+      --text-muted:     #929292;
+      --text-ph:        #aaaaaa;
+      --success:        #26c98c;
+      --error:          #ff6767;
+      --focus:          0 0 0 3px rgba(26,80,163,0.2);
     }
 
-    html, body {
-      height: 100%;
-      font-family: 'Roboto', sans-serif;
-      background: var(--color-canvas);
-      color: var(--color-text-body);
-      line-height: 1.4;
-    }
+    html, body { height: 100%; font-family: 'Roboto', sans-serif; line-height: 1.4; }
 
-    /* ── PAGE LAYOUT ── */
-    .page {
+    /* ══════════════════════════════════════════
+       PAGE SHELL — two-column split
+    ══════════════════════════════════════════ */
+    .login-page {
+      display: flex;
       min-height: 100vh;
+    }
+
+    /* ══════════════════════════════════════════
+       LEFT PANEL — blue gradient + mockup
+    ══════════════════════════════════════════ */
+    .left-panel {
+      width: 46%;
+      flex-shrink: 0;
+      background: linear-gradient(148deg, #1440a2 0%, #1a52bc 30%, #2368d2 60%, #3585e6 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 24px 16px;
-      gap: 20px;
-    }
-
-    /* ── BRAND MARK ── */
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .brand-logo {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .brand-logo-icon {
-      width: 36px;
-      height: 36px;
-      flex-shrink: 0;
-    }
-    .brand-text {
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
-    }
-    .brand-name {
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--color-primary);
-      letter-spacing: -0.3px;
-    }
-    .brand-sub {
-      font-size: 11px;
-      font-weight: 400;
-      color: #8d9192;
-      letter-spacing: 0.3px;
-    }
-
-    /* ── CARD ── */
-    .card {
-      background: var(--color-bg);
-      border-radius: 12px;
-      box-shadow: var(--shadow-card);
-      width: 100%;
-      max-width: 440px;
+      gap: 28px;
+      padding: 44px 32px 36px;
+      position: relative;
       overflow: hidden;
     }
 
-    .card-header {
-      padding: 28px 28px 20px;
-      border-bottom: 1px solid var(--color-border);
+    /* subtle radial glows */
+    .left-panel::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 360px; height: 360px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.07);
+      pointer-events: none;
     }
-    .card-title {
-      font-size: 18px;
-      font-weight: 500;
-      color: var(--color-text);
-      margin-bottom: 4px;
-    }
-    .card-subtitle {
-      font-size: 13px;
-      font-weight: 400;
-      color: var(--color-text-muted);
+    .left-panel::after {
+      content: '';
+      position: absolute;
+      bottom: -50px; left: -50px;
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+      pointer-events: none;
     }
 
-    .card-body {
-      padding: 24px 28px;
+    /* ── HERO IMAGE AREA ── */
+    .mockup-area {
+      width: 90%;
+      position: relative;
+      margin: 0 auto;
+    }
+
+    .hero-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 10px;
+      filter: drop-shadow(0 12px 32px rgba(0,0,0,0.35));
+    }
+
+    /* ── LEFT TAGLINE ── */
+    .left-tagline {
+      text-align: center;
+    }
+    .left-tagline h2 {
+      font-size: 26px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.3;
+      letter-spacing: -0.3px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    /* ── STATS ROW ── */
+    .stats-row {
+      display: flex;
+      gap: 28px;
+      justify-content: center;
+    }
+    .stat-item {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      align-items: center;
+      gap: 8px;
+    }
+    .stat-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .stat-icon-green  { background: #22c55e; }
+    .stat-icon-orange { background: #f59e0b; }
+    .stat-icon-purple { background: #8b5cf6; }
+    .stat-num {
+      font-size: 22px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1;
+    }
+    .stat-lbl {
+      font-size: 12px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.75);
     }
 
-    /* ── ROLE SELECTOR ── */
-    .role-label {
+    /* ── LEFT FOOTER ── */
+    .left-footer {
       font-size: 12px;
+      color: rgba(255,255,255,0.55);
+    }
+
+    /* ══════════════════════════════════════════
+       RIGHT PANEL — white, scrollable, all form content
+    ══════════════════════════════════════════ */
+    .right-panel {
+      flex: 1;
+      background: #ffffff;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .right-inner {
+      width: 100%;
+      max-width: 480px;
+      padding: 48px 40px;
+      margin: auto;
+    }
+
+    /* ── EF LOGO ── */
+    .ef-logo {
+      display: block;
+      margin-bottom: 28px;
+    }
+    .ef-logo-img { height: 52px; width: auto; display: block; object-fit: contain; object-position: left; }
+    .ef-logo-sub { font-size: 12px; color: #8d9192; font-family: Roboto, sans-serif; font-weight: 400; letter-spacing: 0.3px; margin-top: 2px; display: block; text-align: right; }
+
+    /* ── HEADING ── */
+    .form-heading {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+    }
+    .form-subheading {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+
+    /* ── SECTION LABEL ── */
+    .sec-label {
+      font-size: 11px;
       font-weight: 500;
       color: #9a9a9a;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.6px;
       margin-bottom: 10px;
     }
+
+    /* ── ROLE CARDS ── */
     .role-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 8px;
+      margin-bottom: 20px;
     }
     .role-card {
       display: flex;
@@ -134,127 +203,140 @@
       align-items: center;
       gap: 8px;
       padding: 14px 8px 12px;
-      border: 1.5px solid var(--color-border);
+      border: 1.5px solid var(--border);
       border-radius: 8px;
-      background: var(--color-bg);
+      background: var(--bg);
       cursor: pointer;
       transition: border-color .15s, background .15s, box-shadow .15s;
       user-select: none;
     }
-    .role-card:hover {
-      background: var(--color-canvas);
-      border-color: #c5d3e8;
-    }
+    .role-card:hover { background: var(--canvas); border-color: #c5d3e8; }
     .role-card.selected {
-      background: var(--color-primary-light);
-      border-color: var(--color-primary);
+      background: var(--primary-light);
+      border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(26,80,163,0.08);
     }
     .role-icon {
-      width: 36px;
-      height: 36px;
+      width: 38px; height: 38px;
       border-radius: 50%;
-      background: var(--color-canvas);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      background: var(--canvas);
+      display: flex; align-items: center; justify-content: center;
       transition: background .15s;
     }
-    .role-card.selected .role-icon {
-      background: rgba(26,80,163,0.12);
-    }
-    .role-icon svg { display: block; }
+    .role-card.selected .role-icon { background: rgba(26,80,163,0.12); }
     .role-name {
       font-size: 13px;
       font-weight: 500;
-      color: var(--color-text-medium);
+      color: var(--text-medium);
       transition: color .15s;
     }
-    .role-card.selected .role-name {
-      color: var(--color-primary);
-    }
+    .role-card.selected .role-name { color: var(--primary); }
     .role-badge {
       font-size: 10px;
-      font-weight: 400;
-      color: var(--color-text-muted);
-      padding: 1px 6px;
+      color: var(--text-muted);
+      padding: 1px 7px;
       border-radius: 9999px;
-      background: var(--color-canvas);
-      border: 1px solid var(--color-border);
+      background: var(--canvas);
+      border: 1px solid var(--border);
       transition: background .15s, color .15s;
     }
     .role-card.selected .role-badge {
       background: rgba(26,80,163,0.1);
-      color: var(--color-primary);
+      color: var(--primary);
       border-color: rgba(26,80,163,0.2);
     }
 
-    /* ── FORM ── */
-    .form-group {
+    /* ── WORKSPACE TOGGLE ── */
+    .workspace-wrap { margin-bottom: 20px; }
+    .workspace-toggle {
       display: flex;
-      flex-direction: column;
-      gap: 6px;
+      gap: 8px;
     }
-    .form-label {
-      font-size: 12px;
-      font-weight: 500;
-      color: #9a9a9a;
-    }
-    .input-wrap {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-    .input-wrap svg.input-icon {
-      position: absolute;
-      left: 12px;
-      pointer-events: none;
-      flex-shrink: 0;
-    }
-    .form-input {
-      width: 100%;
-      height: 40px;
-      padding: 0 40px 0 38px;
-      border: 1px solid var(--color-border-input);
-      border-radius: 8px;
-      font-family: 'Roboto', sans-serif;
-      font-size: 14px;
-      color: var(--color-text-body);
-      background: var(--color-bg);
-      outline: none;
-      transition: border-color .15s, box-shadow .15s;
-    }
-    .form-input::placeholder { color: var(--color-text-ph); }
-    .form-input:focus {
-      border-color: var(--color-primary);
-      box-shadow: var(--shadow-focus);
-    }
-    .form-input.error {
-      border-color: var(--color-error);
-      box-shadow: 0 0 0 3px rgba(255,103,103,0.15);
-    }
-
-    .pw-toggle {
-      position: absolute;
-      right: 10px;
-      width: 26px;
-      height: 26px;
+    .ws-opt {
+      flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
+      gap: 7px;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--text-medium);
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-family: 'Roboto', sans-serif;
+      transition: border-color .15s, background .15s, color .15s;
+      user-select: none;
+    }
+    .ws-opt:hover:not(.ws-active) { background: var(--canvas); border-color: #c5d3e8; }
+    .ws-opt.ws-active {
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 500;
+      border-color: var(--primary);
+    }
+    .ws-ef-icon {
+      width: 18px;
+      height: 18px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+    .ws-badge {
+      font-size: 10px;
+      font-weight: 500;
+      padding: 1px 5px;
+      border-radius: 9999px;
+      background: rgba(26,80,163,0.1);
+      color: var(--primary);
+    }
+
+    /* ── FORM FIELDS ── */
+    .form-fields { display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; }
+    .form-group  { display: flex; flex-direction: column; gap: 6px; }
+    .form-label  { font-size: 13px; font-weight: 500; color: var(--text-medium); }
+    .input-wrap  { position: relative; display: flex; align-items: center; }
+    .input-wrap svg.input-icon { position: absolute; left: 14px; pointer-events: none; }
+    .form-input {
+      width: 100%;
+      height: 46px;
+      padding: 0 44px 0 42px;
+      border: 1.5px solid #dde2ec;
+      border-radius: 8px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      color: var(--text-body);
+      background: #f8f9fc;
+      outline: none;
+      transition: border-color .15s, box-shadow .15s, background .15s;
+    }
+    .form-input::placeholder { color: var(--text-ph); }
+    .form-input:focus {
+      border-color: var(--primary);
+      background: var(--bg);
+      box-shadow: var(--focus);
+    }
+    .form-input.error {
+      border-color: var(--error);
+      box-shadow: 0 0 0 3px rgba(255,103,103,0.15);
+    }
+    .pw-toggle {
+      position: absolute;
+      right: 12px;
+      width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
       border: none;
       background: transparent;
       cursor: pointer;
       border-radius: 4px;
-      color: var(--color-text-muted);
-      transition: background .15s, color .15s;
+      transition: background .15s;
     }
-    .pw-toggle:hover { background: var(--color-canvas); color: var(--color-text-medium); }
-    .pw-toggle:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
-
+    .pw-toggle:hover { background: var(--canvas); }
+    .pw-toggle:focus-visible { outline: none; box-shadow: var(--focus); }
     .form-error {
       font-size: 12px;
-      color: var(--color-error);
+      color: var(--error);
       display: none;
       gap: 4px;
       align-items: center;
@@ -264,24 +346,24 @@
     /* ── LOGIN BUTTON ── */
     .btn-login {
       width: 100%;
-      height: 42px;
-      background: var(--color-primary);
+      height: 46px;
+      background: var(--primary);
       color: #fff;
       border: none;
       border-radius: 8px;
       font-family: 'Roboto', sans-serif;
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 500;
       cursor: pointer;
-      transition: background .15s, box-shadow .15s, opacity .15s;
+      transition: background .15s, box-shadow .15s;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
+      margin-bottom: 28px;
     }
-    .btn-login:hover { background: var(--color-primary-hover); }
-    .btn-login:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
-    .btn-login:disabled { opacity: 0.45; pointer-events: none; }
+    .btn-login:hover { background: var(--primary-hover); }
+    .btn-login:focus-visible { outline: none; box-shadow: var(--focus); }
     .btn-login.loading { pointer-events: none; }
 
     .spinner {
@@ -296,87 +378,44 @@
     .btn-login.loading .btn-text { opacity: 0.7; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ── WORKSPACE PICKER ── */
-    .workspace-label {
-      font-size: 12px;
-      font-weight: 500;
-      color: #9a9a9a;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 10px;
-    }
-    .workspace-toggle {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      border: 1.5px solid var(--color-border);
-      border-radius: 8px;
-      overflow: hidden;
-      background: var(--color-canvas);
-    }
-    .ws-opt {
-      display: flex;
+    /* ── SUCCESS OVERLAY ── */
+    .success-overlay {
+      display: none;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 10px 12px;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 400;
-      color: var(--color-text-medium);
-      background: transparent;
-      border: none;
-      font-family: 'Roboto', sans-serif;
-      transition: background .15s, color .15s;
-      user-select: none;
-      position: relative;
+      gap: 12px;
+      padding: 32px 0;
     }
-    .ws-opt:first-child { border-right: 1.5px solid var(--color-border); }
-    .ws-opt:hover:not(.ws-active) { background: #edf2f9; }
-    .ws-opt.ws-active {
-      background: var(--color-bg);
-      color: var(--color-primary);
-      font-weight: 500;
-      box-shadow: inset 0 0 0 1.5px var(--color-primary);
+    .success-overlay.visible { display: flex; }
+    .success-icon {
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: rgba(38,201,140,0.12);
+      display: flex; align-items: center; justify-content: center;
     }
-    .ws-opt svg { flex-shrink: 0; }
-    .ws-badge {
-      font-size: 10px;
-      font-weight: 500;
-      padding: 1px 5px;
-      border-radius: 9999px;
-      background: rgba(26,80,163,0.1);
-      color: var(--color-primary);
-      line-height: 1.6;
-    }
+    .success-title { font-size: 18px; font-weight: 600; color: var(--text); }
+    .success-sub   { font-size: 13px; color: var(--text-muted); text-align: center; }
 
-    /* ── CREDENTIALS REFERENCE ── */
-    .creds-section {
-      padding: 0 28px 24px;
-    }
+    /* ── CREDENTIALS TABLE ── */
     .creds-divider {
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
-    .creds-divider::before,
-    .creds-divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--color-border);
+    .creds-divider::before, .creds-divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
     }
     .creds-divider-text {
       font-size: 11px;
       font-weight: 500;
-      color: var(--color-text-muted);
+      color: var(--text-muted);
       white-space: nowrap;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
-
     .creds-table {
-      background: #F8FAFE;
+      background: #f8fbff;
       border: 1px solid #dce8f5;
       border-radius: 8px;
       overflow: hidden;
@@ -384,155 +423,311 @@
     .creds-row {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
-      padding: 0;
     }
     .creds-head {
       background: #EBF2FF;
       border-bottom: 1px solid #dce8f5;
     }
     .creds-cell {
-      padding: 8px 12px;
+      padding: 9px 12px;
       font-size: 12px;
       border-right: 1px solid #dce8f5;
     }
     .creds-cell:last-child { border-right: none; }
     .creds-head .creds-cell {
       font-weight: 500;
-      color: var(--color-primary);
+      color: var(--primary);
       font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 0.4px;
     }
     .creds-row:not(.creds-head) { border-bottom: 1px solid #dce8f5; }
     .creds-row:not(.creds-head):last-child { border-bottom: none; }
-    .creds-row:not(.creds-head):hover { background: #F0F6FF; }
-
-    .creds-role {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .role-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
+    .creds-row:not(.creds-head):hover { background: #eef5ff; cursor: pointer; }
+    .creds-row:not(.creds-head) .creds-cell { color: var(--text-body); }
+    .creds-role { display: flex; align-items: center; gap: 7px; }
+    .role-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
     .role-dot-agent      { background: #26c98c; }
     .role-dot-supervisor { background: #fdb635; }
-    .role-dot-admin      { background: var(--color-primary); }
-
-    .creds-row:not(.creds-head) .creds-cell {
-      color: var(--color-text-body);
-      font-size: 12px;
-    }
+    .role-dot-admin      { background: var(--primary); }
     .creds-pw {
       font-family: 'Roboto Mono', 'Courier New', monospace;
       font-size: 12px;
-      color: var(--color-text-medium);
-      letter-spacing: 0.3px;
+      color: var(--text-medium);
     }
     .creds-hint {
       margin-top: 8px;
       font-size: 11px;
-      color: var(--color-text-muted);
-      text-align: center;
-    }
-    .creds-hint strong {
-      color: var(--color-primary);
-      font-weight: 500;
-      cursor: pointer;
-    }
-    .creds-hint strong:hover { text-decoration: underline; }
-
-    /* ── SUCCESS STATE ── */
-    .success-overlay {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      padding: 40px 28px;
-    }
-    .success-overlay.visible { display: flex; }
-    .success-icon {
-      width: 56px; height: 56px;
-      border-radius: 50%;
-      background: rgba(38,201,140,0.12);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .success-title {
-      font-size: 16px; font-weight: 500;
-      color: var(--color-text);
-    }
-    .success-sub {
-      font-size: 13px;
-      color: var(--color-text-muted);
+      color: var(--text-muted);
       text-align: center;
     }
 
-    /* ── FOOTER ── */
-    .page-footer {
+    /* ── RIGHT FOOTER ── */
+    .right-footer {
+      margin-top: 28px;
       font-size: 12px;
-      color: var(--color-text-muted);
+      color: var(--text-muted);
       text-align: center;
     }
 
-    /* ── ANIMATIONS ── */
-    .card { animation: fadeUp .3s ease both; }
+    /* ── ANIMATION ── */
+    .right-inner { animation: fadeUp .35s ease both; }
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(12px); }
+      from { opacity: 0; transform: translateY(14px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+
+    /* ══════════════════════════════════════════
+       SKELETON LOADING SCREEN
+    ══════════════════════════════════════════ */
+    .skel-screen {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      flex-direction: column;
+      background: #F3F6FA;
+      animation: skelFadeIn .25s ease both;
+    }
+    .skel-screen.visible { display: flex; }
+    @keyframes skelFadeIn { from { opacity:0 } to { opacity:1 } }
+
+    /* Shimmer base */
+    .sk {
+      background: linear-gradient(90deg,
+        #e0e6ef 25%,
+        #eef2f7 50%,
+        #e0e6ef 75%);
+      background-size: 800px 100%;
+      animation: shimmer 1.5s ease-in-out infinite;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+    @keyframes shimmer {
+      0%   { background-position: -800px 0; }
+      100% { background-position:  800px 0; }
+    }
+
+    /* ── Navbar ── */
+    .skel-nav {
+      height: 50px;
+      background: #fff;
+      border-bottom: 1px solid #ececec;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .sk-ham   { width: 34px; height: 34px; border-radius: 6px; }
+    .sk-logo  { width: 130px; height: 18px; border-radius: 4px; }
+    .sk-nav-sp{ flex: 1; }
+    .sk-pill  { width: 130px; height: 34px; border-radius: 20px; }
+    .sk-nav-av{ width: 34px; height: 34px; border-radius: 50%; }
+    .sk-nav-btn{ width: 32px; height: 32px; border-radius: 6px; }
+
+    /* ── Body ── */
+    .skel-body {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      gap: 5px;
+      margin-top: 4px;
+    }
+
+    /* ── Left panel ── */
+    .skel-left {
+      width: 260px;
+      background: #fff;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 12px 0 0;
+      overflow: hidden;
+    }
+    .sk-lp-hdr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px 12px;
+    }
+    .sk-lp-title { width: 110px; height: 14px; }
+    .sk-lp-add   { width: 28px; height: 28px; border-radius: 50%; }
+    .sk-conv {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 14px;
+    }
+    .sk-conv-av  { width: 44px; height: 44px; border-radius: 50%; }
+    .sk-conv-txt { flex: 1; display: flex; flex-direction: column; gap: 7px; }
+    .sk-conv-name { height: 11px; width: 80%; }
+    .sk-conv-prev { height: 9px;  width: 95%; }
+
+    /* ── Center + right wrapper ── */
+    .skel-main {
+      flex: 1;
+      display: flex;
+      gap: 5px;
+      overflow: hidden;
+    }
+
+    /* ── Center column ── */
+    .skel-center {
+      flex: 1;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    /* Shared header */
+    .sk-chat-hdr {
+      height: 50px;
+      border-bottom: 1px solid #ececec;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .sk-ch-av    { width: 34px; height: 34px; border-radius: 50%; }
+    .sk-ch-info  { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+    .sk-ch-name  { height: 12px; width: 120px; }
+    .sk-ch-stat  { height: 9px;  width:  70px; }
+    .sk-ch-tools { display: flex; gap: 6px; }
+    .sk-ch-btn   { width: 28px; height: 28px; border-radius: 6px; }
+
+    /* Messages */
+    .sk-msgs {
+      flex: 1;
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      overflow: hidden;
+    }
+    .sk-msg      { display: flex; align-items: flex-start; gap: 10px; }
+    .sk-msg-av   { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; }
+    .sk-msg-body { display: flex; flex-direction: column; gap: 6px; max-width: 65%; }
+    .sk-msg-line { height: 11px; border-radius: 6px; }
+    .sk-msg-out  { flex-direction: row-reverse; align-self: flex-end; }
+    .sk-msg-out .sk-msg-body { align-items: flex-end; }
+
+    /* Composer */
+    .sk-composer {
+      height: 68px;
+      border-top: 1px solid #ececec;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .sk-comp-inp  { flex: 1; height: 38px; border-radius: 20px; }
+    .sk-comp-send { width: 32px; height: 32px; border-radius: 50%; }
+
+    /* ── Right panel ── */
+    .skel-right {
+      width: 315px;
+      background: #fff;
+      flex-shrink: 0;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      overflow: hidden;
+    }
+    .sk-sec { border: 1px solid #ececec; border-radius: 6px; overflow: hidden; }
+    .sk-sec-hdr {
+      height: 40px;
+      background: #F4F6F8;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      gap: 8px;
+    }
+    .sk-sec-title { height: 12px; width: 80px; }
+    .sk-sec-body  { padding: 10px 12px; display: flex; flex-direction: column; gap: 10px; }
+    .sk-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .sk-field     { display: flex; flex-direction: column; gap: 5px; }
+    .sk-f-lbl     { height: 9px;  width: 55px; }
+    .sk-f-val     { height: 12px; width: 90%; }
   </style>
 </head>
 <body>
-<div class="page">
+<div class="login-page">
 
-  <!-- Brand mark -->
-  <div class="brand">
-    <div class="brand-logo">
-      <svg class="brand-logo-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Grid squares -->
-        <rect x="2"  y="2"  width="7" height="7" rx="1.5" fill="#1a50a3" opacity="0.9"/>
-        <rect x="11" y="2"  width="7" height="7" rx="1.5" fill="#1a50a3" opacity="0.65"/>
-        <rect x="20" y="2"  width="7" height="7" rx="1.5" fill="#1a50a3" opacity="0.4"/>
-        <rect x="2"  y="11" width="7" height="7" rx="1.5" fill="#1a50a3" opacity="0.65"/>
-        <rect x="11" y="11" width="7" height="7" rx="1.5" fill="#1a50a3" opacity="0.9"/>
-        <rect x="20" y="11" width="7" height="7" rx="1.5" fill="#1a50a3" opacity="0.65"/>
-        <rect x="2"  y="20" width="7" height="7" rx="1.5" fill="#1a50a3" opacity="0.4"/>
-        <rect x="11" y="20" width="7" height="7" rx="1.5" fill="#1a50a3" opacity="0.65"/>
-        <!-- Chat bubble circle -->
-        <circle cx="27" cy="27" r="8" fill="#1a50a3"/>
-        <path d="M24 26h6M24 29h4" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
-        <path d="M22 33 l2-3" stroke="#1a50a3" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-      </svg>
-      <div class="brand-text">
-        <span class="brand-name">ExpertFlow</span>
-        <span class="brand-sub">contact center software</span>
+  <!-- ═══════════ LEFT PANEL ═══════════ -->
+  <div class="left-panel">
+
+    <!-- Hero image -->
+    <div class="mockup-area">
+      <img class="hero-img" src="agent-desk-hero.png" alt="ExpertFlow Agent Desk"/>
+    </div><!-- /mockup-area -->
+
+    <!-- Tagline -->
+    <div class="left-tagline">
+      <h2>Empowering Your<br>Customer Connections</h2>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-item">
+        <div class="stat-icon stat-icon-green">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+          </svg>
+        </div>
+        <span class="stat-num">1M+</span>
+        <span class="stat-lbl">Daily Calls</span>
+      </div>
+      <div class="stat-item">
+        <div class="stat-icon stat-icon-orange">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+            <path d="M12 2L4 6v6c0 5 3.6 9.7 8 11 4.4-1.3 8-6 8-11V6l-8-4z"/>
+          </svg>
+        </div>
+        <span class="stat-num">99.9%</span>
+        <span class="stat-lbl">Uptime SLA</span>
+      </div>
+      <div class="stat-item">
+        <div class="stat-icon stat-icon-purple">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+            <line x1="12" y1="22.08" x2="12" y2="12"/>
+          </svg>
+        </div>
+        <span class="stat-num">60+</span>
+        <span class="stat-lbl">Integrations</span>
       </div>
     </div>
-  </div>
 
-  <!-- Login card -->
-  <div class="card" id="loginCard">
+    <div class="left-footer">Powered by ExpertFlow</div>
 
-    <!-- Card header -->
-    <div class="card-header">
-      <div class="card-title">Sign in to Agent Desk</div>
-      <div class="card-subtitle">Select your role, then enter your credentials</div>
-    </div>
+  </div><!-- /left-panel -->
 
-    <!-- Card body -->
-    <div class="card-body" id="cardBody">
+  <!-- ═══════════ RIGHT PANEL ═══════════ -->
+  <div class="right-panel">
+    <div class="right-inner">
 
-      <!-- Role selector -->
-      <div>
-        <div class="role-label">Select Role</div>
+      <!-- EF Logo -->
+      <div class="ef-logo">
+        <img src="logo-login.png" alt="ExpertFlow" class="ef-logo-img">
+      </div>
+
+      <!-- Heading -->
+      <div class="form-heading">Welcome back</div>
+      <div class="form-subheading">Please enter your credentials to continue</div>
+
+      <!-- Form content (hidden on success) -->
+      <div id="formContent">
+
+        <!-- Role selector -->
+        <div class="sec-label">Select Role</div>
         <div class="role-grid">
-
-          <!-- Agent -->
           <div class="role-card" id="role-agent" onclick="selectRole('agent')" tabindex="0"
-               aria-label="Select Agent role" title="Agent">
+               aria-label="Agent" title="Agent">
             <div class="role-icon">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <circle cx="12" cy="8" r="4" stroke="#555555" stroke-width="1.8"/>
@@ -542,26 +737,21 @@
             <span class="role-name">Agent</span>
             <span class="role-badge">Support</span>
           </div>
-
-          <!-- Supervisor -->
           <div class="role-card" id="role-supervisor" onclick="selectRole('supervisor')" tabindex="0"
-               aria-label="Select Supervisor role" title="Supervisor">
+               aria-label="Supervisor" title="Supervisor">
             <div class="role-icon">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <circle cx="9"  cy="8" r="3.2" stroke="#555555" stroke-width="1.8"/>
                 <path d="M2 20c0-3.3 3-6 7-6" stroke="#555555" stroke-width="1.8" stroke-linecap="round"/>
                 <circle cx="17" cy="7" r="3.2" stroke="#555555" stroke-width="1.8"/>
                 <path d="M13 20c0-3.3 3-6 7-6" stroke="#555555" stroke-width="1.8" stroke-linecap="round"/>
-                <path d="M17 3.5l.6 1.3 1.4.2-1 1 .2 1.4L17 6.7l-1.2.7.2-1.4-1-1 1.4-.2z" fill="#555555"/>
               </svg>
             </div>
             <span class="role-name">Supervisor</span>
             <span class="role-badge">Team Lead</span>
           </div>
-
-          <!-- Admin -->
           <div class="role-card" id="role-admin" onclick="selectRole('admin')" tabindex="0"
-               aria-label="Select Admin role" title="Admin">
+               aria-label="Admin" title="Admin">
             <div class="role-icon">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <path d="M12 2L4 6v6c0 5 3.6 9.7 8 11 4.4-1.3 8-6 8-11V6l-8-4z"
@@ -572,153 +762,98 @@
             <span class="role-name">Admin</span>
             <span class="role-badge">Full Access</span>
           </div>
-
         </div>
-      </div>
 
-      <!-- Workspace picker -->
-      <div>
-        <div class="workspace-label">Workspace</div>
-        <div class="workspace-toggle">
-          <button class="ws-opt ws-active" id="ws-standard" type="button"
-                  onclick="selectWorkspace('standard')" title="Classic Agent Desk" aria-label="Classic Agent Desk">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
-              <rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/>
-              <rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/>
-              <rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/>
-              <rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/>
-            </svg>
-            Classic Desk
-          </button>
-          <button class="ws-opt" id="ws-new" type="button"
-                  onclick="selectWorkspace('new')" title="New Agent Desk" aria-label="New Agent Desk">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-              <path d="M2 17l10 5 10-5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-              <path d="M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-            </svg>
-            New Template
-            <span class="ws-badge">Beta</span>
-          </button>
+        <!-- Workspace -->
+        <div class="workspace-wrap">
+          <div class="sec-label">Workspace</div>
+          <div class="workspace-toggle">
+            <button class="ws-opt ws-active" id="ws-standard" type="button"
+                    onclick="selectWorkspace('standard')" title="Classic Desk" aria-label="Classic Desk">
+              <img src="favicon.png" alt="" class="ws-ef-icon">
+              Classic Desk
+            </button>
+            <button class="ws-opt" id="ws-new" type="button"
+                    onclick="selectWorkspace('new')" title="New Template" aria-label="New Template">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                <path d="M2 17l10 5 10-5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                <path d="M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+              </svg>
+              New Template
+              <span class="ws-badge">Beta</span>
+            </button>
+          </div>
         </div>
-      </div>
 
-      <!-- Username -->
-      <div class="form-group">
-        <label class="form-label" for="username">Username</label>
-        <div class="input-wrap">
-          <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="8" r="4" stroke="#aaaaaa" stroke-width="1.8"/>
-            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="#aaaaaa" stroke-width="1.8" stroke-linecap="round"/>
-          </svg>
-          <input class="form-input" id="username" type="text" placeholder="Enter username"
-                 autocomplete="username" spellcheck="false"/>
-        </div>
-        <div class="form-error" id="usernameError">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="10" stroke="#ff6767" stroke-width="2"/>
-            <path d="M12 7v5M12 16v1" stroke="#ff6767" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-          <span id="usernameErrorText">Username is required</span>
-        </div>
-      </div>
-
-      <!-- Password -->
-      <div class="form-group">
-        <label class="form-label" for="password">Password</label>
-        <div class="input-wrap">
-          <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <rect x="5" y="11" width="14" height="10" rx="2" stroke="#aaaaaa" stroke-width="1.8"/>
-            <path d="M8 11V7a4 4 0 018 0v4" stroke="#aaaaaa" stroke-width="1.8" stroke-linecap="round"/>
-          </svg>
-          <input class="form-input" id="password" type="password" placeholder="Enter password"
-                 autocomplete="current-password"/>
-          <button class="pw-toggle" id="pwToggle" type="button" onclick="togglePassword()"
-                  aria-label="Toggle password visibility" title="Show/hide password">
-            <svg id="eyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="#929292" stroke-width="1.8"/>
-              <circle cx="12" cy="12" r="3" stroke="#929292" stroke-width="1.8"/>
-            </svg>
-          </button>
-        </div>
-        <div class="form-error" id="passwordError">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="10" stroke="#ff6767" stroke-width="2"/>
-            <path d="M12 7v5M12 16v1" stroke="#ff6767" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-          <span id="passwordErrorText">Password is required</span>
-        </div>
-      </div>
-
-      <!-- Login button -->
-      <button class="btn-login" id="loginBtn" type="button" onclick="doLogin()">
-        <div class="spinner" id="loginSpinner"></div>
-        <span class="btn-text">Sign In</span>
-      </button>
-
-    </div><!-- /card-body -->
-
-    <!-- Success state (hidden until login) -->
-    <div class="success-overlay" id="successOverlay">
-      <div class="success-icon">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-          <path d="M5 13l4 4L19 7" stroke="#26c98c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <div class="success-title" id="successTitle">Welcome back!</div>
-      <div class="success-sub" id="successSub">Signing you in…</div>
-    </div>
-
-    <!-- Credentials reference -->
-    <div class="creds-section" id="credsSection">
-      <div class="creds-divider">
-        <span class="creds-divider-text">Demo Credentials</span>
-      </div>
-      <div class="creds-table">
-        <div class="creds-row creds-head">
-          <div class="creds-cell">Role</div>
-          <div class="creds-cell">Username</div>
-          <div class="creds-cell">Password</div>
-        </div>
-        <div class="creds-row" onclick="fillCreds('agent','agent','Agent@123')" style="cursor:pointer">
-          <div class="creds-cell">
-            <div class="creds-role">
-              <span class="role-dot role-dot-agent"></span>Agent
+        <!-- Form fields -->
+        <div class="form-fields">
+          <div class="form-group">
+            <label class="form-label" for="username">Username</label>
+            <div class="input-wrap">
+              <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="8" r="4" stroke="#aaaaaa" stroke-width="1.8"/>
+                <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="#aaaaaa" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+              <input class="form-input" id="username" type="text"
+                     placeholder="Enter your username"
+                     autocomplete="username" spellcheck="false"/>
+            </div>
+            <div class="form-error" id="usernameError">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="#ff6767" stroke-width="2"/>
+                <path d="M12 7v5M12 16v1" stroke="#ff6767" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              <span id="usernameErrorText">Username is required</span>
             </div>
           </div>
-          <div class="creds-cell">agent</div>
-          <div class="creds-cell creds-pw">Agent@123</div>
-        </div>
-        <div class="creds-row" onclick="fillCreds('supervisor','supervisor','Super@123')" style="cursor:pointer">
-          <div class="creds-cell">
-            <div class="creds-role">
-              <span class="role-dot role-dot-supervisor"></span>Supervisor
+
+          <div class="form-group">
+            <label class="form-label" for="password">Password</label>
+            <div class="input-wrap">
+              <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <rect x="5" y="11" width="14" height="10" rx="2" stroke="#aaaaaa" stroke-width="1.8"/>
+                <path d="M8 11V7a4 4 0 018 0v4" stroke="#aaaaaa" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+              <input class="form-input" id="password" type="password"
+                     placeholder="Enter your password"
+                     autocomplete="current-password"/>
+              <button class="pw-toggle" id="pwToggle" type="button" onclick="togglePassword()"
+                      aria-label="Toggle password visibility" title="Show/hide password">
+                <svg id="eyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="#929292" stroke-width="1.8"/>
+                  <circle cx="12" cy="12" r="3" stroke="#929292" stroke-width="1.8"/>
+                </svg>
+              </button>
+            </div>
+            <div class="form-error" id="passwordError">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="#ff6767" stroke-width="2"/>
+                <path d="M12 7v5M12 16v1" stroke="#ff6767" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              <span id="passwordErrorText">Password is required</span>
             </div>
           </div>
-          <div class="creds-cell">supervisor</div>
-          <div class="creds-cell creds-pw">Super@123</div>
         </div>
-        <div class="creds-row" onclick="fillCreds('admin','admin','Admin@123')" style="cursor:pointer">
-          <div class="creds-cell">
-            <div class="creds-role">
-              <span class="role-dot role-dot-admin"></span>Admin
-            </div>
-          </div>
-          <div class="creds-cell">admin</div>
-          <div class="creds-cell creds-pw">Admin@123</div>
-        </div>
-      </div>
-      <div class="creds-hint">Click any row to auto-fill credentials</div>
-    </div>
 
-  </div><!-- /card -->
+        <!-- Sign in button -->
+        <button class="btn-login" id="loginBtn" type="button" onclick="doLogin()">
+          <div class="spinner" id="loginSpinner"></div>
+          <span class="btn-text">Sign In</span>
+        </button>
 
-  <div class="page-footer">© 2025 ExpertFlow · All rights reserved</div>
 
-</div><!-- /page -->
+      </div><!-- /formContent -->
+
+
+      <div class="right-footer">© 2025 ExpertFlow · All rights reserved</div>
+
+    </div><!-- /right-inner -->
+  </div><!-- /right-panel -->
+
+</div><!-- /login-page -->
 
 <script>
-  // ── Credentials store ──
   const CREDS = {
     agent:      { username: 'agent',      password: 'Agent@123', redirectClassic: 'agent-desk-v2-template.html', redirectNew: 'agentdesk-new.html' },
     supervisor: { username: 'supervisor', password: 'Super@123', redirectClassic: 'agent-desk-v2-template.html', redirectNew: 'agentdesk-new.html' },
@@ -728,83 +863,59 @@
   let activeRole = null;
   let activeWorkspace = 'standard';
 
-  // ── Workspace picker ──
   function selectWorkspace(ws) {
     activeWorkspace = ws;
     document.getElementById('ws-standard').classList.toggle('ws-active', ws === 'standard');
     document.getElementById('ws-new').classList.toggle('ws-active', ws === 'new');
   }
 
-  // ── Role selection ──
   function selectRole(role) {
     activeRole = role;
     document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
     document.getElementById('role-' + role).classList.add('selected');
 
-    // Update SVG icon colours to primary when selected
     document.querySelectorAll('.role-card').forEach(c => {
-      const strokes = c.querySelectorAll('svg path, svg circle');
-      strokes.forEach(el => {
-        if (c.classList.contains('selected')) {
-          el.setAttribute('stroke', '#1a50a3');
-          if (el.getAttribute('fill') === '#555555') el.setAttribute('fill', '#1a50a3');
-        } else {
-          el.setAttribute('stroke', '#555555');
-          if (el.getAttribute('fill') === '#1a50a3') el.setAttribute('fill', '#555555');
-        }
+      const isSelected = c.classList.contains('selected');
+      c.querySelectorAll('svg path, svg circle').forEach(el => {
+        el.setAttribute('stroke', isSelected ? '#1a50a3' : '#555555');
+        if (el.getAttribute('fill') === '#555555') el.setAttribute('fill', isSelected ? '#1a50a3' : '#555555');
+        if (el.getAttribute('fill') === '#1a50a3') el.setAttribute('fill', isSelected ? '#1a50a3' : '#555555');
       });
     });
 
-    // Auto-fill credentials
     document.getElementById('username').value = CREDS[role].username;
     document.getElementById('password').value = CREDS[role].password;
     clearErrors();
   }
 
-  // Keyboard support on role cards
   document.querySelectorAll('.role-card').forEach(card => {
     card.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        card.click();
-      }
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }
     });
   });
 
-  // ── Fill from credentials table row ──
-  function fillCreds(role, user, pass) {
-    document.getElementById('username').value = user;
-    document.getElementById('password').value = pass;
-    selectRole(role);
-  }
-
-  // ── Password toggle ──
-  function togglePassword() {
+function togglePassword() {
     const inp = document.getElementById('password');
     const isText = inp.type === 'text';
     inp.type = isText ? 'password' : 'text';
     document.getElementById('eyeIcon').innerHTML = isText
-      ? `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="#929292" stroke-width="1.8"/>
-         <circle cx="12" cy="12" r="3" stroke="#929292" stroke-width="1.8"/>`
+      ? `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="#929292" stroke-width="1.8"/><circle cx="12" cy="12" r="3" stroke="#929292" stroke-width="1.8"/>`
       : `<path d="M17.94 17.94A10 10 0 0112 20c-7 0-11-8-11-8a18.5 18.5 0 015.06-5.94M9.9 4.24A9 9 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19M1 1l22 22" stroke="#929292" stroke-width="1.8" stroke-linecap="round"/>`;
   }
 
-  // ── Validation ──
   function clearErrors() {
-    document.getElementById('usernameError').classList.remove('visible');
-    document.getElementById('passwordError').classList.remove('visible');
-    document.getElementById('username').classList.remove('error');
-    document.getElementById('password').classList.remove('error');
+    ['username','password'].forEach(f => {
+      document.getElementById(f + 'Error').classList.remove('visible');
+      document.getElementById(f).classList.remove('error');
+    });
   }
 
   function showError(field, msg) {
-    const errEl = document.getElementById(field + 'Error');
     document.getElementById(field + 'ErrorText').textContent = msg;
-    errEl.classList.add('visible');
+    document.getElementById(field + 'Error').classList.add('visible');
     document.getElementById(field).classList.add('error');
   }
 
-  // ── Login ──
   function doLogin() {
     clearErrors();
     const username = document.getElementById('username').value.trim();
@@ -815,13 +926,9 @@
     if (!password) { showError('password', 'Password is required'); valid = false; }
     if (!valid) return;
 
-    // Find matching role
     let matchedRole = null;
     for (const [role, cred] of Object.entries(CREDS)) {
-      if (cred.username === username && cred.password === password) {
-        matchedRole = role;
-        break;
-      }
+      if (cred.username === username && cred.password === password) { matchedRole = role; break; }
     }
 
     if (!matchedRole) {
@@ -830,35 +937,203 @@
       return;
     }
 
-    // Simulate login
     const btn = document.getElementById('loginBtn');
     btn.classList.add('loading');
-    const redirectUrl = activeWorkspace === 'new'
-      ? CREDS[matchedRole].redirectNew
-      : CREDS[matchedRole].redirectClassic;
+    const redirectUrl = activeWorkspace === 'new' ? CREDS[matchedRole].redirectNew : CREDS[matchedRole].redirectClassic;
 
     setTimeout(() => {
-      // Show success
-      document.getElementById('cardBody').style.display = 'none';
-      document.getElementById('credsSection').style.display = 'none';
-      const overlay = document.getElementById('successOverlay');
-      overlay.classList.add('visible');
-      const roleName = matchedRole.charAt(0).toUpperCase() + matchedRole.slice(1);
-      const wsLabel = activeWorkspace === 'new' ? 'New Template' : 'Classic Desk';
-      document.getElementById('successTitle').textContent = `Welcome, ${username}!`;
-      document.getElementById('successSub').textContent = `Signed in as ${roleName} · ${wsLabel}. Redirecting…`;
-
-      // Redirect after brief pause
-      setTimeout(() => {
-        window.location.href = redirectUrl;
-      }, 1200);
-    }, 900);
+      document.querySelector('.login-page').style.display = 'none';
+      document.getElementById('skeletonScreen').classList.add('visible');
+      setTimeout(() => { window.location.href = redirectUrl; }, 1800);
+    }, 700);
   }
 
-  // Enter key submits
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Enter') doLogin();
-  });
+  document.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
 </script>
+
+<!-- ═══════════ SKELETON LOADING SCREEN ═══════════ -->
+<div class="skel-screen" id="skeletonScreen">
+
+  <!-- Navbar skeleton -->
+  <div class="skel-nav">
+    <div class="sk sk-ham"></div>
+    <div class="sk sk-logo"></div>
+    <div class="sk-nav-sp"></div>
+    <div class="sk sk-nav-btn"></div>
+    <div class="sk sk-nav-btn"></div>
+    <div class="sk sk-nav-btn"></div>
+    <div class="sk sk-pill"></div>
+    <div class="sk sk-nav-av"></div>
+  </div>
+
+  <!-- Body -->
+  <div class="skel-body">
+
+    <!-- Left panel — conversation list -->
+    <div class="skel-left">
+      <div class="sk-lp-hdr">
+        <div class="sk sk-lp-title"></div>
+        <div class="sk sk-lp-add"></div>
+      </div>
+      <div class="sk-conv">
+        <div class="sk sk-conv-av"></div>
+        <div class="sk-conv-txt">
+          <div class="sk sk-conv-name"></div>
+          <div class="sk sk-conv-prev"></div>
+        </div>
+      </div>
+      <div class="sk-conv" style="opacity:.85">
+        <div class="sk sk-conv-av"></div>
+        <div class="sk-conv-txt">
+          <div class="sk sk-conv-name" style="width:65%"></div>
+          <div class="sk sk-conv-prev" style="width:80%"></div>
+        </div>
+      </div>
+      <div class="sk-conv" style="opacity:.7">
+        <div class="sk sk-conv-av"></div>
+        <div class="sk-conv-txt">
+          <div class="sk sk-conv-name" style="width:75%"></div>
+          <div class="sk sk-conv-prev"></div>
+        </div>
+      </div>
+      <div class="sk-conv" style="opacity:.55">
+        <div class="sk sk-conv-av"></div>
+        <div class="sk-conv-txt">
+          <div class="sk sk-conv-name" style="width:55%"></div>
+          <div class="sk sk-conv-prev" style="width:70%"></div>
+        </div>
+      </div>
+      <div class="sk-conv" style="opacity:.4">
+        <div class="sk sk-conv-av"></div>
+        <div class="sk-conv-txt">
+          <div class="sk sk-conv-name" style="width:70%"></div>
+          <div class="sk sk-conv-prev" style="width:85%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Center + Right -->
+    <div class="skel-main">
+
+      <!-- Center — chat area -->
+      <div class="skel-center">
+        <!-- Shared header -->
+        <div class="sk-chat-hdr">
+          <div class="sk sk-ch-av"></div>
+          <div class="sk-ch-info">
+            <div class="sk sk-ch-name"></div>
+            <div class="sk sk-ch-stat"></div>
+          </div>
+          <div class="sk-ch-tools">
+            <div class="sk sk-ch-btn"></div>
+            <div class="sk sk-ch-btn"></div>
+            <div class="sk sk-ch-btn"></div>
+            <div class="sk sk-ch-btn"></div>
+            <div class="sk sk-ch-btn"></div>
+          </div>
+        </div>
+
+        <!-- Messages -->
+        <div class="sk-msgs">
+          <!-- incoming -->
+          <div class="sk-msg">
+            <div class="sk sk-msg-av"></div>
+            <div class="sk-msg-body">
+              <div class="sk sk-msg-line" style="width:260px"></div>
+              <div class="sk sk-msg-line" style="width:180px"></div>
+            </div>
+          </div>
+          <!-- outgoing -->
+          <div class="sk-msg sk-msg-out">
+            <div class="sk sk-msg-av"></div>
+            <div class="sk-msg-body">
+              <div class="sk sk-msg-line" style="width:220px"></div>
+              <div class="sk sk-msg-line" style="width:140px"></div>
+            </div>
+          </div>
+          <!-- incoming -->
+          <div class="sk-msg">
+            <div class="sk sk-msg-av"></div>
+            <div class="sk-msg-body">
+              <div class="sk sk-msg-line" style="width:300px"></div>
+              <div class="sk sk-msg-line" style="width:200px"></div>
+              <div class="sk sk-msg-line" style="width:100px"></div>
+            </div>
+          </div>
+          <!-- outgoing -->
+          <div class="sk-msg sk-msg-out">
+            <div class="sk sk-msg-av"></div>
+            <div class="sk-msg-body">
+              <div class="sk sk-msg-line" style="width:170px"></div>
+            </div>
+          </div>
+          <!-- incoming -->
+          <div class="sk-msg" style="opacity:.6">
+            <div class="sk sk-msg-av"></div>
+            <div class="sk-msg-body">
+              <div class="sk sk-msg-line" style="width:240px"></div>
+              <div class="sk sk-msg-line" style="width:160px"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Composer -->
+        <div class="sk-composer">
+          <div class="sk sk-comp-inp"></div>
+          <div class="sk sk-comp-send"></div>
+        </div>
+      </div>
+
+      <!-- Right panel — sections -->
+      <div class="skel-right">
+        <!-- Customer Info -->
+        <div class="sk-sec">
+          <div class="sk-sec-hdr">
+            <div class="sk sk-sec-title"></div>
+          </div>
+          <div class="sk-sec-body">
+            <div class="sk-field-row">
+              <div class="sk-field"><div class="sk sk-f-lbl"></div><div class="sk sk-f-val"></div></div>
+              <div class="sk-field"><div class="sk sk-f-lbl"></div><div class="sk sk-f-val"></div></div>
+            </div>
+            <div class="sk-field-row">
+              <div class="sk-field"><div class="sk sk-f-lbl"></div><div class="sk sk-f-val"></div></div>
+              <div class="sk-field"><div class="sk sk-f-lbl"></div><div class="sk sk-f-val"></div></div>
+            </div>
+          </div>
+        </div>
+        <!-- Conv Data -->
+        <div class="sk-sec">
+          <div class="sk-sec-hdr">
+            <div class="sk sk-sec-title" style="width:110px"></div>
+          </div>
+          <div class="sk-sec-body">
+            <div class="sk-field-row">
+              <div class="sk-field"><div class="sk sk-f-lbl"></div><div class="sk sk-f-val"></div></div>
+              <div class="sk-field"><div class="sk sk-f-lbl"></div><div class="sk sk-f-val"></div></div>
+            </div>
+            <div class="sk-field-row">
+              <div class="sk-field"><div class="sk sk-f-lbl"></div><div class="sk sk-f-val"></div></div>
+              <div class="sk-field"><div class="sk sk-f-lbl"></div><div class="sk sk-f-val"></div></div>
+            </div>
+          </div>
+        </div>
+        <!-- KB -->
+        <div class="sk-sec">
+          <div class="sk-sec-hdr">
+            <div class="sk sk-sec-title" style="width:100px"></div>
+          </div>
+          <div class="sk-sec-body">
+            <div class="sk sk-f-val" style="height:38px; border-radius:4px"></div>
+            <div class="sk-field"><div class="sk sk-f-lbl"></div><div class="sk sk-f-val"></div><div class="sk sk-f-val" style="width:70%"></div></div>
+            <div class="sk-field"><div class="sk sk-f-lbl"></div><div class="sk sk-f-val"></div><div class="sk sk-f-val" style="width:80%"></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /skel-main -->
+  </div><!-- /skel-body -->
+</div><!-- /skel-screen -->
+
 </body>
 </html>

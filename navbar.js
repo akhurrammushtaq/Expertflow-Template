@@ -198,7 +198,13 @@
     '.ob-btn.primary{background:var(--color-primary);color:#fff;border:none;}',
     '.ob-btn.primary:hover{opacity:.9;}',
     '.ob-btn.secondary{background:var(--color-canvas);color:var(--color-text);border:1px solid var(--color-border);}',
-    '.ob-btn.secondary:hover{background:#e8edf3;}'
+    '.ob-btn.secondary:hover{background:#e8edf3;}',
+    /* Toast */
+    '.ef-toast{position:fixed;bottom:24px;right:24px;z-index:99999;display:flex;align-items:center;gap:10px;padding:12px 16px;background:#fff;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,0.15);border-left:4px solid #26c98c;font-size:13px;color:#212121;pointer-events:none;transform:translateY(16px);opacity:0;transition:opacity .25s ease,transform .25s ease;}',
+    '.ef-toast.show{transform:translateY(0);opacity:1;}',
+    '.ef-toast-ico{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}',
+    /* Toast dark mode */
+    '#app.dark .ef-toast,html.ef-dark .ef-toast{background:#1e2022;color:#e5e7eb;box-shadow:0 4px 20px rgba(0,0,0,0.45);}'
   ].join('\n');
 
   /* ─── HTML ────────────────────────────────────────────────────────────── */
@@ -382,7 +388,10 @@
     var a = document.getElementById('app');
     if (!a) return;
     a.classList.toggle('dark');
-    try { sessionStorage.setItem('ef-dark', a.classList.contains('dark') ? '1' : '0'); } catch (e) {}
+    var isDark = a.classList.contains('dark');
+    document.documentElement.classList.toggle('ef-dark', isDark);
+    document.body.style.background = isDark ? '#151515' : '';
+    try { sessionStorage.setItem('ef-dark', isDark ? '1' : '0'); } catch (e) {}
   };
 
   window.toggleNotifDD = function (e) {
@@ -390,9 +399,10 @@
     if (sddOpen) window.closeSDD();
     if (ppOpen) window.closePP();
     notifOpen = !notifOpen;
+    var btn = e.currentTarget;
+    btn.classList.toggle('active', notifOpen);
     var panel = document.getElementById('notifPanel');
     if (notifOpen) {
-      var btn = e.currentTarget;
       var r = btn.getBoundingClientRect();
       panel.style.right = (window.innerWidth - r.right) + 'px';
       panel.style.top = (r.bottom + 6) + 'px';
@@ -404,6 +414,8 @@
     notifOpen = false;
     var panel = document.getElementById('notifPanel');
     if (panel) panel.classList.remove('open');
+    var btn = document.querySelector('[aria-label="Notifications"]');
+    if (btn) btn.classList.remove('active');
   };
 
   window.readNotif = function (item) {
@@ -530,9 +542,10 @@
     if (ppOpen) window.closePP();
     if (notifOpen) window.closeNotifDD();
     qlOpen = !qlOpen;
+    var btn = e.currentTarget;
+    btn.classList.toggle('active', qlOpen);
     var panel = document.getElementById('qlPanel');
     if (qlOpen) {
-      var btn = e.currentTarget;
       var r = btn.getBoundingClientRect();
       panel.style.right = (window.innerWidth - r.right) + 'px';
       panel.style.top = (r.bottom + 6) + 'px';
@@ -547,6 +560,8 @@
     qlOpen = false;
     var panel = document.getElementById('qlPanel');
     if (panel) panel.classList.remove('open');
+    var btn = document.querySelector('[aria-label="Quick Links"]');
+    if (btn) btn.classList.remove('active');
   };
 
   window.qlTogglePin = function(id) {
@@ -978,8 +993,8 @@
     if (!to) { alert('Enter an email address'); return; }
     if (!sub) { alert('Enter a subject'); return; }
     if (!msg) { alert('Type a message'); return; }
-    alert('Email sent to ' + to);
     window._closeAllComposers();
+    window._showToast('Email sent to ' + to, 'email');
   };
   window.openWaComposer = function(phone, name) {
     var m = document.getElementById('outboundModal');
@@ -996,8 +1011,8 @@
     var msg = document.getElementById('waMsgInp').value.trim();
     if (!to) { alert('Enter a phone number'); return; }
     if (!msg) { alert('Type a message'); return; }
-    alert('WhatsApp sent to ' + to);
     window._closeAllComposers();
+    window._showToast('WhatsApp sent to ' + to, 'whatsapp');
   };
   window.smsCount = function() { var el = document.getElementById('smsMsgInp'); var c = document.getElementById('smsCntSpan'); if (el && c) c.textContent = el.value.length; };
   window.sendSmsMsg = function() {
@@ -1005,8 +1020,8 @@
     var msg = document.getElementById('smsMsgInp').value.trim();
     if (!to) { alert('Enter a phone number'); return; }
     if (!msg) { alert('Type a message'); return; }
-    alert('SMS sent to ' + to);
     window.closeSmsComposer();
+    window._showToast('SMS sent to ' + to, 'sms');
   };
 
   /* ─── DOM INIT ────────────────────────────────────────────────────────── */
@@ -1078,6 +1093,30 @@
   window.doSignOut = function () {
     sessionStorage.clear();
     window.location.href = 'login.html';
+  };
+
+  window._showToast = function(msg, type) {
+    var t = document.getElementById('efGlobalToast');
+    if (!t) {
+      t = document.createElement('div');
+      t.id = 'efGlobalToast';
+      t.className = 'ef-toast';
+      document.body.appendChild(t);
+    }
+    var icons = {
+      email:     '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a50a3" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>',
+      whatsapp:  '<svg width="14" height="14" viewBox="0 0 32 32" fill="#25D366"><path d="M16 2C8.268 2 2 8.268 2 16c0 2.444.644 4.74 1.768 6.74L2 30l7.448-1.952A13.927 13.927 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm7.2 19.4c-.3.84-1.74 1.62-2.4 1.72-.62.09-1.4.13-2.26-.14-.52-.17-1.18-.39-2.04-.76-3.58-1.55-5.92-5.16-6.1-5.4-.18-.24-1.46-1.94-1.46-3.7 0-1.76.92-2.63 1.25-2.98.33-.35.72-.44.96-.44l.69.01c.22.01.52-.08.81.62.3.72 1.02 2.5 1.11 2.68.09.18.15.39.03.63-.12.24-.18.39-.36.6-.18.21-.38.47-.54.63-.18.18-.37.38-.16.74.21.36.94 1.55 2.02 2.51 1.39 1.24 2.56 1.62 2.92 1.8.36.18.57.15.78-.09.21-.24.9-1.05 1.14-1.41.24-.36.48-.3.81-.18.33.12 2.1.99 2.46 1.17.36.18.6.27.69.42.09.15.09.87-.21 1.71z"/></svg>',
+      sms:       '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a50a3" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>'
+    };
+    var borders = { email: '#1a50a3', whatsapp: '#25D366', sms: '#1a50a3' };
+    var bgs     = { email: '#ECF3FF',  whatsapp: '#e8faf2',   sms: '#ECF3FF'  };
+    t.style.borderLeftColor = borders[type] || '#26c98c';
+    t.innerHTML =
+      '<div class="ef-toast-ico" style="background:' + (bgs[type] || '#ECF3FF') + '">' + (icons[type] || '') + '</div>' +
+      '<span>' + msg + '</span>';
+    clearTimeout(t._tid);
+    t.classList.add('show');
+    t._tid = setTimeout(function() { t.classList.remove('show'); }, 3200);
   };
 
   if (document.readyState === 'loading') {

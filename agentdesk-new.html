@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ExpertFlow — Agent Desk v2</title>
-<style>html{background:#e8edf3}html.ef-dark{background:#151515}</style>
+<style>html{background:#e8edf3}html.ef-dark{background:#151515}html.ef-dark body{background:#151515}</style>
 <script>try{if(sessionStorage.getItem('ef-dark')==='1')document.documentElement.classList.add('ef-dark')}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -51,10 +51,13 @@
 }
 .dark {
   --color-bg:#1e2022; --color-canvas:#151515; --color-sep:#151515;
-  --color-text:#e5e7eb; --color-body:#c5c5c5; --color-medium:#c5c5c5;
+  --color-text:#e5e7eb; --color-body:#c5c5c5; --color-medium:#b0b8c8;
   --color-muted:#9ca3af; --color-ts:#9a9a9a;
   --color-border:#2c2f35; --color-sec-bg:#292C30;
   --color-bubble-c:#292C30; --color-bubble-a:#1a2d4a;
+  --color-border-p:#3a3f48; --color-border-i:#3a3f48;
+  --color-primary-lt:#1a2d4a; --color-ph:#555555;
+  --color-link:#7faaec;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:Roboto,system-ui,sans-serif;font-size:14px;color:var(--color-body);background:var(--color-sep);height:100vh;overflow:hidden;-webkit-font-smoothing:antialiased;line-height:1.4;}
@@ -678,7 +681,7 @@ a{text-decoration:none;color:inherit;}
   display:none;
   position:fixed;top:var(--navbar-h);left:var(--sidenav-w);right:0;bottom:0;
   z-index:20;flex-direction:column;overflow:hidden;
-  background:var(--color-canvas);
+  background:var(--color-canvas);padding:12px;gap:8px;
 }
 .vm-screen.open{display:flex;}
 .vm-page-hdr{background:var(--color-bg);border-bottom:1px solid var(--color-border);padding:14px 24px 12px;display:flex;align-items:center;gap:12px;flex-shrink:0;}
@@ -845,13 +848,112 @@ tr:hover .row-ob-icon{opacity:1;}
 .wu-complete.enabled{opacity:1;pointer-events:all;}
 .wu-complete.enabled:hover{background:var(--color-primary-hover);}
 
-/* Dark overrides */
+/* ══════════════════════ DARK MODE OVERRIDES ══════════════════════ */
+/* Scrollbar */
+.dark *{scrollbar-color:#3a3f48 transparent;}
+.dark ::-webkit-scrollbar-thumb{background:#3a3f48;}
+/* Layout shells */
 .dark .navbar,.dark .left,.dark .center,.dark .right{background:var(--color-bg);}
 .dark .msgs,.dark .sugg,.dark .composer,.dark .chat-hdr{background:var(--color-bg);}
+/* Navbar */
+.dark .nav-ham{background:#292C30;}
+.dark .nav-ham:hover{background:#363a40;}
+.dark .nav-btn:hover{background:#292C30;border-radius:50%;}
+.dark .nav-btn svg{stroke:#C5C5C5;}
+.dark .nav-logo img{content:url('logo-white.png');}
+.dark .state-pill{border-color:#3a3f48;}
+.dark .agent-av{background:#292C30;border-color:#3a3f48;color:#7faaec;}
+/* Left panel */
+.dark .convo-item:hover{background:#292C30;}
+.dark .convo-item.active{background:#1a2d4a;box-shadow:inset 3px 0 0 var(--color-primary);}
+/* Toolbar */
+.dark .tb svg{fill:#898ea8;}
+.dark .tb .tb-wa-ic{fill:#898ea8;}
+.dark .tb.act svg{fill:#fff;}
+.dark .tb.act .tb-wa-ic{fill:#fff;}
+.dark .tb-act-grp .tb:hover{background:#292C30;}
+.dark .tb-act-grp .tb:hover svg,.dark .tb-ch-grp .tb:hover svg{fill:#e5e7eb;}
+.dark .tb-act-grp .tb:hover .tb-wa-ic,.dark .tb-ch-grp .tb:hover .tb-wa-ic{fill:#e5e7eb;}
+.dark .tb-ch-grp:hover{border-color:#3a3f48;}
+.dark .tb-div{background:#3a3f48;}
+/* Messages */
+.dark .m-av{background:#2a3040;color:#c5c5c5;}
+.dark .date-pill span{background:var(--color-bg);border-color:#3a3f48;}
+.dark .q-bar{background:#192819;border-color:#3d7a3d;color:#8fca8f;}
+/* Composer */
+.dark .r-form{background:#292C30;border-color:#3a3f48;}
+.dark .cust-tag{background:#292C30;color:var(--color-medium);}
+.dark .tdot{background:var(--color-medium);}
+.dark .ch-chip{background:#292C30;border-color:#3a3f48;}
+.dark .ch-dd{background:var(--color-bg);border-color:var(--color-border);}
+.dark .ch-dd-item:hover{background:#292C30;}
+.dark .email-compose{border-color:#3a3f48;}
+.dark .ec-row{border-color:#3a3f48;}
+.dark .ec-chip{background:#292C30;border-color:#3a3f48;}
+.dark .ec-foot{border-color:#3a3f48;}
+/* KB suggestions (center bottom) */
+.dark .sugg-card{background:var(--color-bg);}
+.dark .sugg-less{background:var(--color-bg);}
+/* Right panel sections */
+.dark .rp-sec-hdr{background:#292C30;border-color:#2c2f35;}
 .dark .sec-hdr{background:#292C30;border-color:#2c2f35;}
-.dark .sec-body,.dark .rp-body{border-color:#2c2f35;}
-.dark .kb-card,.dark .sugg-card{border-color:#2c2f35;}
-.dark .date-pill span{background:var(--color-bg);border-color:#35354d;}
+.dark .sec-hdr:hover{background:#363a40;}
+.dark .sec-body,.dark .rp-body{border-color:#2c2f35;background:var(--color-bg);}
+.dark .rp-tab{color:var(--color-medium);}
+.dark .rp-tab.on{color:var(--color-primary);}
+.dark .sec-res{background:#2c2f35;}
+/* KB panel */
+.dark .kb-sb{background:#292C30;}
+.dark .kb-card{border-color:#2c2f35;background:var(--color-bg);}
+.dark .kb-t{color:var(--color-body);}
+.dark .kb-sl{color:var(--color-medium);}
+.dark .kb-lnk{color:#7faaec;}
+/* Customer info card */
+.dark .ci-card{background:var(--color-bg);box-shadow:0 4px 24px rgba(0,0,0,0.6);}
+.dark .ci-av{background:#292C30;}
+.dark .ci-div{background:var(--color-border);}
+.dark .ci-ch{background:#292C30;border-color:#3a3f48;}
+.dark .ci-ch svg,.dark .ci-ch .ci-wa-ic{fill:#9ca3af;}
+.dark .ci-ch:hover{background:#363a40;}
+.dark .ci-fields-box,.dark .ci-ch-list{background:#292C30;}
+.dark .ci-ch-row.hi{background:#1a2d4a;}
+/* Voicemail card in chat */
+.dark .vm-card{border-color:#3a3f48;}
+.dark .vm-player{background:#292C30;}
+.dark .vm-bar{background:#3a3f48;}
+.dark .vm-icon-av{background:#1a2d4a;}
+.dark .vm-trans-btn{border-color:#3a3f48;}
+.dark .vm-transcript{background:#292C30;}
+/* More menu */
+.dark .more-menu{background:var(--color-bg);border-color:var(--color-border);}
+.dark .menu-item{border-color:#2c2f35;}
+.dark .menu-item:hover{background:#292C30;}
+.dark .menu-item svg,.dark .menu-item .tb-wa-ic{fill:#9ca3af;}
+/* Quick-action buttons */
+.dark .qa-btn{background:#292C30;color:var(--color-text);}
+.dark .qa-btn:hover{background:#363a40;border-color:#4a5060;}
+/* Wrapup drawer */
+.dark .wu-drawer{background:var(--color-bg);}
+.dark .wu-ai-box{background:#162236;border-color:#254a7a;}
+.dark .wu-tag{background:#292C30;border-color:#3a3f48;color:var(--color-medium);}
+.dark .wu-skip{background:#292C30;border-color:#3a3f48;color:var(--color-medium);}
+/* Customer list screen */
+.dark .cust-screen,.dark .vm-screen,.dark .ticket-screen{background:var(--color-canvas);}
+.dark .list-toolbar{background:var(--color-bg);border-color:var(--color-border);}
+.dark .cust-toolbar,.dark .list-card{background:var(--color-bg);border-color:var(--color-border);}
+.dark .list-search{background:var(--color-sec-bg);border-color:var(--color-border);}
+.dark .list-search input{color:var(--color-body);}
+.dark .tb-btn{background:var(--color-sec-bg);border-color:var(--color-border);color:var(--color-medium);}
+.dark .tb-btn:hover,.dark .tb-btn.active{background:#1a2d4a;border-color:var(--color-primary);color:var(--color-primary);}
+.dark .labels-trigger{background:var(--color-sec-bg);border-color:var(--color-border);}
+.dark .labels-menu{background:var(--color-sec-bg);border-color:var(--color-border);}
+.dark .label-option:hover{background:#2c2f35;}
+.dark .data-table{background:var(--color-bg);}
+.dark .data-table th{background:var(--color-sec-bg);}
+.dark .data-table tbody tr:hover td{background:#1a2d4a;}
+.dark .paginator{background:var(--color-bg);border-color:var(--color-border);}
+.dark .pag-btn{background:var(--color-bg);border-color:var(--color-border);}
+.dark .pag-rpp select{background:var(--color-sec-bg);border-color:var(--color-border);color:var(--color-body);}
 /* ══ IDLE SCREEN — "Your Workspace" (no active conversation) ══ */
 .idle-screen{
   display:none;
@@ -1007,7 +1109,7 @@ tr:hover .row-ob-icon{opacity:1;}
 
 
 /* ══ TICKET MANAGEMENT (list-view design) ══ */
-.ticket-screen{display:none;position:fixed;top:var(--navbar-h);left:var(--sidenav-w);right:0;bottom:0;z-index:20;flex-direction:column;overflow:hidden;background:var(--color-primary-lt);transition:left .28s cubic-bezier(.4,0,.2,1);}
+.ticket-screen{display:none;position:fixed;top:var(--navbar-h);left:var(--sidenav-w);right:0;bottom:0;z-index:20;flex-direction:column;overflow:hidden;background:var(--color-canvas);transition:left .28s cubic-bezier(.4,0,.2,1);}
 .ticket-screen.open{display:flex;}
 .tkt-page{display:flex;flex-direction:column;flex:1;overflow:hidden;padding:12px;gap:8px;}
 /* stat row */
@@ -1044,6 +1146,8 @@ tr:hover .row-ob-icon{opacity:1;}
 .label-option input[type=checkbox]{width:14px;height:14px;accent-color:var(--color-primary);cursor:pointer;flex-shrink:0;}
 .label-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
 .labels-menu-footer{padding:8px 14px;border-top:1px solid var(--color-border);display:flex;justify-content:flex-end;gap:8px;align-items:center;}
+.labels-clear{font-size:12px;color:var(--color-muted);cursor:pointer;padding:4px 8px;background:none;border:none;}
+.labels-clear:hover{color:var(--color-primary);}
 .labels-apply{font-size:12px;color:#fff;background:var(--color-primary);border-radius:4px;padding:5px 12px;cursor:pointer;border:none;font-weight:500;}
 .labels-apply:hover{background:var(--color-primary-h);}
 /* list card + table */
@@ -1063,10 +1167,17 @@ tr:hover .row-ob-icon{opacity:1;}
 .col-drag:hover{opacity:0.75;background:rgba(0,0,0,0.06);}
 .col-sort-trigger{display:flex;align-items:center;gap:4px;flex:1;cursor:pointer;min-width:0;padding:2px 0;}
 .col-label{font-size:12px;font-weight:500;color:var(--color-medium);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.col-ch-icon{display:flex;align-items:center;flex-shrink:0;margin-left:2px;}
 .sort-icon{display:flex;flex-direction:column;gap:1px;flex-shrink:0;opacity:0.35;transition:opacity 0.15s;margin-left:2px;}
 .col-sort-trigger:hover .sort-icon{opacity:0.65;}
+.sort-icon.asc,.sort-icon.desc{opacity:1;}
+.sort-icon.asc svg:last-child{opacity:0.3;}
+.sort-icon.desc svg:first-child{opacity:0.3;}
+th.sorted .col-label{color:var(--color-primary);}
 .col-resizer{position:absolute;right:0;top:0;bottom:0;width:5px;cursor:col-resize;background:transparent;z-index:5;}
 .col-resizer:hover{background:rgba(26,80,163,0.35);}
+body.is-resizing *{cursor:col-resize!important;}
+body.is-dragging *{cursor:grabbing!important;}
 /* cell types */
 .cust-cell{display:flex;align-items:center;gap:8px;}
 .cust-av-sm{width:30px;height:30px;min-width:30px;border-radius:50%;background:var(--color-primary-lt);color:var(--color-primary);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;transition:background .15s,color .15s;}
@@ -1266,7 +1377,7 @@ tr:hover .row-action{opacity:1;}
 <!-- ════ NAVBAR ════ -->
 <nav class="navbar">
   <div class="nav-logo">
-    <img src="logo.png" alt="ExpertFlow" style="height:30px;display:block;object-fit:contain;">
+    <img src="logo.png" alt="ExpertFlow" style="height:28px;display:block;object-fit:contain;">
   </div>
   <div class="nav-space"></div>
   <!-- Notification bell -->
@@ -2208,54 +2319,128 @@ tr:hover .row-action{opacity:1;}
 
 <!-- ══ VOICEMAIL INBOX — fixed, full viewport below navbar, outside body ══ -->
 <div class="vm-screen" id="vmScreen" role="main" aria-label="Voicemail inbox">
-  <div class="vm-page-hdr">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a50a3" stroke-width="1.8"><circle cx="6.5" cy="14" r="3.5"/><circle cx="17.5" cy="14" r="3.5"/><line x1="6.5" y1="17.5" x2="17.5" y2="17.5"/></svg>
-    <span class="vm-page-title">Voicemail</span>
-    <span class="vm-unread-badge">3</span>
-    <div class="vm-page-space"></div>
-    <div class="vm-search"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaaaaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="vm-search-inp" type="text" placeholder="Search voicemails…" aria-label="Search voicemails"></div>
+  <!-- Toolbar -->
+  <div class="list-toolbar">
+    <div class="page-title-wrap">
+      <span class="page-title">Voicemail</span>
+      <span class="vm-unread-badge">3</span>
+    </div>
+    <div class="list-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaaaaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input class="vm-search-inp" type="text" placeholder="Search voicemails…" aria-label="Search voicemails">
+    </div>
+    <div class="toolbar-space"></div>
+    <button class="tb-btn vm-filter-btn active" onclick="setVmFilter(this,'all')" aria-pressed="true">All</button>
+    <button class="tb-btn vm-filter-btn" onclick="setVmFilter(this,'unread')" aria-pressed="false">Unread</button>
+    <button class="tb-btn vm-filter-btn" onclick="setVmFilter(this,'read')" aria-pressed="false">Read</button>
   </div>
-  <div class="vm-filters">
-    <button class="vm-pill on" onclick="setVmFilter(this,'all')" aria-pressed="true">All</button>
-    <button class="vm-pill" onclick="setVmFilter(this,'unread')" aria-pressed="false">Unread</button>
-    <button class="vm-pill" onclick="setVmFilter(this,'read')" aria-pressed="false">Read</button>
-  </div>
-  <div class="vm-table-wrap">
-    <table class="vm-table">
-      <thead><tr><th style="width:22%">Customer</th><th style="width:18%">Received On</th><th style="width:36%">Duration</th><th style="width:14%">Status</th></tr></thead>
-      <tbody>
-        <tr class="vm-row vm-row-unread" data-status="unread">
-          <td><div class="vm-cust-cell"><span class="vm-cust-name">Sarah Mitchell</span><span class="vm-cust-phone">+1 (415) 882-3041</span></div></td>
-          <td><div class="vm-date">May 20, 2025</div><div class="vm-time-sub">09:14 AM</div></td>
-          <td><div class="vm-player-sm"><button class="vm-play-sm" onclick="togglePlay(this)"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><div class="vm-wf-sm"><div class="vm-bar-sm p" style="height:55%"></div><div class="vm-bar-sm p" style="height:80%"></div><div class="vm-bar-sm p" style="height:45%"></div><div class="vm-bar-sm p" style="height:90%"></div><div class="vm-bar-sm p" style="height:60%"></div><div class="vm-bar-sm p" style="height:70%"></div><div class="vm-bar-sm p" style="height:50%"></div><div class="vm-bar-sm p" style="height:85%"></div><div class="vm-bar-sm" style="height:65%"></div><div class="vm-bar-sm" style="height:40%"></div><div class="vm-bar-sm" style="height:75%"></div><div class="vm-bar-sm" style="height:55%"></div><div class="vm-bar-sm" style="height:90%"></div><div class="vm-bar-sm" style="height:45%"></div><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:60%"></div><div class="vm-bar-sm" style="height:80%"></div><div class="vm-bar-sm" style="height:50%"></div><div class="vm-bar-sm" style="height:65%"></div><div class="vm-bar-sm" style="height:40%"></div><div class="vm-bar-sm" style="height:75%"></div><div class="vm-bar-sm" style="height:55%"></div><div class="vm-bar-sm" style="height:85%"></div><div class="vm-bar-sm" style="height:45%"></div><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:60%"></div><div class="vm-bar-sm" style="height:50%"></div><div class="vm-bar-sm" style="height:80%"></div></div><span class="vm-dur-sm">1:24</span></div></td>
-          <td><span class="vm-status unread"><span class="vm-status-dot"></span>Unread</span></td>
-        </tr>
-        <tr class="vm-row vm-row-unread" data-status="unread">
-          <td><div class="vm-cust-cell"><span class="vm-cust-name">David Okonkwo</span><span class="vm-cust-phone">+44 20 7946 0012</span></div></td>
-          <td><div class="vm-date">May 20, 2025</div><div class="vm-time-sub">10:52 AM</div></td>
-          <td><div class="vm-player-sm"><button class="vm-play-sm" onclick="togglePlay(this)"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><div class="vm-wf-sm"><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:50%"></div><div class="vm-bar-sm" style="height:85%"></div><div class="vm-bar-sm" style="height:40%"></div><div class="vm-bar-sm" style="height:65%"></div><div class="vm-bar-sm" style="height:90%"></div><div class="vm-bar-sm" style="height:55%"></div><div class="vm-bar-sm" style="height:75%"></div><div class="vm-bar-sm" style="height:45%"></div><div class="vm-bar-sm" style="height:80%"></div><div class="vm-bar-sm" style="height:60%"></div><div class="vm-bar-sm" style="height:50%"></div><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:85%"></div><div class="vm-bar-sm" style="height:40%"></div><div class="vm-bar-sm" style="height:65%"></div><div class="vm-bar-sm" style="height:90%"></div><div class="vm-bar-sm" style="height:55%"></div><div class="vm-bar-sm" style="height:75%"></div><div class="vm-bar-sm" style="height:45%"></div><div class="vm-bar-sm" style="height:80%"></div><div class="vm-bar-sm" style="height:60%"></div><div class="vm-bar-sm" style="height:50%"></div><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:85%"></div><div class="vm-bar-sm" style="height:40%"></div><div class="vm-bar-sm" style="height:65%"></div><div class="vm-bar-sm" style="height:55%"></div></div><span class="vm-dur-sm">0:47</span></div></td>
-          <td><span class="vm-status unread"><span class="vm-status-dot"></span>Unread</span></td>
-        </tr>
-        <tr class="vm-row vm-row-unread" data-status="unread">
-          <td><div class="vm-cust-cell"><span class="vm-cust-name">Priya Nambiar</span><span class="vm-cust-phone">+91 98204 51033</span></div></td>
-          <td><div class="vm-date">May 19, 2025</div><div class="vm-time-sub">03:38 PM</div></td>
-          <td><div class="vm-player-sm"><button class="vm-play-sm" onclick="togglePlay(this)"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><div class="vm-wf-sm"><div class="vm-bar-sm" style="height:60%"></div><div class="vm-bar-sm" style="height:80%"></div><div class="vm-bar-sm" style="height:45%"></div><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:55%"></div><div class="vm-bar-sm" style="height:90%"></div><div class="vm-bar-sm" style="height:40%"></div><div class="vm-bar-sm" style="height:75%"></div><div class="vm-bar-sm" style="height:65%"></div><div class="vm-bar-sm" style="height:50%"></div><div class="vm-bar-sm" style="height:85%"></div><div class="vm-bar-sm" style="height:60%"></div><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:45%"></div><div class="vm-bar-sm" style="height:80%"></div><div class="vm-bar-sm" style="height:55%"></div><div class="vm-bar-sm" style="height:90%"></div><div class="vm-bar-sm" style="height:40%"></div><div class="vm-bar-sm" style="height:75%"></div><div class="vm-bar-sm" style="height:65%"></div><div class="vm-bar-sm" style="height:50%"></div><div class="vm-bar-sm" style="height:85%"></div><div class="vm-bar-sm" style="height:60%"></div><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:45%"></div><div class="vm-bar-sm" style="height:80%"></div><div class="vm-bar-sm" style="height:55%"></div><div class="vm-bar-sm" style="height:90%"></div></div><span class="vm-dur-sm">2:08</span></div></td>
-          <td><span class="vm-status unread"><span class="vm-status-dot"></span>Unread</span></td>
-        </tr>
-        <tr class="vm-row" data-status="read">
-          <td><div class="vm-cust-cell"><span class="vm-cust-name">John Tylor</span><span class="vm-cust-phone">+1 (762) 533-5936</span></div></td>
-          <td><div class="vm-date">May 18, 2025</div><div class="vm-time-sub">11:05 AM</div></td>
-          <td><div class="vm-player-sm"><button class="vm-play-sm" onclick="togglePlay(this)"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><div class="vm-wf-sm"><div class="vm-bar-sm p" style="height:65%"></div><div class="vm-bar-sm p" style="height:80%"></div><div class="vm-bar-sm p" style="height:50%"></div><div class="vm-bar-sm p" style="height:90%"></div><div class="vm-bar-sm p" style="height:55%"></div><div class="vm-bar-sm p" style="height:75%"></div><div class="vm-bar-sm p" style="height:45%"></div><div class="vm-bar-sm p" style="height:85%"></div><div class="vm-bar-sm p" style="height:60%"></div><div class="vm-bar-sm p" style="height:70%"></div><div class="vm-bar-sm p" style="height:50%"></div><div class="vm-bar-sm p" style="height:80%"></div><div class="vm-bar-sm p" style="height:55%"></div><div class="vm-bar-sm p" style="height:90%"></div><div class="vm-bar-sm p" style="height:45%"></div><div class="vm-bar-sm p" style="height:75%"></div><div class="vm-bar-sm p" style="height:65%"></div><div class="vm-bar-sm p" style="height:50%"></div><div class="vm-bar-sm p" style="height:85%"></div><div class="vm-bar-sm p" style="height:60%"></div><div class="vm-bar-sm p" style="height:70%"></div><div class="vm-bar-sm p" style="height:50%"></div><div class="vm-bar-sm p" style="height:80%"></div><div class="vm-bar-sm p" style="height:55%"></div><div class="vm-bar-sm p" style="height:90%"></div><div class="vm-bar-sm p" style="height:45%"></div><div class="vm-bar-sm p" style="height:75%"></div><div class="vm-bar-sm p" style="height:65%"></div></div><span class="vm-dur-sm">1:52</span></div></td>
-          <td><span class="vm-status read"><span class="vm-status-dot"></span>Read</span></td>
-        </tr>
-        <tr class="vm-row" data-status="read">
-          <td><div class="vm-cust-cell"><span class="vm-cust-name">Rob Kelsey</span><span class="vm-cust-phone">+1 (743) 500-3536</span></div></td>
-          <td><div class="vm-date">May 17, 2025</div><div class="vm-time-sub">02:21 PM</div></td>
-          <td><div class="vm-player-sm"><button class="vm-play-sm" onclick="togglePlay(this)"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><div class="vm-wf-sm"><div class="vm-bar-sm p" style="height:70%"></div><div class="vm-bar-sm p" style="height:55%"></div><div class="vm-bar-sm p" style="height:85%"></div><div class="vm-bar-sm p" style="height:40%"></div><div class="vm-bar-sm p" style="height:75%"></div><div class="vm-bar-sm p" style="height:60%"></div><div class="vm-bar-sm p" style="height:90%"></div><div class="vm-bar-sm p" style="height:50%"></div><div class="vm-bar-sm p" style="height:65%"></div><div class="vm-bar-sm p" style="height:80%"></div><div class="vm-bar-sm p" style="height:45%"></div><div class="vm-bar-sm p" style="height:70%"></div><div class="vm-bar-sm p" style="height:55%"></div><div class="vm-bar-sm p" style="height:85%"></div><div class="vm-bar-sm p" style="height:40%"></div><div class="vm-bar-sm p" style="height:75%"></div><div class="vm-bar-sm p" style="height:60%"></div><div class="vm-bar-sm p" style="height:90%"></div><div class="vm-bar-sm p" style="height:50%"></div><div class="vm-bar-sm p" style="height:65%"></div><div class="vm-bar-sm p" style="height:80%"></div><div class="vm-bar-sm p" style="height:45%"></div><div class="vm-bar-sm p" style="height:70%"></div><div class="vm-bar-sm p" style="height:55%"></div><div class="vm-bar-sm p" style="height:85%"></div><div class="vm-bar-sm p" style="height:40%"></div><div class="vm-bar-sm p" style="height:75%"></div><div class="vm-bar-sm p" style="height:60%"></div></div><span class="vm-dur-sm">0:33</span></div></td>
-          <td><span class="vm-status read"><span class="vm-status-dot"></span>Read</span></td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- Table card -->
+  <div class="list-card">
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="width:230px" data-col="customer">
+              <div class="th-inner">
+                <span class="col-drag" title="Drag to reorder"><svg width="10" height="14" viewBox="0 0 10 14" fill="none"><circle cx="3" cy="2.5" r="1.2" fill="#a3b9da"/><circle cx="7" cy="2.5" r="1.2" fill="#a3b9da"/><circle cx="3" cy="7" r="1.2" fill="#a3b9da"/><circle cx="7" cy="7" r="1.2" fill="#a3b9da"/><circle cx="3" cy="11.5" r="1.2" fill="#a3b9da"/><circle cx="7" cy="11.5" r="1.2" fill="#a3b9da"/></svg></span>
+                <span class="col-sort-trigger"><span class="col-label">Customer</span><span class="sort-icon"><svg width="8" height="6" viewBox="0 0 8 6"><path d="M4 0L8 6H0z" fill="currentColor"/></svg><svg width="8" height="6" viewBox="0 0 8 6"><path d="M4 6L0 0h8z" fill="currentColor"/></svg></span></span>
+              </div>
+              <div class="col-resizer"></div>
+            </th>
+            <th style="width:160px" data-col="received">
+              <div class="th-inner">
+                <span class="col-drag" title="Drag to reorder"><svg width="10" height="14" viewBox="0 0 10 14" fill="none"><circle cx="3" cy="2.5" r="1.2" fill="#a3b9da"/><circle cx="7" cy="2.5" r="1.2" fill="#a3b9da"/><circle cx="3" cy="7" r="1.2" fill="#a3b9da"/><circle cx="7" cy="7" r="1.2" fill="#a3b9da"/><circle cx="3" cy="11.5" r="1.2" fill="#a3b9da"/><circle cx="7" cy="11.5" r="1.2" fill="#a3b9da"/></svg></span>
+                <span class="col-sort-trigger"><span class="col-label">Received On</span><span class="sort-icon"><svg width="8" height="6" viewBox="0 0 8 6"><path d="M4 0L8 6H0z" fill="currentColor"/></svg><svg width="8" height="6" viewBox="0 0 8 6"><path d="M4 6L0 0h8z" fill="currentColor"/></svg></span></span>
+              </div>
+              <div class="col-resizer"></div>
+            </th>
+            <th data-col="duration">
+              <div class="th-inner">
+                <span class="col-drag" title="Drag to reorder"><svg width="10" height="14" viewBox="0 0 10 14" fill="none"><circle cx="3" cy="2.5" r="1.2" fill="#a3b9da"/><circle cx="7" cy="2.5" r="1.2" fill="#a3b9da"/><circle cx="3" cy="7" r="1.2" fill="#a3b9da"/><circle cx="7" cy="7" r="1.2" fill="#a3b9da"/><circle cx="3" cy="11.5" r="1.2" fill="#a3b9da"/><circle cx="7" cy="11.5" r="1.2" fill="#a3b9da"/></svg></span>
+                <span class="col-sort-trigger"><span class="col-label">Recording</span><span class="sort-icon"><svg width="8" height="6" viewBox="0 0 8 6"><path d="M4 0L8 6H0z" fill="currentColor"/></svg><svg width="8" height="6" viewBox="0 0 8 6"><path d="M4 6L0 0h8z" fill="currentColor"/></svg></span></span>
+              </div>
+              <div class="col-resizer"></div>
+            </th>
+            <th style="width:120px" data-col="status">
+              <div class="th-inner">
+                <span class="col-drag" title="Drag to reorder"><svg width="10" height="14" viewBox="0 0 10 14" fill="none"><circle cx="3" cy="2.5" r="1.2" fill="#a3b9da"/><circle cx="7" cy="2.5" r="1.2" fill="#a3b9da"/><circle cx="3" cy="7" r="1.2" fill="#a3b9da"/><circle cx="7" cy="7" r="1.2" fill="#a3b9da"/><circle cx="3" cy="11.5" r="1.2" fill="#a3b9da"/><circle cx="7" cy="11.5" r="1.2" fill="#a3b9da"/></svg></span>
+                <span class="col-sort-trigger"><span class="col-label">Status</span><span class="sort-icon"><svg width="8" height="6" viewBox="0 0 8 6"><path d="M4 0L8 6H0z" fill="currentColor"/></svg><svg width="8" height="6" viewBox="0 0 8 6"><path d="M4 6L0 0h8z" fill="currentColor"/></svg></span></span>
+              </div>
+              <div class="col-resizer"></div>
+            </th>
+            <th style="width:80px" data-col="actions"><div class="th-inner" style="justify-content:center"><span class="col-label">Actions</span></div></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="vm-row vm-row-unread" data-status="unread">
+            <td><div class="cust-cell"><span class="cust-av-sm">SM</span><div class="vm-cust-cell"><span class="vm-cust-name">Sarah Mitchell</span><span class="vm-cust-phone">+1 (415) 882-3041</span></div></div></td>
+            <td><div class="vm-date">May 20, 2025</div><div class="vm-time-sub">09:14 AM</div></td>
+            <td><div class="vm-player-sm"><button class="vm-play-sm" onclick="togglePlay(this)" aria-label="Play voicemail" title="Play"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><div class="vm-wf-sm"><div class="vm-bar-sm p" style="height:55%"></div><div class="vm-bar-sm p" style="height:80%"></div><div class="vm-bar-sm p" style="height:45%"></div><div class="vm-bar-sm p" style="height:90%"></div><div class="vm-bar-sm p" style="height:60%"></div><div class="vm-bar-sm p" style="height:70%"></div><div class="vm-bar-sm p" style="height:50%"></div><div class="vm-bar-sm p" style="height:85%"></div><div class="vm-bar-sm" style="height:65%"></div><div class="vm-bar-sm" style="height:40%"></div><div class="vm-bar-sm" style="height:75%"></div><div class="vm-bar-sm" style="height:55%"></div><div class="vm-bar-sm" style="height:90%"></div><div class="vm-bar-sm" style="height:45%"></div><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:60%"></div><div class="vm-bar-sm" style="height:80%"></div><div class="vm-bar-sm" style="height:50%"></div><div class="vm-bar-sm" style="height:65%"></div><div class="vm-bar-sm" style="height:40%"></div><div class="vm-bar-sm" style="height:75%"></div><div class="vm-bar-sm" style="height:55%"></div><div class="vm-bar-sm" style="height:85%"></div><div class="vm-bar-sm" style="height:45%"></div><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:60%"></div><div class="vm-bar-sm" style="height:50%"></div><div class="vm-bar-sm" style="height:80%"></div></div><span class="vm-dur-sm">1:24</span></div></td>
+            <td><span class="vm-status unread"><span class="vm-status-dot"></span>Unread</span></td>
+            <td class="actions-cell">
+              <button class="row-action" title="Call back" aria-label="Call back"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg></button>
+              <button class="row-action" title="Delete" aria-label="Delete voicemail"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button>
+            </td>
+          </tr>
+          <tr class="vm-row vm-row-unread" data-status="unread">
+            <td><div class="cust-cell"><span class="cust-av-sm">DO</span><div class="vm-cust-cell"><span class="vm-cust-name">David Okonkwo</span><span class="vm-cust-phone">+44 20 7946 0012</span></div></div></td>
+            <td><div class="vm-date">May 20, 2025</div><div class="vm-time-sub">10:52 AM</div></td>
+            <td><div class="vm-player-sm"><button class="vm-play-sm" onclick="togglePlay(this)" aria-label="Play voicemail" title="Play"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><div class="vm-wf-sm"><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:50%"></div><div class="vm-bar-sm" style="height:85%"></div><div class="vm-bar-sm" style="height:40%"></div><div class="vm-bar-sm" style="height:65%"></div><div class="vm-bar-sm" style="height:90%"></div><div class="vm-bar-sm" style="height:55%"></div><div class="vm-bar-sm" style="height:75%"></div><div class="vm-bar-sm" style="height:45%"></div><div class="vm-bar-sm" style="height:80%"></div><div class="vm-bar-sm" style="height:60%"></div><div class="vm-bar-sm" style="height:50%"></div><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:85%"></div><div class="vm-bar-sm" style="height:40%"></div><div class="vm-bar-sm" style="height:65%"></div><div class="vm-bar-sm" style="height:90%"></div><div class="vm-bar-sm" style="height:55%"></div><div class="vm-bar-sm" style="height:75%"></div><div class="vm-bar-sm" style="height:45%"></div><div class="vm-bar-sm" style="height:80%"></div><div class="vm-bar-sm" style="height:60%"></div><div class="vm-bar-sm" style="height:50%"></div><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:85%"></div><div class="vm-bar-sm" style="height:40%"></div><div class="vm-bar-sm" style="height:65%"></div><div class="vm-bar-sm" style="height:55%"></div></div><span class="vm-dur-sm">0:47</span></div></td>
+            <td><span class="vm-status unread"><span class="vm-status-dot"></span>Unread</span></td>
+            <td class="actions-cell">
+              <button class="row-action" title="Call back" aria-label="Call back"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg></button>
+              <button class="row-action" title="Delete" aria-label="Delete voicemail"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button>
+            </td>
+          </tr>
+          <tr class="vm-row vm-row-unread" data-status="unread">
+            <td><div class="cust-cell"><span class="cust-av-sm">PN</span><div class="vm-cust-cell"><span class="vm-cust-name">Priya Nambiar</span><span class="vm-cust-phone">+91 98204 51033</span></div></div></td>
+            <td><div class="vm-date">May 19, 2025</div><div class="vm-time-sub">03:38 PM</div></td>
+            <td><div class="vm-player-sm"><button class="vm-play-sm" onclick="togglePlay(this)" aria-label="Play voicemail" title="Play"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><div class="vm-wf-sm"><div class="vm-bar-sm" style="height:60%"></div><div class="vm-bar-sm" style="height:80%"></div><div class="vm-bar-sm" style="height:45%"></div><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:55%"></div><div class="vm-bar-sm" style="height:90%"></div><div class="vm-bar-sm" style="height:40%"></div><div class="vm-bar-sm" style="height:75%"></div><div class="vm-bar-sm" style="height:65%"></div><div class="vm-bar-sm" style="height:50%"></div><div class="vm-bar-sm" style="height:85%"></div><div class="vm-bar-sm" style="height:60%"></div><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:45%"></div><div class="vm-bar-sm" style="height:80%"></div><div class="vm-bar-sm" style="height:55%"></div><div class="vm-bar-sm" style="height:90%"></div><div class="vm-bar-sm" style="height:40%"></div><div class="vm-bar-sm" style="height:75%"></div><div class="vm-bar-sm" style="height:65%"></div><div class="vm-bar-sm" style="height:50%"></div><div class="vm-bar-sm" style="height:85%"></div><div class="vm-bar-sm" style="height:60%"></div><div class="vm-bar-sm" style="height:70%"></div><div class="vm-bar-sm" style="height:45%"></div><div class="vm-bar-sm" style="height:80%"></div><div class="vm-bar-sm" style="height:55%"></div><div class="vm-bar-sm" style="height:90%"></div></div><span class="vm-dur-sm">2:08</span></div></td>
+            <td><span class="vm-status unread"><span class="vm-status-dot"></span>Unread</span></td>
+            <td class="actions-cell">
+              <button class="row-action" title="Call back" aria-label="Call back"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg></button>
+              <button class="row-action" title="Delete" aria-label="Delete voicemail"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button>
+            </td>
+          </tr>
+          <tr class="vm-row" data-status="read">
+            <td><div class="cust-cell"><span class="cust-av-sm" style="background:#e8edf3;color:#555">JT</span><div class="vm-cust-cell"><span class="vm-cust-name" style="font-weight:400">John Tylor</span><span class="vm-cust-phone">+1 (762) 533-5936</span></div></div></td>
+            <td><div class="vm-date">May 18, 2025</div><div class="vm-time-sub">11:05 AM</div></td>
+            <td><div class="vm-player-sm"><button class="vm-play-sm" onclick="togglePlay(this)" aria-label="Play voicemail" title="Play"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><div class="vm-wf-sm"><div class="vm-bar-sm p" style="height:65%"></div><div class="vm-bar-sm p" style="height:80%"></div><div class="vm-bar-sm p" style="height:50%"></div><div class="vm-bar-sm p" style="height:90%"></div><div class="vm-bar-sm p" style="height:55%"></div><div class="vm-bar-sm p" style="height:75%"></div><div class="vm-bar-sm p" style="height:45%"></div><div class="vm-bar-sm p" style="height:85%"></div><div class="vm-bar-sm p" style="height:60%"></div><div class="vm-bar-sm p" style="height:70%"></div><div class="vm-bar-sm p" style="height:50%"></div><div class="vm-bar-sm p" style="height:80%"></div><div class="vm-bar-sm p" style="height:55%"></div><div class="vm-bar-sm p" style="height:90%"></div><div class="vm-bar-sm p" style="height:45%"></div><div class="vm-bar-sm p" style="height:75%"></div><div class="vm-bar-sm p" style="height:65%"></div><div class="vm-bar-sm p" style="height:50%"></div><div class="vm-bar-sm p" style="height:85%"></div><div class="vm-bar-sm p" style="height:60%"></div><div class="vm-bar-sm p" style="height:70%"></div><div class="vm-bar-sm p" style="height:50%"></div><div class="vm-bar-sm p" style="height:80%"></div><div class="vm-bar-sm p" style="height:55%"></div><div class="vm-bar-sm p" style="height:90%"></div><div class="vm-bar-sm p" style="height:45%"></div><div class="vm-bar-sm p" style="height:75%"></div><div class="vm-bar-sm p" style="height:65%"></div></div><span class="vm-dur-sm">1:52</span></div></td>
+            <td><span class="vm-status read"><span class="vm-status-dot"></span>Read</span></td>
+            <td class="actions-cell">
+              <button class="row-action" title="Call back" aria-label="Call back"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg></button>
+              <button class="row-action" title="Delete" aria-label="Delete voicemail"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button>
+            </td>
+          </tr>
+          <tr class="vm-row" data-status="read">
+            <td><div class="cust-cell"><span class="cust-av-sm" style="background:#e8edf3;color:#555">RK</span><div class="vm-cust-cell"><span class="vm-cust-name" style="font-weight:400">Rob Kelsey</span><span class="vm-cust-phone">+1 (743) 500-3536</span></div></div></td>
+            <td><div class="vm-date">May 17, 2025</div><div class="vm-time-sub">02:21 PM</div></td>
+            <td><div class="vm-player-sm"><button class="vm-play-sm" onclick="togglePlay(this)" aria-label="Play voicemail" title="Play"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><div class="vm-wf-sm"><div class="vm-bar-sm p" style="height:70%"></div><div class="vm-bar-sm p" style="height:55%"></div><div class="vm-bar-sm p" style="height:85%"></div><div class="vm-bar-sm p" style="height:40%"></div><div class="vm-bar-sm p" style="height:75%"></div><div class="vm-bar-sm p" style="height:60%"></div><div class="vm-bar-sm p" style="height:90%"></div><div class="vm-bar-sm p" style="height:50%"></div><div class="vm-bar-sm p" style="height:65%"></div><div class="vm-bar-sm p" style="height:80%"></div><div class="vm-bar-sm p" style="height:45%"></div><div class="vm-bar-sm p" style="height:70%"></div><div class="vm-bar-sm p" style="height:55%"></div><div class="vm-bar-sm p" style="height:85%"></div><div class="vm-bar-sm p" style="height:40%"></div><div class="vm-bar-sm p" style="height:75%"></div><div class="vm-bar-sm p" style="height:60%"></div><div class="vm-bar-sm p" style="height:90%"></div><div class="vm-bar-sm p" style="height:50%"></div><div class="vm-bar-sm p" style="height:65%"></div><div class="vm-bar-sm p" style="height:80%"></div><div class="vm-bar-sm p" style="height:45%"></div><div class="vm-bar-sm p" style="height:70%"></div><div class="vm-bar-sm p" style="height:55%"></div><div class="vm-bar-sm p" style="height:85%"></div><div class="vm-bar-sm p" style="height:40%"></div><div class="vm-bar-sm p" style="height:75%"></div><div class="vm-bar-sm p" style="height:60%"></div></div><span class="vm-dur-sm">0:33</span></div></td>
+            <td><span class="vm-status read"><span class="vm-status-dot"></span>Read</span></td>
+            <td class="actions-cell">
+              <button class="row-action" title="Call back" aria-label="Call back"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg></button>
+              <button class="row-action" title="Delete" aria-label="Delete voicemail"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- Paginator -->
+    <div class="paginator">
+      <span class="pag-info">Showing 1–5 of 5</span>
+      <div class="pag-space"></div>
+      <button class="pag-btn" disabled aria-label="Previous page">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="pag-btn active">1</button>
+      <button class="pag-btn" disabled aria-label="Next page">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <div class="pag-rpp">
+        <span>Rows per page</span>
+        <select aria-label="Rows per page"><option value="10">10</option><option value="25">25</option><option value="50">50</option></select>
+      </div>
+    </div>
   </div>
 </div><!-- /vm-screen -->
 
@@ -2275,7 +2460,11 @@ tr:hover .row-action{opacity:1;}
     </div>
     <button class="tb-btn" id="custFilterBtn" onclick="this.classList.toggle('active')" data-tip="Advanced Filter">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
-      Filter
+      Advanced Filter
+    </button>
+    <button class="tb-btn" id="custColPrefBtn" onclick="this.classList.toggle('active')" data-tip="Column Preferences">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6" stroke-width="2.5"/><line x1="3" y1="12" x2="3.01" y2="12" stroke-width="2.5"/><line x1="3" y1="18" x2="3.01" y2="18" stroke-width="2.5"/></svg>
+      Column Preference
     </button>
     <div class="labels-dropdown" id="custLabelsDD">
       <button class="labels-trigger" id="custLabelsTrigger" onclick="toggleCustLabels()">
@@ -2302,15 +2491,122 @@ tr:hover .row-action{opacity:1;}
   <div class="list-card">
     <div class="table-wrap">
       <table class="data-table" id="custTable">
-        <thead>
-          <tr>
-            <th style="width:200px" data-col="name"><div class="th-inner"><span class="col-sort-trigger" onclick="custSortBy('name')"><span class="col-label">First Name</span></span></div></th>
-            <th style="width:160px" data-col="phone"><div class="th-inner"><span class="col-sort-trigger" onclick="custSortBy('phone')"><span class="col-label">Phone</span></span></div></th>
-            <th style="width:140px" data-col="email"><div class="th-inner"><span class="col-sort-trigger" onclick="custSortBy('email')"><span class="col-label">Email</span></span></div></th>
-            <th style="width:110px" data-col="linkedin"><div class="th-inner"><span class="col-label">LinkedIn</span></div></th>
-            <th style="width:110px" data-col="instagram"><div class="th-inner"><span class="col-label">Instagram</span></div></th>
-            <th style="width:110px" data-col="twitter"><div class="th-inner"><span class="col-label">Twitter</span></div></th>
-            <th style="width:140px" data-col="actions"><div class="th-inner">Actions</div></th>
+        <thead id="custTableHead">
+          <tr id="custHeaderRow">
+            <th style="width:200px" data-col="name">
+              <div class="th-inner">
+                <span class="col-drag" title="Drag to reorder column"><svg width="10" height="14" viewBox="0 0 10 14" fill="#888"><circle cx="3" cy="2" r="1.2"/><circle cx="7" cy="2" r="1.2"/><circle cx="3" cy="7" r="1.2"/><circle cx="7" cy="7" r="1.2"/><circle cx="3" cy="12" r="1.2"/><circle cx="7" cy="12" r="1.2"/></svg></span>
+                <span class="col-sort-trigger" onclick="custSortBy('name')">
+                  <span class="col-label">First Name</span>
+                  <span class="sort-icon" id="csort-name"><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg></span>
+                </span>
+              </div>
+              <div class="col-resizer"></div>
+            </th>
+            <th style="width:160px" data-col="phone">
+              <div class="th-inner">
+                <span class="col-drag" title="Drag to reorder column"><svg width="10" height="14" viewBox="0 0 10 14" fill="#888"><circle cx="3" cy="2" r="1.2"/><circle cx="7" cy="2" r="1.2"/><circle cx="3" cy="7" r="1.2"/><circle cx="7" cy="7" r="1.2"/><circle cx="3" cy="12" r="1.2"/><circle cx="7" cy="12" r="1.2"/></svg></span>
+                <span class="col-sort-trigger" onclick="custSortBy('phone')">
+                  <span class="col-label">Phone Number</span>
+                  <span class="col-ch-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.11 19.79 19.79 0 01.78.5 2 2 0 012.78 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.14 6.14l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></span>
+                  <span class="sort-icon" id="csort-phone"><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg></span>
+                </span>
+              </div>
+              <div class="col-resizer"></div>
+            </th>
+            <th style="width:120px" data-col="web">
+              <div class="th-inner">
+                <span class="col-drag" title="Drag to reorder column"><svg width="10" height="14" viewBox="0 0 10 14" fill="#888"><circle cx="3" cy="2" r="1.2"/><circle cx="7" cy="2" r="1.2"/><circle cx="3" cy="7" r="1.2"/><circle cx="7" cy="7" r="1.2"/><circle cx="3" cy="12" r="1.2"/><circle cx="7" cy="12" r="1.2"/></svg></span>
+                <span class="col-sort-trigger" onclick="custSortBy('web')">
+                  <span class="col-label">Web</span>
+                  <span class="col-ch-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg></span>
+                  <span class="sort-icon" id="csort-web"><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg></span>
+                </span>
+              </div>
+              <div class="col-resizer"></div>
+            </th>
+            <th style="width:120px" data-col="voice">
+              <div class="th-inner">
+                <span class="col-drag" title="Drag to reorder column"><svg width="10" height="14" viewBox="0 0 10 14" fill="#888"><circle cx="3" cy="2" r="1.2"/><circle cx="7" cy="2" r="1.2"/><circle cx="3" cy="7" r="1.2"/><circle cx="7" cy="7" r="1.2"/><circle cx="3" cy="12" r="1.2"/><circle cx="7" cy="12" r="1.2"/></svg></span>
+                <span class="col-sort-trigger" onclick="custSortBy('voice')">
+                  <span class="col-label">Voice</span>
+                  <span class="col-ch-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.11 19.79 19.79 0 01.78.5 2 2 0 012.78 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.14 6.14l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></span>
+                  <span class="sort-icon" id="csort-voice"><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg></span>
+                </span>
+              </div>
+              <div class="col-resizer"></div>
+            </th>
+            <th style="width:130px" data-col="facebook">
+              <div class="th-inner">
+                <span class="col-drag" title="Drag to reorder column"><svg width="10" height="14" viewBox="0 0 10 14" fill="#888"><circle cx="3" cy="2" r="1.2"/><circle cx="7" cy="2" r="1.2"/><circle cx="3" cy="7" r="1.2"/><circle cx="7" cy="7" r="1.2"/><circle cx="3" cy="12" r="1.2"/><circle cx="7" cy="12" r="1.2"/></svg></span>
+                <span class="col-sort-trigger" onclick="custSortBy('facebook')">
+                  <span class="col-label">Facebook</span>
+                  <span class="col-ch-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></span>
+                  <span class="sort-icon" id="csort-facebook"><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg></span>
+                </span>
+              </div>
+              <div class="col-resizer"></div>
+            </th>
+            <th style="width:120px" data-col="twitter">
+              <div class="th-inner">
+                <span class="col-drag" title="Drag to reorder column"><svg width="10" height="14" viewBox="0 0 10 14" fill="#888"><circle cx="3" cy="2" r="1.2"/><circle cx="7" cy="2" r="1.2"/><circle cx="3" cy="7" r="1.2"/><circle cx="7" cy="7" r="1.2"/><circle cx="3" cy="12" r="1.2"/><circle cx="7" cy="12" r="1.2"/></svg></span>
+                <span class="col-sort-trigger" onclick="custSortBy('twitter')">
+                  <span class="col-label">Twitter</span>
+                  <span class="col-ch-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="#1DA1F2"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg></span>
+                  <span class="sort-icon" id="csort-twitter"><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg></span>
+                </span>
+              </div>
+              <div class="col-resizer"></div>
+            </th>
+            <th style="width:120px" data-col="telegram">
+              <div class="th-inner">
+                <span class="col-drag" title="Drag to reorder column"><svg width="10" height="14" viewBox="0 0 10 14" fill="#888"><circle cx="3" cy="2" r="1.2"/><circle cx="7" cy="2" r="1.2"/><circle cx="3" cy="7" r="1.2"/><circle cx="7" cy="7" r="1.2"/><circle cx="3" cy="12" r="1.2"/><circle cx="7" cy="12" r="1.2"/></svg></span>
+                <span class="col-sort-trigger" onclick="custSortBy('telegram')">
+                  <span class="col-label">Telegram</span>
+                  <span class="col-ch-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="#2CA5E0"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.247l-2.03 9.568c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.893.653z"/></svg></span>
+                  <span class="sort-icon" id="csort-telegram"><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg></span>
+                </span>
+              </div>
+              <div class="col-resizer"></div>
+            </th>
+            <th style="width:170px" data-col="email">
+              <div class="th-inner">
+                <span class="col-drag" title="Drag to reorder column"><svg width="10" height="14" viewBox="0 0 10 14" fill="#888"><circle cx="3" cy="2" r="1.2"/><circle cx="7" cy="2" r="1.2"/><circle cx="3" cy="7" r="1.2"/><circle cx="7" cy="7" r="1.2"/><circle cx="3" cy="12" r="1.2"/><circle cx="7" cy="12" r="1.2"/></svg></span>
+                <span class="col-sort-trigger" onclick="custSortBy('email')">
+                  <span class="col-label">Email</span>
+                  <span class="col-ch-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
+                  <span class="sort-icon" id="csort-email"><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg></span>
+                </span>
+              </div>
+              <div class="col-resizer"></div>
+            </th>
+            <th style="width:130px" data-col="linkedin">
+              <div class="th-inner">
+                <span class="col-drag" title="Drag to reorder column"><svg width="10" height="14" viewBox="0 0 10 14" fill="#888"><circle cx="3" cy="2" r="1.2"/><circle cx="7" cy="2" r="1.2"/><circle cx="3" cy="7" r="1.2"/><circle cx="7" cy="7" r="1.2"/><circle cx="3" cy="12" r="1.2"/><circle cx="7" cy="12" r="1.2"/></svg></span>
+                <span class="col-sort-trigger" onclick="custSortBy('linkedin')">
+                  <span class="col-label">LinkedIn</span>
+                  <span class="col-ch-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="#0A66C2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></span>
+                  <span class="sort-icon" id="csort-linkedin"><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg></span>
+                </span>
+              </div>
+              <div class="col-resizer"></div>
+            </th>
+            <th style="width:130px" data-col="instagram">
+              <div class="th-inner">
+                <span class="col-drag" title="Drag to reorder column"><svg width="10" height="14" viewBox="0 0 10 14" fill="#888"><circle cx="3" cy="2" r="1.2"/><circle cx="7" cy="2" r="1.2"/><circle cx="3" cy="7" r="1.2"/><circle cx="7" cy="7" r="1.2"/><circle cx="3" cy="12" r="1.2"/><circle cx="7" cy="12" r="1.2"/></svg></span>
+                <span class="col-sort-trigger" onclick="custSortBy('instagram')">
+                  <span class="col-label">Instagram</span>
+                  <span class="col-ch-icon"><svg width="12" height="12" viewBox="0 0 24 24"><defs><linearGradient id="ig2" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#f09433"/><stop offset="50%" style="stop-color:#dc2743"/><stop offset="100%" style="stop-color:#bc1888"/></linearGradient></defs><path fill="url(#ig2)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></span>
+                  <span class="sort-icon" id="csort-instagram"><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 0L8 5H0Z"/></svg><svg width="8" height="5" viewBox="0 0 8 5" fill="#888"><path d="M4 5L0 0H8Z"/></svg></span>
+                </span>
+              </div>
+              <div class="col-resizer"></div>
+            </th>
+            <th style="width:140px" data-col="actions">
+              <div class="th-inner" style="justify-content:center">
+                <span class="col-label">Actions</span>
+              </div>
+            </th>
           </tr>
         </thead>
         <tbody id="custTableBody"></tbody>
@@ -2334,8 +2630,9 @@ tr:hover .row-action{opacity:1;}
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
       </button>
       <div class="pag-rpp">
-        Rows:
+        <span>Rows per page</span>
         <select id="custRppSelect" onchange="custChangeRpp()">
+          <option value="10">10</option>
           <option value="25" selected>25</option>
           <option value="50">50</option>
           <option value="100">100</option>
@@ -2372,6 +2669,12 @@ tr:hover .row-action{opacity:1;}
     <div class="ci-meta"><div class="ci-name">John Tylor</div><div class="ci-status"><span class="ci-id">Identified</span><span class="ci-dot" style="background:#26c98c;"></span><span class="ci-dot" style="background:#fdb635;"></span><span class="ci-dot" style="background:#ff6767;"></span></div></div>
     <button class="ci-edit" aria-label="Copy link" data-tip="Copy link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.8"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></button>
     <button class="ci-edit" aria-label="Edit" data-tip="Edit" onclick="openEditCustomer()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.8"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+  </div>
+  <div class="ci-div"></div>
+  <div class="ci-chs">
+    <button class="ci-ch" aria-label="Call" data-tip="Call"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></button>
+    <button class="ci-ch" aria-label="SMS" data-tip="SMS"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></button>
+    <button class="ci-ch" aria-label="WhatsApp" data-tip="WhatsApp"><svg class="ci-wa-ic" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
   </div>
   <div class="ci-div"></div>
   <div class="ci-sec-ttl">General Information</div>
@@ -2554,7 +2857,8 @@ tr:hover .row-action{opacity:1;}
         </div>
       </div>
       <button class="tkt-create-btn" onclick="openCreateTicket()">
-        <span class="material-icons">add</span>Create Ticket
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Create Ticket
       </button>
     </div>
 
@@ -2562,19 +2866,19 @@ tr:hover .row-action{opacity:1;}
     <div class="tkt-stats-row">
       <div class="tkt-stat-card">
         <div><div class="tkt-stat-lbl">Avg Response Time</div><div class="tkt-stat-num">18m</div></div>
-        <div class="tkt-stat-ico" style="background:#e0f2fe"><span class="material-icons" style="color:#0284c7">schedule</span></div>
+        <div class="tkt-stat-ico" style="background:#e0f2fe"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
       </div>
       <div class="tkt-stat-card">
         <div><div class="tkt-stat-lbl">Avg Resolution Time</div><div class="tkt-stat-num">5h 45m</div></div>
-        <div class="tkt-stat-ico" style="background:#fef9c3"><span class="material-icons" style="color:#ca8a04">hourglass_empty</span></div>
+        <div class="tkt-stat-ico" style="background:#fef9c3"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ca8a04" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l3 3"/></svg></div>
       </div>
       <div class="tkt-stat-card">
         <div><div class="tkt-stat-lbl">SLA Breached</div><div class="tkt-stat-num warn">11</div></div>
-        <div class="tkt-stat-ico" style="background:#fee2e2"><span class="material-icons" style="color:#dc2626">timer_off</span></div>
+        <div class="tkt-stat-ico" style="background:#fee2e2"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
       </div>
       <div class="tkt-stat-card">
         <div><div class="tkt-stat-lbl">Total Active</div><div class="tkt-stat-num">156</div></div>
-        <div class="tkt-stat-ico" style="background:#ede9fe"><span class="material-icons" style="color:#7c3aed">confirmation_number</span></div>
+        <div class="tkt-stat-ico" style="background:#ede9fe"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
       </div>
     </div>
 
@@ -2608,9 +2912,9 @@ tr:hover .row-action{opacity:1;}
               <td><span class="sla-ok">3h 52m</span></td>
               <td><span class="cell-val">378d ago</span></td>
               <td class="actions-cell">
-                <button class="row-action" title="View"><span class="material-icons" style="font-size:15px">visibility</span></button>
-                <button class="row-action" title="Edit"><span class="material-icons" style="font-size:15px">edit</span></button>
-                <button class="row-action" title="More"><span class="material-icons" style="font-size:15px">more_vert</span></button>
+                <button class="row-action" title="View"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                <button class="row-action" title="Edit"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+                <button class="row-action" title="More"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></button>
               </td>
             </tr>
             <tr>
@@ -2624,9 +2928,9 @@ tr:hover .row-action{opacity:1;}
               <td><span class="sla-ok">5h 30m</span></td>
               <td><span class="cell-val">379d ago</span></td>
               <td class="actions-cell">
-                <button class="row-action" title="View"><span class="material-icons" style="font-size:15px">visibility</span></button>
-                <button class="row-action" title="Edit"><span class="material-icons" style="font-size:15px">edit</span></button>
-                <button class="row-action" title="More"><span class="material-icons" style="font-size:15px">more_vert</span></button>
+                <button class="row-action" title="View"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                <button class="row-action" title="Edit"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+                <button class="row-action" title="More"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></button>
               </td>
             </tr>
             <tr>
@@ -2640,9 +2944,9 @@ tr:hover .row-action{opacity:1;}
               <td><span class="sla-breach">Breached 17h 44m</span></td>
               <td><span class="cell-val">379d ago</span></td>
               <td class="actions-cell">
-                <button class="row-action" title="View"><span class="material-icons" style="font-size:15px">visibility</span></button>
-                <button class="row-action" title="Edit"><span class="material-icons" style="font-size:15px">edit</span></button>
-                <button class="row-action" title="More"><span class="material-icons" style="font-size:15px">more_vert</span></button>
+                <button class="row-action" title="View"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                <button class="row-action" title="Edit"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+                <button class="row-action" title="More"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></button>
               </td>
             </tr>
             <tr>
@@ -2656,9 +2960,9 @@ tr:hover .row-action{opacity:1;}
               <td><span class="sla-breach">Breached 23h 5m</span></td>
               <td><span class="cell-val">380d ago</span></td>
               <td class="actions-cell">
-                <button class="row-action" title="View"><span class="material-icons" style="font-size:15px">visibility</span></button>
-                <button class="row-action" title="Edit"><span class="material-icons" style="font-size:15px">edit</span></button>
-                <button class="row-action" title="More"><span class="material-icons" style="font-size:15px">more_vert</span></button>
+                <button class="row-action" title="View"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                <button class="row-action" title="Edit"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+                <button class="row-action" title="More"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></button>
               </td>
             </tr>
             <tr>
@@ -2672,9 +2976,9 @@ tr:hover .row-action{opacity:1;}
               <td><span class="sla-breach">Breached 21h 48m</span></td>
               <td><span class="cell-val">381d ago</span></td>
               <td class="actions-cell">
-                <button class="row-action" title="View"><span class="material-icons" style="font-size:15px">visibility</span></button>
-                <button class="row-action" title="Edit"><span class="material-icons" style="font-size:15px">edit</span></button>
-                <button class="row-action" title="More"><span class="material-icons" style="font-size:15px">more_vert</span></button>
+                <button class="row-action" title="View"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                <button class="row-action" title="Edit"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+                <button class="row-action" title="More"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></button>
               </td>
             </tr>
           </tbody>
@@ -2707,8 +3011,8 @@ tr:hover .row-action{opacity:1;}
       <span class="st-badge new" style="font-size:12px;padding:3px 10px;">New</span>
       <span class="st-badge" style="background:#ffedd5;color:#c2410c;font-size:12px;padding:3px 10px;font-weight:600;">HIGH</span>
       <span class="tkt-det-sp"></span>
-      <button class="tkt-edit-btn"><span class="material-icons" style="font-size:15px">edit</span>Edit</button>
-      <button class="tkt-more-btn"><span class="material-icons" style="font-size:18px;color:var(--color-medium)">more_vert</span></button>
+      <button class="tkt-edit-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Edit</button>
+      <button class="tkt-more-btn" title="More options" aria-label="More options"><svg width="18" height="18" viewBox="0 0 24 24" fill="var(--color-medium)"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg></button>
     </div>
     <div style="background:var(--color-bg);border:1px solid var(--color-border);border-top:none;flex-shrink:0;">
       <div style="padding:10px 16px;font-size:15px;font-weight:500;color:var(--color-text);border-bottom:1px solid var(--color-border);">Unable to process payment for premium subscription</div>
@@ -2922,7 +3226,7 @@ let vmOpen=false;
 function toggleVm(){openVm();}
 function closeVm(){vmOpen=false;vmScreen.classList.remove('open');}
 /* VM filter */
-function setVmFilter(btn,filter){document.querySelectorAll('.vm-pill').forEach(p=>{p.classList.remove('on');p.setAttribute('aria-pressed','false');});btn.classList.add('on');btn.setAttribute('aria-pressed','true');document.querySelectorAll('.vm-row').forEach(row=>{row.style.display=(filter==='all'||row.dataset.status===filter)?'':'none';});}
+function setVmFilter(btn,filter){document.querySelectorAll('.vm-filter-btn').forEach(p=>{p.classList.remove('active');p.setAttribute('aria-pressed','false');});btn.classList.add('active');btn.setAttribute('aria-pressed','true');document.querySelectorAll('.vm-row').forEach(row=>{row.style.display=(filter==='all'||row.dataset.status===filter)?'':'none';});}
 /* VM search */
 document.querySelector('.vm-search-inp')?.addEventListener('input',function(){const q=this.value.toLowerCase();document.querySelectorAll('.vm-row').forEach(row=>{row.style.display=row.textContent.toLowerCase().includes(q)?'':'none';});});
 /* Play toggle in table */
@@ -2939,26 +3243,26 @@ function toggleTranscript(){const t=document.getElementById('vmTranscript'),isOp
 /* ══ CUSTOMER LIST SCREEN ══ */
 const CUST_LABEL_COLORS={VIP:'#ff6767',Premium:'#fdb635',Support:'#26c98c',Enterprise:'#1a50a3',Trial:'#9b59b6'};
 const CUST_BASE=[
-  {name:'John Tylor',phone:'+1 (762) 533-5936',email:'john.tylor@example.com',linkedin:'in/johntylor',instagram:'@johntylor',twitter:'@jtylor',labels:['VIP','Enterprise'],channels:['call','sms','whatsapp','email']},
-  {name:'Sarah Mitchell',phone:'+1 (415) 882-3041',email:'sarah@mitchell.io',linkedin:'in/sarahmitchell',instagram:'@sarahmitch',twitter:'@sarahmitch',labels:['Premium','Support'],channels:['call','email']},
-  {name:'David Okonkwo',phone:'+44 20 7946 0012',email:'david@okonkwo.co.uk',linkedin:'in/davidokonkwo',instagram:'',twitter:'',labels:['Support'],channels:['call','sms','email']},
-  {name:'Priya Nambiar',phone:'+91 98204 51033',email:'priya.nambiar@gmail.com',linkedin:'in/priyanambiar',instagram:'@priyanambiar',twitter:'@priyan',labels:['Trial'],channels:['sms','whatsapp']},
-  {name:'Rob Kelsey',phone:'+1 (743) 500-3536',email:'rob@kelsey.io',linkedin:'in/robkelsey',instagram:'@robkelsey',twitter:'@robkelsey',labels:['VIP','Premium'],channels:['call','sms','email','whatsapp']},
-  {name:'Angela Torres',phone:'+34 91 234 5678',email:'angela@torres.es',linkedin:'in/angelatorres',instagram:'@angelatorres',twitter:'@angelatorres',labels:['Enterprise'],channels:['call','email']},
-  {name:'Michael Brown',phone:'+1 (555) 012-5000',email:'mike.brown@corp.com',linkedin:'in/michaelbrown',instagram:'',twitter:'@mikebrown',labels:['Support','Trial'],channels:['call','sms']},
-  {name:'Emma Wilson',phone:'+44 161 496 0234',email:'emma@wilson.co.uk',linkedin:'in/emmawilson',instagram:'@emmawilson',twitter:'@emmawilson',labels:['VIP'],channels:['call','email','whatsapp']},
-  {name:'Carlos Mendez',phone:'+52 55 1234 5678',email:'carlos@mendez.mx',linkedin:'in/carlosmendez',instagram:'@carlosmendez',twitter:'@carlosmendez',labels:['Premium','Enterprise'],channels:['call','sms','email']},
-  {name:'Aisha Johnson',phone:'+1 (312) 555-0189',email:'aisha.johnson@tech.org',linkedin:'in/aishajohnson',instagram:'@aishaj',twitter:'@aishaj',labels:['Support'],channels:['email','whatsapp']},
-  {name:'Zhang Wei',phone:'+86 10 6234 5678',email:'zhang.wei@company.cn',linkedin:'in/zhangwei',instagram:'@zhangwei',twitter:'@zhangwei',labels:['Enterprise','VIP'],channels:['call','sms']},
-  {name:'Fatima Al-Hassan',phone:'+971 50 123 4567',email:'fatima@alhassan.ae',linkedin:'in/fatimaalhassan',instagram:'@fatimaalhassan',twitter:'@fatimaalhassan',labels:['Premium'],channels:['call','email']},
-  {name:'Pierre Dubois',phone:'+33 1 42 86 12 34',email:'pierre@dubois.fr',linkedin:'in/pierredubois',instagram:'',twitter:'@pierredubois',labels:['Trial'],channels:['call','whatsapp']},
-  {name:'Kavya Reddy',phone:'+91 80 4321 8765',email:'kavya.reddy@startup.in',linkedin:'in/kavyareddy',instagram:'@kavyareddy',twitter:'@kavyareddy',labels:['Support','Premium'],channels:['sms','email','whatsapp']},
-  {name:'Luca Bianchi',phone:'+39 02 1234 5678',email:'luca@bianchi.it',linkedin:'in/lucabianchi',instagram:'@lucabianchi',twitter:'@lucabianchi',labels:['VIP','Trial'],channels:['call','email']},
-  {name:'Nadia Patel',phone:'+1 (604) 555-0234',email:'nadia.patel@mailbox.ca',linkedin:'in/nadiapatel',instagram:'@nadiapatel',twitter:'@nadiapatel',labels:['Enterprise'],channels:['call','sms','email']},
-  {name:'Omar Farouq',phone:'+20 2 2345 6789',email:'omar@farouq.eg',linkedin:'in/omarfarouq',instagram:'',twitter:'',labels:['Support'],channels:['call','whatsapp']},
-  {name:'Yuki Tanaka',phone:'+81 3 1234 5678',email:'yuki.tanaka@corp.jp',linkedin:'in/yukitanaka',instagram:'@yukitanaka',twitter:'@yukitanaka',labels:['Premium','VIP'],channels:['call','sms','email']},
-  {name:'Lisa Chen',phone:'+65 9123 4567',email:'lisa@chen.sg',linkedin:'in/lisachen',instagram:'@lisachen',twitter:'@lisachen',labels:['Trial','Support'],channels:['email','whatsapp']},
-  {name:'Henrik Larsson',phone:'+46 8 123 456 78',email:'henrik@larsson.se',linkedin:'in/henriklarsson',instagram:'@henrikl',twitter:'@henrikl',labels:['Enterprise','Premium'],channels:['call','sms']},
+  {name:'John Tylor',phone:'+1 (762) 533-5936',web:'johntylor.com',voice:'+1 (762) 533-5937',facebook:'john.tylor',email:'john.tylor@example.com',linkedin:'in/johntylor',instagram:'@johntylor',twitter:'@jtylor',telegram:'@johntylor',labels:['VIP','Enterprise'],channels:['call','sms','whatsapp','email']},
+  {name:'Sarah Mitchell',phone:'+1 (415) 882-3041',web:'sarahmitchell.io',voice:'',facebook:'sarah.mitchell',email:'sarah@mitchell.io',linkedin:'in/sarahmitchell',instagram:'@sarahmitch',twitter:'@sarahmitch',telegram:'@sarahmitch',labels:['Premium','Support'],channels:['call','email']},
+  {name:'David Okonkwo',phone:'+44 20 7946 0012',web:'',voice:'+44 20 7946 0013',facebook:'',email:'david@okonkwo.co.uk',linkedin:'in/davidokonkwo',instagram:'',twitter:'',telegram:'',labels:['Support'],channels:['call','sms','email']},
+  {name:'Priya Nambiar',phone:'+91 98204 51033',web:'priyanambiar.in',voice:'',facebook:'priya.nambiar',email:'priya.nambiar@gmail.com',linkedin:'in/priyanambiar',instagram:'@priyanambiar',twitter:'@priyan',telegram:'@priyanambiar',labels:['Trial'],channels:['sms','whatsapp']},
+  {name:'Rob Kelsey',phone:'+1 (743) 500-3536',web:'robkelsey.io',voice:'+1 (743) 500-3537',facebook:'rob.kelsey',email:'rob@kelsey.io',linkedin:'in/robkelsey',instagram:'@robkelsey',twitter:'@robkelsey',telegram:'@robkelsey',labels:['VIP','Premium'],channels:['call','sms','email','whatsapp']},
+  {name:'Angela Torres',phone:'+34 91 234 5678',web:'angelatorres.es',voice:'',facebook:'angela.torres',email:'angela@torres.es',linkedin:'in/angelatorres',instagram:'@angelatorres',twitter:'@angelatorres',telegram:'',labels:['Enterprise'],channels:['call','email']},
+  {name:'Michael Brown',phone:'+1 (555) 012-5000',web:'',voice:'+1 (555) 012-5001',facebook:'michael.brown.corp',email:'mike.brown@corp.com',linkedin:'in/michaelbrown',instagram:'',twitter:'@mikebrown',telegram:'@mikebrown',labels:['Support','Trial'],channels:['call','sms']},
+  {name:'Emma Wilson',phone:'+44 161 496 0234',web:'emmawilson.co.uk',voice:'',facebook:'emma.wilson',email:'emma@wilson.co.uk',linkedin:'in/emmawilson',instagram:'@emmawilson',twitter:'@emmawilson',telegram:'@emmaw',labels:['VIP'],channels:['call','email','whatsapp']},
+  {name:'Carlos Mendez',phone:'+52 55 1234 5678',web:'carlosmendez.mx',voice:'+52 55 1234 5679',facebook:'carlos.mendez.mx',email:'carlos@mendez.mx',linkedin:'in/carlosmendez',instagram:'@carlosmendez',twitter:'@carlosmendez',telegram:'',labels:['Premium','Enterprise'],channels:['call','sms','email']},
+  {name:'Aisha Johnson',phone:'+1 (312) 555-0189',web:'',voice:'',facebook:'aisha.johnson.tech',email:'aisha.johnson@tech.org',linkedin:'in/aishajohnson',instagram:'@aishaj',twitter:'@aishaj',telegram:'@aishaj',labels:['Support'],channels:['email','whatsapp']},
+  {name:'Zhang Wei',phone:'+86 10 6234 5678',web:'zhangwei.company.cn',voice:'+86 10 6234 5679',facebook:'',email:'zhang.wei@company.cn',linkedin:'in/zhangwei',instagram:'@zhangwei',twitter:'@zhangwei',telegram:'@zhangwei',labels:['Enterprise','VIP'],channels:['call','sms']},
+  {name:'Fatima Al-Hassan',phone:'+971 50 123 4567',web:'fatimaalhassan.ae',voice:'',facebook:'fatima.alhassan',email:'fatima@alhassan.ae',linkedin:'in/fatimaalhassan',instagram:'@fatimaalhassan',twitter:'@fatimaalhassan',telegram:'',labels:['Premium'],channels:['call','email']},
+  {name:'Pierre Dubois',phone:'+33 1 42 86 12 34',web:'pierredubois.fr',voice:'',facebook:'pierre.dubois.fr',email:'pierre@dubois.fr',linkedin:'in/pierredubois',instagram:'',twitter:'@pierredubois',telegram:'@pierre',labels:['Trial'],channels:['call','whatsapp']},
+  {name:'Kavya Reddy',phone:'+91 80 4321 8765',web:'kavyareddy.in',voice:'',facebook:'kavya.reddy',email:'kavya.reddy@startup.in',linkedin:'in/kavyareddy',instagram:'@kavyareddy',twitter:'@kavyareddy',telegram:'@kavyar',labels:['Support','Premium'],channels:['sms','email','whatsapp']},
+  {name:'Luca Bianchi',phone:'+39 02 1234 5678',web:'lucabianchi.it',voice:'+39 02 1234 5679',facebook:'luca.bianchi.it',email:'luca@bianchi.it',linkedin:'in/lucabianchi',instagram:'@lucabianchi',twitter:'@lucabianchi',telegram:'@lucab',labels:['VIP','Trial'],channels:['call','email']},
+  {name:'Nadia Patel',phone:'+1 (604) 555-0234',web:'nadiapatel.ca',voice:'',facebook:'nadia.patel',email:'nadia.patel@mailbox.ca',linkedin:'in/nadiapatel',instagram:'@nadiapatel',twitter:'@nadiapatel',telegram:'@nadiap',labels:['Enterprise'],channels:['call','sms','email']},
+  {name:'Omar Farouq',phone:'+20 2 2345 6789',web:'',voice:'+20 2 2345 6790',facebook:'',email:'omar@farouq.eg',linkedin:'in/omarfarouq',instagram:'',twitter:'',telegram:'',labels:['Support'],channels:['call','whatsapp']},
+  {name:'Yuki Tanaka',phone:'+81 3 1234 5678',web:'yukitanaka.jp',voice:'',facebook:'yuki.tanaka.corp',email:'yuki.tanaka@corp.jp',linkedin:'in/yukitanaka',instagram:'@yukitanaka',twitter:'@yukitanaka',telegram:'@yukit',labels:['Premium','VIP'],channels:['call','sms','email']},
+  {name:'Lisa Chen',phone:'+65 9123 4567',web:'lisachen.sg',voice:'',facebook:'lisa.chen.sg',email:'lisa@chen.sg',linkedin:'in/lisachen',instagram:'@lisachen',twitter:'@lisachen',telegram:'@lisac',labels:['Trial','Support'],channels:['email','whatsapp']},
+  {name:'Henrik Larsson',phone:'+46 8 123 456 78',web:'henriklarsson.se',voice:'+46 8 123 456 79',facebook:'henrik.larsson',email:'henrik@larsson.se',linkedin:'in/henriklarsson',instagram:'@henrikl',twitter:'@henrikl',telegram:'@henrikl',labels:['Enterprise','Premium'],channels:['call','sms']},
 ];
 /* expand to 247 entries */
 const CUST_ALL=[];
@@ -3007,12 +3311,16 @@ function custRenderTable(){
       <div class="cust-name-wrap"><span class="cust-name" onclick="closeCust()" style="cursor:pointer">${_custEsc(r.name)}</span>${_custLabDots(r.labels)}</div>
     </div></td>
     <td>${_custCv(r.phone)}</td>
+    <td>${_custCv(r.web)}</td>
+    <td>${_custCv(r.voice)}</td>
+    <td>${_custCv(r.facebook)}</td>
+    <td>${_custCv(r.twitter)}</td>
+    <td>${_custCv(r.telegram)}</td>
     <td>${_custCv(r.email)}</td>
     <td>${_custCv(r.linkedin)}</td>
     <td>${_custCv(r.instagram)}</td>
-    <td>${_custCv(r.twitter)}</td>
     <td class="actions-cell">${_custRowIcons(r)}</td>
-  </tr>`).join(''):`<tr><td colspan="7" style="text-align:center;padding:48px;color:var(--color-muted);font-size:13px;">No records found</td></tr>`;
+  </tr>`).join(''):`<tr><td colspan="11" style="text-align:center;padding:48px;color:var(--color-muted);font-size:13px;">No records found</td></tr>`;
   _custUpdatePag();
 }
 

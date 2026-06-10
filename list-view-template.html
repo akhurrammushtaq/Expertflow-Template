@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ExpertFlow — Phonebook / List View</title>
-<style>html{background:#e8edf3}html.ef-dark{background:#151515}</style>
+<style>html{background:#e8edf3}html.ef-dark{background:#151515}html.ef-dark body{background:#151515}</style>
 <script>try{if(sessionStorage.getItem('ef-dark')==='1')document.documentElement.classList.add('ef-dark')}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -40,10 +40,13 @@
 }
 .dark {
   --color-bg:#1e2022; --color-canvas:#151515; --color-sep:#151515;
-  --color-text:#e5e7eb; --color-body:#c5c5c5; --color-medium:#c5c5c5;
+  --color-text:#e5e7eb; --color-body:#c5c5c5; --color-medium:#b0b8c8;
   --color-muted:#9ca3af; --color-ts:#9a9a9a;
   --color-border:#2c2f35; --color-sec-bg:#292C30;
-  --color-primary-lt:#1a2d4a;
+  --color-bubble-c:#292C30; --color-bubble-a:#1a2d4a;
+  --color-border-p:#3a3f48; --color-border-i:#3a3f48;
+  --color-primary-lt:#1a2d4a; --color-ph:#555555;
+  --color-link:#7faaec;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:Roboto,system-ui,sans-serif;font-size:14px;color:var(--color-body);background:var(--color-sep);height:100vh;overflow:hidden;-webkit-font-smoothing:antialiased;line-height:1.4;}
@@ -287,6 +290,23 @@ tr:hover .row-action{opacity:1;}
 .pag-rpp select:focus{outline:none;border-color:var(--color-primary);}
 
 /* ══ DARK MODE ══ */
+/* Scrollbar */
+.dark *{scrollbar-color:#3a3f48 transparent;}
+.dark ::-webkit-scrollbar-thumb{background:#3a3f48;}
+/* Navbar */
+.dark .navbar{background:var(--color-bg);border-color:var(--color-border);}
+.dark .nav-ham{background:#292C30;}
+.dark .nav-ham:hover{background:#363a40;}
+.dark .nav-btn:hover{background:#292C30;border-radius:50%;}
+.dark .state-pill{border-color:#3a3f48;}
+.dark .agent-av{background:#292C30;border-color:#3a3f48;color:#7faaec;}
+/* Customer info card */
+.dark .ci-ch{background:#292C30;border-color:#3a3f48;}
+.dark .ci-ch svg,.dark .ci-ch .ci-wa-ic{fill:#9ca3af;}
+.dark .ci-ch:hover{background:#363a40;}
+.dark .ci-ch-row.hi{background:#1a2d4a;}
+.dark .ci-div{background:var(--color-border);}
+/* List page */
 .dark .list-toolbar,.dark .list-card{background:var(--color-bg);border-color:var(--color-border);}
 .dark .list-search{background:var(--color-sec-bg);border-color:var(--color-border);}
 .dark .list-search input{color:var(--color-body);}
@@ -300,6 +320,8 @@ tr:hover .row-action{opacity:1;}
 .dark .paginator{background:var(--color-bg);border-color:var(--color-border);}
 .dark .pag-btn{background:var(--color-bg);border-color:var(--color-border);}
 .dark .pag-rpp select{background:var(--color-sec-bg);border-color:var(--color-border);}
+.dark .nav-btn svg{stroke:#C5C5C5;}
+.dark .nav-logo img{content:url('logo-white.png');}
 
 /* ══ DRAG / RESIZE FEEDBACK ══ */
 th.dragging{opacity:0.45;}
@@ -451,7 +473,7 @@ tr:hover .row-ob-icon{opacity:1;}
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.8"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
   </button>
   <div class="nav-logo">
-    <img src="logo.png" alt="ExpertFlow" style="height:30px;display:block;object-fit:contain;">
+    <img src="logo.png" alt="ExpertFlow" style="height:28px;display:block;object-fit:contain;">
   </div>
   <div class="nav-space"></div>
   <button class="nav-btn active" aria-label="Customers / Phonebook" data-tip="Customers">
