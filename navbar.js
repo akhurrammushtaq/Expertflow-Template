@@ -1076,6 +1076,17 @@
 
   /* ─── DOM INIT ────────────────────────────────────────────────────────── */
   function init() {
+    /* Auth guard — redirect to login if session token is missing */
+    var currentPage = window.location.pathname.split('/').pop() || '';
+    if (currentPage !== 'login.html') {
+      try {
+        if (!sessionStorage.getItem('ef-auth')) {
+          window.location.replace('login.html');
+          return;
+        }
+      } catch (e) {}
+    }
+
     /* Inject CSS */
     var style = document.createElement('style');
     style.id = 'ef-navbar-css';

@@ -937,6 +937,8 @@ function togglePassword() {
       return;
     }
 
+    try { sessionStorage.setItem('ef-auth', '1'); } catch (e) {}
+
     const btn = document.getElementById('loginBtn');
     btn.classList.add('loading');
     const redirectUrl = activeWorkspace === 'new' ? CREDS[matchedRole].redirectNew : CREDS[matchedRole].redirectClassic;
