@@ -108,6 +108,52 @@ a{text-decoration:none;color:inherit;}
 .state-dot::after{animation-delay:.9s;}
 .agent-av{width:32px;height:32px;border-radius:50%;background:#e8edf3;border:1px solid #d0d7e2;display:inline-flex;align-items:center;justify-content:center;color:var(--color-primary);font-size:12px;font-weight:700;cursor:pointer;flex-shrink:0;margin-left:4px;}
 
+/* ══ GLOBAL SEARCH ══ */
+.navbar{position:relative;}
+/* Pill — static 300px search box always in navbar */
+.gs-pill{display:flex;align-items:center;gap:0;width:300px;height:34px;border:1.5px solid var(--color-border-panel);border-radius:9999px;background:var(--color-canvas);flex-shrink:0;}
+.gs-pill:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px rgba(26,80,163,.15);}
+/* Search icon */
+.gs-ic{padding:0 6px 0 12px;display:flex;align-items:center;color:var(--color-muted);flex-shrink:0;}
+/* Input */
+.gs-input{flex:1;border:none;background:transparent;font-size:13px;color:var(--color-text);outline:none;font-family:Roboto,sans-serif;min-width:0;padding:0;}
+.gs-input::placeholder{color:var(--color-muted);}
+/* Scope selector — right side */
+.gs-scope-btn{display:inline-flex;align-items:center;gap:4px;padding:0 10px 0 8px;height:100%;border:none;border-left:1.5px solid var(--color-border);background:none;cursor:pointer;font-size:12px;font-weight:500;color:var(--color-text-medium);flex-shrink:0;border-radius:0 9999px 9999px 0;transition:background .12s;white-space:nowrap;}
+.gs-scope-btn:hover{background:rgba(26,80,163,.06);}
+.gs-scope-btn svg{flex-shrink:0;}
+/* Scope dropdown */
+.gs-scope-dd{position:fixed;background:var(--color-bg);border:1px solid var(--color-border);border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.13);z-index:200;min-width:190px;padding:5px 0;display:none;}
+.gs-scope-dd.open{display:block;}
+.gs-scope-item{display:flex;align-items:center;gap:10px;padding:9px 14px;cursor:pointer;font-size:13px;color:var(--color-text);transition:background .1s;}
+.gs-scope-item:hover{background:var(--color-canvas);}
+.gs-scope-item.active{color:var(--color-primary);font-weight:500;}
+.gs-scope-item.active .gs-scope-check{opacity:1;}
+.gs-scope-check{margin-left:auto;opacity:0;color:var(--color-primary);}
+/* Results */
+.gs-results{display:none;position:fixed;top:var(--navbar-h);left:var(--sidenav-w);right:0;max-height:468px;overflow-y:auto;background:var(--color-bg);border-bottom:1px solid var(--color-border);box-shadow:0 8px 28px rgba(0,0,0,.12);z-index:99;}
+.gs-results.open{display:block;}
+.gs-sec-hdr{padding:8px 16px 5px;font-size:11px;font-weight:600;color:var(--color-muted);text-transform:uppercase;letter-spacing:.06em;background:var(--color-sec-bg);border-bottom:1px solid var(--color-border);display:flex;align-items:center;gap:6px;position:sticky;top:0;z-index:2;}
+.gs-item{display:flex;align-items:center;gap:10px;padding:9px 16px;cursor:pointer;transition:background .12s;border-bottom:1px solid var(--color-canvas);}
+.gs-item:hover,.gs-item.gs-focused{background:var(--color-primary-lt);}
+.gs-item-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:700;color:#fff;}
+.gs-item-ico{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--color-canvas);}
+.gs-item-body{flex:1;min-width:0;}
+.gs-item-title{font-size:13px;font-weight:500;color:var(--color-text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.gs-item-sub{font-size:11px;color:var(--color-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;}
+.gs-item-pill{font-size:11px;font-weight:500;padding:2px 8px;border-radius:9999px;flex-shrink:0;}
+.gs-item-chevron{color:var(--color-muted);flex-shrink:0;}
+.gs-empty{padding:36px 16px;text-align:center;color:var(--color-muted);font-size:13px;}
+.gs-empty strong{color:var(--color-text);}
+.gs-mark{background:rgba(26,80,163,.14);color:var(--color-primary);border-radius:2px;padding:0 1px;}
+/* dark */
+.dark .gs-pill{background:#1e2022;border-color:#3a3f48;}
+.dark .gs-scope-btn{border-left-color:#3a3f48;}
+.dark .gs-scope-dd{background:var(--color-bg);border-color:var(--color-border);box-shadow:0 6px 20px rgba(0,0,0,.45);}
+.dark .gs-scope-item:hover{background:#292C30;}
+.dark .gs-results{background:var(--color-bg);box-shadow:0 8px 28px rgba(0,0,0,.45);}
+.dark .gs-item-ico{background:#292C30;}
+.dark .gs-mark{background:rgba(127,170,236,.18);color:#7faaec;}
 
 /* ══ CONVERSATION TABS ══ */
 .conv-tabs{
@@ -1199,37 +1245,37 @@ tr:hover .row-ob-icon{opacity:1;}
 <!-- ════ SIDE NAV ════ -->
 <nav class="sidenav" id="sidenav">
   <div class="snav-items">
-    <div class="snav-item" id="snavDashboard" onclick="snavNav(this,openDashboard)">
+    <div class="snav-item" id="snavDashboard" data-tip="Dashboard" onclick="snavNav(this,openDashboard)">
       <span class="material-icons">grid_view</span>
       <span class="snav-label">Dashboard</span>
     </div>
-    <div class="snav-item active" id="snavConversations" onclick="snavNav(this,showConversations)">
+    <div class="snav-item active" id="snavConversations" data-tip="Conversations" onclick="snavNav(this,showConversations)">
       <span class="material-icons">forum</span>
       <span class="snav-label">Conversations</span>
     </div>
-    <div class="snav-item" id="snavOutbound" onclick="snavNav(this,openOutbound)">
+    <div class="snav-item" id="snavOutbound" data-tip="Outbound" onclick="snavNav(this,openOutbound)">
       <span class="material-icons">call_made</span>
       <span class="snav-label">Outbound</span>
     </div>
-    <div class="snav-item" id="snavCall" onclick="snavNav(this,callCustomer)">
+    <div class="snav-item" id="snavCall" data-tip="Call" onclick="snavNav(this,callCustomer)">
       <span class="material-icons">call</span>
       <span class="snav-label">Call</span>
     </div>
-    <div class="snav-item" id="snavContacts" onclick="snavNav(this,openCust)">
+    <div class="snav-item" id="snavContacts" data-tip="Contacts" onclick="snavNav(this,openCust)">
       <span class="material-icons">contacts</span>
       <span class="snav-label">Contacts</span>
     </div>
-    <div class="snav-item" id="snavQuickLinks" onclick="snavNav(this,null)">
+    <div class="snav-item" id="snavQuickLinks" data-tip="Quick Links" onclick="snavNav(this,null)">
       <span class="material-icons">bookmarks</span>
       <span class="snav-label">Quick Links</span>
     </div>
-    <div class="snav-item" id="vmSnavItem" onclick="snavNav(this,openVm)" style="position:relative">
+    <div class="snav-item" id="vmSnavItem" data-tip="Voicemail" onclick="snavNav(this,openVm)" style="position:relative">
       <span class="material-icons">voicemail</span>
       <span class="snav-label">Voicemail</span>
       <span class="snav-dot"></span>
       <span class="snav-badge">3</span>
     </div>
-    <div class="snav-item" id="snavTickets" onclick="snavNav(this,openTickets)" style="position:relative">
+    <div class="snav-item" id="snavTickets" data-tip="Tickets" onclick="snavNav(this,openTickets)" style="position:relative">
       <span class="material-icons">confirmation_number</span>
       <span class="snav-label">Tickets</span>
       <span class="snav-dot orange"></span>
@@ -1237,7 +1283,7 @@ tr:hover .row-ob-icon{opacity:1;}
     </div>
   </div>
   <div class="snav-bottom">
-    <div class="snav-item" onclick="snavClick(this);">
+    <div class="snav-item" data-tip="Settings" onclick="snavClick(this);">
       <span class="material-icons">settings</span>
       <span class="snav-label">Settings</span>
     </div>
@@ -1256,6 +1302,20 @@ tr:hover .row-ob-icon{opacity:1;}
     <img src="logo.png" alt="ExpertFlow" style="height:28px;display:block;object-fit:contain;">
   </div>
   <div class="nav-space"></div>
+  <!-- Global Search pill (always visible, 300px) -->
+  <div class="gs-pill">
+    <span class="gs-ic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#aaaaaa" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+    <input class="gs-input" id="gsInput" type="text" placeholder="Search…" autocomplete="off" oninput="_gsHandleInput()" onfocus="_gsOnFocus()" onblur="_gsOnBlur(event)">
+    <button class="gs-scope-btn" id="gsScopeBtn" onclick="_gsScopeDDToggle(event)" aria-label="Search scope" title="Search scope">
+      <span id="gsScopeLabel">All</span>
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+  </div>
+  <div style="width:1px;height:20px;background:#ececec;flex-shrink:0;margin:0 4px;"></div>
+  <!-- Quick Links -->
+  <button class="nav-btn" aria-label="Quick Links" data-tip="Quick Links" onclick="toggleQuickLinks(event)">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a50a3" stroke-width="1.8"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+  </button>
   <!-- Notification bell -->
   <button class="nav-btn" aria-label="Notifications" data-tip="Notifications" onclick="toggleNotifDD(event)" style="position:relative">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
@@ -1276,7 +1336,38 @@ tr:hover .row-ob-icon{opacity:1;}
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#9CA3AF" stroke-width="2"/></svg>
   </div>
   <div class="agent-av" role="button" aria-label="Agent AJ" onclick="togglePP(event)">AJ</div>
+
 </nav>
+<!-- Global Search results dropdown -->
+<div class="gs-results" id="gsResults"></div>
+<!-- Scope picker (fixed, positioned via JS) -->
+<div class="gs-scope-dd" id="gsScopeDD">
+  <div class="gs-scope-item active" data-scope="all" onclick="_gsSetScope('all','All',this)">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    All
+    <span class="gs-scope-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span>
+  </div>
+  <div class="gs-scope-item" data-scope="contacts" onclick="_gsSetScope('contacts','Contacts',this)">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    Contacts
+    <span class="gs-scope-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span>
+  </div>
+  <div class="gs-scope-item" data-scope="conversations" onclick="_gsSetScope('conversations','Conversations',this)">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    Conversations
+    <span class="gs-scope-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span>
+  </div>
+  <div class="gs-scope-item" data-scope="tickets" onclick="_gsSetScope('tickets','Tickets',this)">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="4" x2="9" y2="9"/></svg>
+    Tickets
+    <span class="gs-scope-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span>
+  </div>
+  <div class="gs-scope-item" data-scope="kb" onclick="_gsSetScope('kb','Knowledge Base',this)">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    Knowledge Base
+    <span class="gs-scope-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span>
+  </div>
+</div>
 
 <!-- ════ MAIN AREA ════ -->
 <div class="app-main">
@@ -3034,26 +3125,26 @@ function toggleTranscript(){const t=document.getElementById('vmTranscript'),isOp
 /* ══ CUSTOMER LIST SCREEN ══ */
 const CUST_LABEL_COLORS={VIP:'#ff6767',Premium:'#fdb635',Support:'#26c98c',Enterprise:'#1a50a3',Trial:'#9b59b6'};
 const CUST_BASE=[
-  {name:'John Tylor',phone:'+1 (762) 533-5936',web:'johntylor.com',voice:'+1 (762) 533-5937',facebook:'john.tylor',email:'john.tylor@example.com',linkedin:'in/johntylor',instagram:'@johntylor',twitter:'@jtylor',telegram:'@johntylor',labels:['VIP','Enterprise'],channels:['call','sms','whatsapp','email']},
-  {name:'Sarah Mitchell',phone:'+1 (415) 882-3041',web:'sarahmitchell.io',voice:'',facebook:'sarah.mitchell',email:'sarah@mitchell.io',linkedin:'in/sarahmitchell',instagram:'@sarahmitch',twitter:'@sarahmitch',telegram:'@sarahmitch',labels:['Premium','Support'],channels:['call','email']},
-  {name:'David Okonkwo',phone:'+44 20 7946 0012',web:'',voice:'+44 20 7946 0013',facebook:'',email:'david@okonkwo.co.uk',linkedin:'in/davidokonkwo',instagram:'',twitter:'',telegram:'',labels:['Support'],channels:['call','sms','email']},
-  {name:'Priya Nambiar',phone:'+91 98204 51033',web:'priyanambiar.in',voice:'',facebook:'priya.nambiar',email:'priya.nambiar@gmail.com',linkedin:'in/priyanambiar',instagram:'@priyanambiar',twitter:'@priyan',telegram:'@priyanambiar',labels:['Trial'],channels:['sms','whatsapp']},
-  {name:'Rob Kelsey',phone:'+1 (743) 500-3536',web:'robkelsey.io',voice:'+1 (743) 500-3537',facebook:'rob.kelsey',email:'rob@kelsey.io',linkedin:'in/robkelsey',instagram:'@robkelsey',twitter:'@robkelsey',telegram:'@robkelsey',labels:['VIP','Premium'],channels:['call','sms','email','whatsapp']},
-  {name:'Angela Torres',phone:'+34 91 234 5678',web:'angelatorres.es',voice:'',facebook:'angela.torres',email:'angela@torres.es',linkedin:'in/angelatorres',instagram:'@angelatorres',twitter:'@angelatorres',telegram:'',labels:['Enterprise'],channels:['call','email']},
-  {name:'Michael Brown',phone:'+1 (555) 012-5000',web:'',voice:'+1 (555) 012-5001',facebook:'michael.brown.corp',email:'mike.brown@corp.com',linkedin:'in/michaelbrown',instagram:'',twitter:'@mikebrown',telegram:'@mikebrown',labels:['Support','Trial'],channels:['call','sms']},
-  {name:'Emma Wilson',phone:'+44 161 496 0234',web:'emmawilson.co.uk',voice:'',facebook:'emma.wilson',email:'emma@wilson.co.uk',linkedin:'in/emmawilson',instagram:'@emmawilson',twitter:'@emmawilson',telegram:'@emmaw',labels:['VIP'],channels:['call','email','whatsapp']},
-  {name:'Carlos Mendez',phone:'+52 55 1234 5678',web:'carlosmendez.mx',voice:'+52 55 1234 5679',facebook:'carlos.mendez.mx',email:'carlos@mendez.mx',linkedin:'in/carlosmendez',instagram:'@carlosmendez',twitter:'@carlosmendez',telegram:'',labels:['Premium','Enterprise'],channels:['call','sms','email']},
-  {name:'Aisha Johnson',phone:'+1 (312) 555-0189',web:'',voice:'',facebook:'aisha.johnson.tech',email:'aisha.johnson@tech.org',linkedin:'in/aishajohnson',instagram:'@aishaj',twitter:'@aishaj',telegram:'@aishaj',labels:['Support'],channels:['email','whatsapp']},
-  {name:'Zhang Wei',phone:'+86 10 6234 5678',web:'zhangwei.company.cn',voice:'+86 10 6234 5679',facebook:'',email:'zhang.wei@company.cn',linkedin:'in/zhangwei',instagram:'@zhangwei',twitter:'@zhangwei',telegram:'@zhangwei',labels:['Enterprise','VIP'],channels:['call','sms']},
-  {name:'Fatima Al-Hassan',phone:'+971 50 123 4567',web:'fatimaalhassan.ae',voice:'',facebook:'fatima.alhassan',email:'fatima@alhassan.ae',linkedin:'in/fatimaalhassan',instagram:'@fatimaalhassan',twitter:'@fatimaalhassan',telegram:'',labels:['Premium'],channels:['call','email']},
-  {name:'Pierre Dubois',phone:'+33 1 42 86 12 34',web:'pierredubois.fr',voice:'',facebook:'pierre.dubois.fr',email:'pierre@dubois.fr',linkedin:'in/pierredubois',instagram:'',twitter:'@pierredubois',telegram:'@pierre',labels:['Trial'],channels:['call','whatsapp']},
-  {name:'Kavya Reddy',phone:'+91 80 4321 8765',web:'kavyareddy.in',voice:'',facebook:'kavya.reddy',email:'kavya.reddy@startup.in',linkedin:'in/kavyareddy',instagram:'@kavyareddy',twitter:'@kavyareddy',telegram:'@kavyar',labels:['Support','Premium'],channels:['sms','email','whatsapp']},
-  {name:'Luca Bianchi',phone:'+39 02 1234 5678',web:'lucabianchi.it',voice:'+39 02 1234 5679',facebook:'luca.bianchi.it',email:'luca@bianchi.it',linkedin:'in/lucabianchi',instagram:'@lucabianchi',twitter:'@lucabianchi',telegram:'@lucab',labels:['VIP','Trial'],channels:['call','email']},
-  {name:'Nadia Patel',phone:'+1 (604) 555-0234',web:'nadiapatel.ca',voice:'',facebook:'nadia.patel',email:'nadia.patel@mailbox.ca',linkedin:'in/nadiapatel',instagram:'@nadiapatel',twitter:'@nadiapatel',telegram:'@nadiap',labels:['Enterprise'],channels:['call','sms','email']},
-  {name:'Omar Farouq',phone:'+20 2 2345 6789',web:'',voice:'+20 2 2345 6790',facebook:'',email:'omar@farouq.eg',linkedin:'in/omarfarouq',instagram:'',twitter:'',telegram:'',labels:['Support'],channels:['call','whatsapp']},
-  {name:'Yuki Tanaka',phone:'+81 3 1234 5678',web:'yukitanaka.jp',voice:'',facebook:'yuki.tanaka.corp',email:'yuki.tanaka@corp.jp',linkedin:'in/yukitanaka',instagram:'@yukitanaka',twitter:'@yukitanaka',telegram:'@yukit',labels:['Premium','VIP'],channels:['call','sms','email']},
-  {name:'Lisa Chen',phone:'+65 9123 4567',web:'lisachen.sg',voice:'',facebook:'lisa.chen.sg',email:'lisa@chen.sg',linkedin:'in/lisachen',instagram:'@lisachen',twitter:'@lisachen',telegram:'@lisac',labels:['Trial','Support'],channels:['email','whatsapp']},
-  {name:'Henrik Larsson',phone:'+46 8 123 456 78',web:'henriklarsson.se',voice:'+46 8 123 456 79',facebook:'henrik.larsson',email:'henrik@larsson.se',linkedin:'in/henriklarsson',instagram:'@henrikl',twitter:'@henrikl',telegram:'@henrikl',labels:['Enterprise','Premium'],channels:['call','sms']},
+  {name:'John Tylor',phone:'+1 (762) 533-5936',voice:'+1 (743) 500-3536',facebook:'john.tylor',email:'john.tylor@example.com',linkedin:'in/johntylor',city:'Basel',plan:'Health care',role:'Supervisor',company:'CureMD',labels:['VIP','Enterprise'],channels:['call','sms','whatsapp','email']},
+  {name:'Sarah Mitchell',phone:'+1 (415) 882-3041',voice:'',facebook:'sarah.mitchell',email:'sarah@mitchell.io',linkedin:'in/sarahmitchell',city:'New York',plan:'Premium',role:'Manager',company:'TechCorp',labels:['Premium','Support'],channels:['call','email']},
+  {name:'David Okonkwo',phone:'+44 20 7946 0012',voice:'+44 20 7946 0013',facebook:'',email:'david@okonkwo.co.uk',linkedin:'in/davidokonkwo',city:'London',plan:'Basic',role:'Engineer',company:'BuildCo',labels:['Support'],channels:['call','sms','email']},
+  {name:'Priya Nambiar',phone:'+91 98204 51033',voice:'',facebook:'priya.nambiar',email:'priya.nambiar@gmail.com',linkedin:'in/priyanambiar',city:'Mumbai',plan:'Trial',role:'Designer',company:'Freelance',labels:['Trial'],channels:['sms','whatsapp']},
+  {name:'Rob Kelsey',phone:'+1 (743) 500-3536',voice:'+1 (743) 500-3537',facebook:'rob.kelsey',email:'rob@kelsey.io',linkedin:'in/robkelsey',city:'Austin',plan:'Enterprise',role:'Director',company:'KelseyCo',labels:['VIP','Premium'],channels:['call','sms','email','whatsapp']},
+  {name:'Angela Torres',phone:'+34 91 234 5678',voice:'',facebook:'angela.torres',email:'angela@torres.es',linkedin:'in/angelatorres',city:'Madrid',plan:'Health care',role:'Analyst',company:'TorreSA',labels:['Enterprise'],channels:['call','email']},
+  {name:'Michael Brown',phone:'+1 (555) 012-5000',voice:'+1 (555) 012-5001',facebook:'michael.brown.corp',email:'mike.brown@corp.com',linkedin:'in/michaelbrown',city:'Chicago',plan:'Basic',role:'Developer',company:'MBCorp',labels:['Support','Trial'],channels:['call','sms']},
+  {name:'Emma Wilson',phone:'+44 161 496 0234',voice:'',facebook:'emma.wilson',email:'emma@wilson.co.uk',linkedin:'in/emmawilson',city:'Manchester',plan:'Premium',role:'Consultant',company:'WilsonLtd',labels:['VIP'],channels:['call','email','whatsapp']},
+  {name:'Carlos Mendez',phone:'+52 55 1234 5678',voice:'+52 55 1234 5679',facebook:'carlos.mendez.mx',email:'carlos@mendez.mx',linkedin:'in/carlosmendez',city:'Mexico City',plan:'Enterprise',role:'CTO',company:'MendezTech',labels:['Premium','Enterprise'],channels:['call','sms','email']},
+  {name:'Aisha Johnson',phone:'+1 (312) 555-0189',voice:'',facebook:'aisha.johnson.tech',email:'aisha.johnson@tech.org',linkedin:'in/aishajohnson',city:'Boston',plan:'Basic',role:'Researcher',company:'TechOrg',labels:['Support'],channels:['email','whatsapp']},
+  {name:'Zhang Wei',phone:'+86 10 6234 5678',voice:'+86 10 6234 5679',facebook:'',email:'zhang.wei@company.cn',linkedin:'in/zhangwei',city:'Beijing',plan:'Enterprise',role:'CEO',company:'WeiCorp',labels:['Enterprise','VIP'],channels:['call','sms']},
+  {name:'Fatima Al-Hassan',phone:'+971 50 123 4567',voice:'',facebook:'fatima.alhassan',email:'fatima@alhassan.ae',linkedin:'in/fatimaalhassan',city:'Dubai',plan:'Premium',role:'CFO',company:'AlHassanGrp',labels:['Premium'],channels:['call','email']},
+  {name:'Pierre Dubois',phone:'+33 1 42 86 12 34',voice:'',facebook:'pierre.dubois.fr',email:'pierre@dubois.fr',linkedin:'in/pierredubois',city:'Paris',plan:'Trial',role:'Architect',company:'DuboisFR',labels:['Trial'],channels:['call','whatsapp']},
+  {name:'Kavya Reddy',phone:'+91 80 4321 8765',voice:'',facebook:'kavya.reddy',email:'kavya.reddy@startup.in',linkedin:'in/kavyareddy',city:'Bangalore',plan:'Premium',role:'PM',company:'StartupIN',labels:['Support','Premium'],channels:['sms','email','whatsapp']},
+  {name:'Luca Bianchi',phone:'+39 02 1234 5678',voice:'+39 02 1234 5679',facebook:'luca.bianchi.it',email:'luca@bianchi.it',linkedin:'in/lucabianchi',city:'Milan',plan:'Basic',role:'Designer',company:'BianchiIT',labels:['VIP','Trial'],channels:['call','email']},
+  {name:'Nadia Patel',phone:'+1 (604) 555-0234',voice:'',facebook:'nadia.patel',email:'nadia.patel@mailbox.ca',linkedin:'in/nadiapatel',city:'Vancouver',plan:'Enterprise',role:'VP Sales',company:'PatelCA',labels:['Enterprise'],channels:['call','sms','email']},
+  {name:'Omar Farouq',phone:'+20 2 2345 6789',voice:'+20 2 2345 6790',facebook:'',email:'omar@farouq.eg',linkedin:'in/omarfarouq',city:'Cairo',plan:'Basic',role:'Engineer',company:'FarouqEG',labels:['Support'],channels:['call','whatsapp']},
+  {name:'Yuki Tanaka',phone:'+81 3 1234 5678',voice:'',facebook:'yuki.tanaka.corp',email:'yuki.tanaka@corp.jp',linkedin:'in/yukitanaka',city:'Tokyo',plan:'Premium',role:'Director',company:'TanakaJP',labels:['Premium','VIP'],channels:['call','sms','email']},
+  {name:'Lisa Chen',phone:'+65 9123 4567',voice:'',facebook:'lisa.chen.sg',email:'lisa@chen.sg',linkedin:'in/lisachen',city:'Singapore',plan:'Trial',role:'Analyst',company:'ChenSG',labels:['Trial','Support'],channels:['email','whatsapp']},
+  {name:'Henrik Larsson',phone:'+46 8 123 456 78',voice:'+46 8 123 456 79',facebook:'henrik.larsson',email:'henrik@larsson.se',linkedin:'in/henriklarsson',city:'Stockholm',plan:'Enterprise',role:'CTO',company:'LarssonSE',labels:['Enterprise','Premium'],channels:['call','sms']},
 ];
 /* expand to 247 entries */
 const CUST_ALL=[];
@@ -3117,14 +3208,22 @@ function showContactCard(event,id){
   document.getElementById('lcc-phone').textContent=r.phone||'—';
   document.getElementById('lcc-email').textContent=r.email||'—';
   document.getElementById('lcc-dots').innerHTML=(r.labels||[]).map(l=>`<span class="ci-dot" style="background:${CUST_LABEL_COLORS[l]||'#999'}"></span>`).join('');
-  document.getElementById('lcc-chs').innerHTML=(r.channels||[]).map(ch=>{
-    const p=_custEsc(r.phone||''),e=_custEsc(r.email||''),n=_custEsc(r.name);
-    if(ch==='call')    return`<button class="ci-ch" data-tip="Call" onclick="event.stopPropagation();window.startCall&&window.startCall('${p}','${n}')"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.11 19.79 19.79 0 01.78.5 2 2 0 012.78 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.14 6.14l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></button>`;
-    if(ch==='sms')     return`<button class="ci-ch" data-tip="SMS" onclick="event.stopPropagation();window.openSmsComposer&&window.openSmsComposer('${p}','${n}')"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></button>`;
-    if(ch==='email')   return`<button class="ci-ch" data-tip="Email" onclick="event.stopPropagation();window.openEmailComposer&&window.openEmailComposer('${e}','${n}')"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></button>`;
-    if(ch==='whatsapp')return`<button class="ci-ch" data-tip="WhatsApp" onclick="event.stopPropagation();window.openWaComposer&&window.openWaComposer('${p}','${n}')"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" class="ci-wa-ic"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></button>`;
-    return'';
-  }).join('');
+  const _SVGS={
+    call:`<svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>`,
+    sms:`<svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>`,
+    email:`<svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>`,
+    whatsapp:`<svg class="ci-wa-ic" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`
+  };
+  const _TIPS={call:'Call',sms:'SMS',email:'Email',whatsapp:'WhatsApp'};
+  const _ACT={
+    call:`window.startCall&&window.startCall('${_custEsc(r.phone||'')}','${_custEsc(r.name)}')`,
+    sms:`window.openSmsComposer&&window.openSmsComposer('${_custEsc(r.phone||'')}','${_custEsc(r.name)}')`,
+    email:`window.openEmailComposer&&window.openEmailComposer('${_custEsc(r.email||'')}','${_custEsc(r.name)}')`,
+    whatsapp:`window.openWaComposer&&window.openWaComposer('${_custEsc(r.phone||'')}','${_custEsc(r.name)}')`
+  };
+  document.getElementById('lcc-chs').innerHTML=(r.channels||[]).map(ch=>
+    _SVGS[ch]?`<button class="ci-ch" aria-label="${_TIPS[ch]}" data-tip="${_TIPS[ch]}" onclick="event.stopPropagation();${_ACT[ch]}">${_SVGS[ch]}</button>`:''
+  ).join('');
   _posLcc(event.target);
   _lccPeek.classList.add('visible');
   _ciSetTips(_lccPeek);
@@ -3132,33 +3231,50 @@ function showContactCard(event,id){
 function expandLcc(){
   if(!_lccData)return;
   const r=_lccData;
+  /* Header */
   document.getElementById('lce-av').textContent=_custMkInit(r.name);
   document.getElementById('lce-name').textContent=r.name;
   document.getElementById('lce-dots').innerHTML=(r.labels||[]).map(l=>`<span class="ci-dot" style="background:${CUST_LABEL_COLORS[l]||'#999'}"></span>`).join('');
-  const pairs=[['Web',r.web],['Voice',r.voice],['LinkedIn',r.linkedin],['Instagram',r.instagram],['Facebook',r.facebook],['Twitter',r.twitter],['Telegram',r.telegram]].filter(f=>f[1]);
+  /* Copy channel action buttons from peek */
+  var lceChs=document.getElementById('lce-chs');
+  if(lceChs)lceChs.innerHTML=document.getElementById('lcc-chs').innerHTML;
+  /* General Information — 2-col pairs exactly like v2 */
+  const fn=r.name.split(' ')[0];
+  const gi=[
+    ['First Name',fn],['City',r.city||'—'],
+    ['Registered plan',r.plan||'—'],['Role',r.role||'—'],
+    ['Company',r.company||'—'],['']
+  ];
   let fh='';
-  for(let i=0;i<pairs.length;i+=2){
-    fh+=`<div class="ci-row"><div class="ci-f"><div class="ci-lbl">${pairs[i][0]}</div><div class="ci-val">${_custEsc(pairs[i][1])}</div></div>`;
-    fh+=pairs[i+1]?`<div class="ci-f"><div class="ci-lbl">${pairs[i+1][0]}</div><div class="ci-val">${_custEsc(pairs[i+1][1])}</div></div>`:`<div class="ci-f"></div>`;
-    fh+='</div>';
+  for(let i=0;i<gi.length;i+=2){
+    const a=gi[i],b=gi[i+1]||[''];
+    if(!a[0])break;
+    fh+=`<div class="ci-row">`;
+    fh+=`<div class="ci-f"><div class="ci-lbl">${_custEsc(a[0])}</div><div class="ci-val">${_custEsc(a[1]||'—')}</div></div>`;
+    if(b[0])fh+=`<div class="ci-f"><div class="ci-lbl">${_custEsc(b[0])}</div><div class="ci-val">${_custEsc(b[1]||'—')}</div></div>`;
+    else fh+=`<div class="ci-f"></div>`;
+    fh+=`</div>`;
   }
-  document.getElementById('lce-fields').innerHTML=fh||`<div class="ci-val" style="color:var(--color-muted)">No additional info</div>`;
+  document.getElementById('lce-fields').innerHTML=fh;
+  /* Channel Identifiers — exactly like v2 */
+  const hasWa=(r.channels||[]).includes('whatsapp');
   let ch='';
   if(r.phone){
-    const hasWa=(r.channels||[]).includes('whatsapp');
-    ch+=`<div class="ci-ch-row hi"><div class="ci-icons"><span class="ci-ico ph">${_LCC_PH_ICO}</span>${hasWa?`<span class="ci-ico wa">${_LCC_WA_ICO}</span>`:''}</div><span class="ci-num">${_custEsc(r.phone)}</span></div>`;
-  }
-  if(r.email){
-    if(ch)ch+=`<div class="ci-div"></div>`;
-    ch+=`<div class="ci-ch-row"><div class="ci-icons"><span class="ci-ico em">${_LCC_EM_ICO}</span></div><span class="ci-num">${_custEsc(r.email)}</span></div>`;
+    ch+=`<div class="ci-ch-row hi"><div class="ci-icons">`;
+    if(hasWa)ch+=`<span class="ci-ico wa">${_LCC_WA_ICO}</span>`;
+    ch+=`<span class="ci-ico ph">${_LCC_PH_ICO}</span>`;
+    ch+=`</div><span class="ci-num">${_custEsc(r.phone)}</span></div>`;
+    if(r.voice)ch+=`<div class="ci-sub">${_custEsc(r.voice)}</div>`;
   }
   if(r.facebook){
     if(ch)ch+=`<div class="ci-div"></div>`;
     ch+=`<div class="ci-ch-row"><div class="ci-icons"><span class="ci-ico fb">f</span></div><span class="ci-num">${_custEsc(r.facebook)}</span></div>`;
   }
+  if(r.email){
+    if(ch)ch+=`<div class="ci-div"></div>`;
+    ch+=`<div class="ci-ch-row"><div class="ci-icons"><span class="ci-ico em">${_LCC_EM_ICO}</span></div><span class="ci-num">${_custEsc(r.email)}</span></div>`;
+  }
   document.getElementById('lce-channels').innerHTML=ch||`<div style="color:var(--color-muted);font-size:12px;padding:6px 0">No channel data</div>`;
-  var lceChs=document.getElementById('lce-chs');
-  if(lceChs)lceChs.innerHTML=document.getElementById('lcc-chs').innerHTML;
   _lccExp.style.left=_lccPeek.style.left;
   _lccExp.style.top=_lccPeek.style.top;
   _lccPeek.classList.remove('visible');
@@ -3587,14 +3703,24 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeEditCus
   document.addEventListener('mouseover',function(e){
     var el=e.target.closest('[data-tip]');
     if(!el)return;
+    var snav=el.closest('.sidenav');
+    if(snav&&snav.classList.contains('expanded'))return;
     tip.textContent=el.getAttribute('data-tip');
     tip.style.opacity='1';
     var r=el.getBoundingClientRect(),tw=tip.offsetWidth,th=tip.offsetHeight;
-    var left=Math.round(r.left+r.width/2-tw/2);
-    var top=Math.round(r.bottom+7);
-    if(left+tw>window.innerWidth-8)left=window.innerWidth-tw-8;
-    if(left<8)left=8;
-    if(top+th>window.innerHeight-8)top=Math.round(r.top-th-7);
+    var left,top;
+    if(snav){
+      left=Math.round(r.right+8);
+      top=Math.round(r.top+r.height/2-th/2);
+      if(top+th>window.innerHeight-8)top=window.innerHeight-th-8;
+      if(top<8)top=8;
+    }else{
+      left=Math.round(r.left+r.width/2-tw/2);
+      top=Math.round(r.bottom+7);
+      if(left+tw>window.innerWidth-8)left=window.innerWidth-tw-8;
+      if(left<8)left=8;
+      if(top+th>window.innerHeight-8)top=Math.round(r.top-th-7);
+    }
     tip.style.left=left+'px';
     tip.style.top=top+'px';
   });
@@ -3821,6 +3947,179 @@ function openCust(){
   document.getElementById('custScreen').classList.add('open');
   if(!document.getElementById('custTableBody').innerHTML)custRenderTable();
 }
+
+/* ── Global Search ────────────────────────────────────────── */
+var _gsOpen=false,_gsFocusIdx=-1,_gsItemEls=[],_gsScope='all',_gsScopeDDOpen=false;
+var _GS_CONVOS=[
+  {name:'John Tylor',sub:'WhatsApp · 14m ago',init:'JT',color:'#26c98c',badge:'Ongoing',bBg:'rgba(37,99,235,.12)',bCol:'#60a5fa'},
+  {name:'Sarah Mitchell',sub:'Chat · 8m ago',init:'SM',color:'#1a50a3',badge:'Resolved',bBg:'rgba(34,197,94,.12)',bCol:'#4ade80'},
+  {name:'David Okonkwo',sub:'Email · 3m ago',init:'DO',color:'#fdb635',badge:'Resolved',bBg:'rgba(34,197,94,.12)',bCol:'#4ade80'},
+  {name:'Rob Kelsey',sub:'WhatsApp · 11m ago',init:'RK',color:'#ff6767',badge:'Missed',bBg:'rgba(239,68,68,.12)',bCol:'#f87171'},
+  {name:'Priya Nambiar',sub:'Voice · 31m ago',init:'PN',color:'#9b59b6',badge:'Missed',bBg:'rgba(239,68,68,.12)',bCol:'#f87171'}
+];
+var _GS_TICKETS=[
+  {name:'TKT-00001241',sub:'Billing escalation — High priority',badge:'Escalated',bBg:'rgba(185,28,28,.15)',bCol:'#f87171'},
+  {name:'TKT-00001198',sub:'Feature request — Login timeout',badge:'In Progress',bBg:'rgba(217,119,6,.15)',bCol:'#fbbf24'},
+  {name:'TKT-00001177',sub:'Password reset not working',badge:'New',bBg:'rgba(124,58,237,.18)',bCol:'#a78bfa'}
+];
+var _GS_KB=[
+  {name:'How to reset agent password',sub:'Admin Guide · 2 min read'},
+  {name:'Conversation transfer procedure',sub:'Agent Handbook · 3 min read'},
+  {name:'SLA escalation rules explained',sub:'Operations · 5 min read'},
+  {name:'Setting up voicemail greetings',sub:'Config Guide · 4 min read'}
+];
+
+/* Detect which page is currently open — returns a scope key */
+function _gsDetectPage(){
+  if(typeof custOpen!=='undefined'&&custOpen)return{scope:'contacts',label:'Contacts'};
+  var ds=document.getElementById('dashScreen');
+  if(ds&&ds.classList.contains('open'))return{scope:'all',label:'All'};
+  var ts=document.querySelector('.ticket-screen');
+  if(ts&&ts.classList.contains('open'))return{scope:'tickets',label:'Tickets'};
+  var vm=document.getElementById('vmScreen');
+  if(vm&&vm.classList.contains('open'))return{scope:'all',label:'All'};
+  return{scope:'conversations',label:'Conversations'};
+}
+
+function openGlobalSearch(){
+  var page=_gsDetectPage();
+  _gsSetScopeVal(page.scope,page.label);
+  document.getElementById('gsInput').focus();
+}
+function closeGlobalSearch(){
+  _gsOpen=false;_gsFocusIdx=-1;_gsItemEls=[];_gsScopeDDOpen=false;
+  document.getElementById('gsResults').classList.remove('open');
+  document.getElementById('gsScopeDD').classList.remove('open');
+  document.getElementById('gsInput').value='';
+  document.getElementById('gsInput').blur();
+}
+function _gsOnFocus(){
+  _gsOpen=true;_gsFocusIdx=-1;
+  var page=_gsDetectPage();
+  _gsSetScopeVal(page.scope,page.label);
+}
+function _gsOnBlur(e){
+  /* Delay so clicks inside results/scope-dd still register */
+  setTimeout(function(){
+    var dd=document.getElementById('gsScopeDD'),res=document.getElementById('gsResults');
+    if(document.activeElement&&(res.contains(document.activeElement)||dd.contains(document.activeElement)))return;
+    _gsOpen=false;_gsFocusIdx=-1;_gsItemEls=[];_gsScopeDDOpen=false;
+    res.classList.remove('open');
+    dd.classList.remove('open');
+  },160);
+}
+
+/* Scope dropdown toggle */
+function _gsScopeDDToggle(e){
+  e.stopPropagation();
+  var dd=document.getElementById('gsScopeDD');
+  _gsScopeDDOpen=!_gsScopeDDOpen;
+  if(_gsScopeDDOpen){
+    var btn=document.getElementById('gsScopeBtn');
+    var r=btn.getBoundingClientRect();
+    dd.style.left=r.left+'px';
+    dd.style.top=(r.bottom+4)+'px';
+    dd.classList.add('open');
+  } else {
+    dd.classList.remove('open');
+  }
+}
+
+/* Called from HTML onclick */
+function _gsSetScope(scope,label,el){
+  _gsSetScopeVal(scope,label);
+  document.getElementById('gsScopeDD').classList.remove('open');
+  _gsScopeDDOpen=false;
+  document.getElementById('gsInput').focus();
+  _gsHandleInput();
+}
+function _gsSetScopeVal(scope,label){
+  _gsScope=scope;
+  document.getElementById('gsScopeLabel').textContent=label;
+  document.querySelectorAll('.gs-scope-item').forEach(function(el){
+    el.classList.toggle('active',el.dataset.scope===scope);
+  });
+}
+
+function _gsHandleInput(){
+  var q=document.getElementById('gsInput').value.trim();
+  _gsFocusIdx=-1;_gsItemEls=[];
+  if(!q){document.getElementById('gsResults').classList.remove('open');return;}
+  var ql=q.toLowerCase();
+  var s=_gsScope;
+  var contacts=(s==='all'||s==='contacts')?(typeof CUST_ALL!=='undefined'?CUST_ALL:[]).filter(function(c){return(c.name||'').toLowerCase().includes(ql)||(c.phone||'').includes(ql)||(c.email||'').toLowerCase().includes(ql);}).slice(0,4):[];
+  var convos=(s==='all'||s==='conversations')?_GS_CONVOS.filter(function(c){return c.name.toLowerCase().includes(ql)||c.sub.toLowerCase().includes(ql);}).slice(0,3):[];
+  var tickets=(s==='all'||s==='tickets')?_GS_TICKETS.filter(function(t){return t.name.toLowerCase().includes(ql)||t.sub.toLowerCase().includes(ql);}).slice(0,3):[];
+  var kb=(s==='all'||s==='kb')?_GS_KB.filter(function(k){return k.name.toLowerCase().includes(ql)||k.sub.toLowerCase().includes(ql);}).slice(0,3):[];
+  _gsRender(contacts,convos,tickets,kb,q);
+}
+function _gsHl(text,q){
+  if(!q)return _custEsc(text);
+  var idx=text.toLowerCase().indexOf(q.toLowerCase());
+  if(idx<0)return _custEsc(text);
+  return _custEsc(text.slice(0,idx))+'<mark class="gs-mark">'+_custEsc(text.slice(idx,idx+q.length))+'</mark>'+_custEsc(text.slice(idx+q.length));
+}
+var _GS_CHEV='<svg class="gs-item-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="9 18 15 12 9 6"/></svg>';
+var _GS_TICKET_ICO='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8"><path d="M2 9a3 3 0 110 6v2a2 2 0 002 2h16a2 2 0 002-2v-2a3 3 0 110-6V7a2 2 0 00-2-2H4a2 2 0 00-2 2v2z"/></svg>';
+var _GS_KB_ICO='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>';
+function _gsRender(contacts,convos,tickets,kb,q){
+  var res=document.getElementById('gsResults');
+  var total=contacts.length+convos.length+tickets.length+kb.length;
+  if(!total){res.innerHTML='<div class="gs-empty">No results for "<strong>'+_custEsc(q)+'</strong>"</div>';res.classList.add('open');return;}
+  var h='';
+  var AV_COLORS=['#26c98c','#1a50a3','#fdb635','#ff6767','#9b59b6','#2ca5e0','#e91e63'];
+  if(contacts.length){
+    h+='<div class="gs-sec-hdr"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Contacts</div>';
+    contacts.forEach(function(c){
+      var bg=AV_COLORS[c.id%AV_COLORS.length];
+      h+='<div class="gs-item" onclick="closeGlobalSearch()"><div class="gs-item-av" style="background:'+bg+'">'+_custMkInit(c.name)+'</div><div class="gs-item-body"><div class="gs-item-title">'+_gsHl(c.name,q)+'</div><div class="gs-item-sub">'+_custEsc(c.phone||c.email||'—')+'</div></div>'+_GS_CHEV+'</div>';
+    });
+  }
+  if(convos.length){
+    h+='<div class="gs-sec-hdr"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6a2 2 0 012-2h9a2 2 0 012 2v7a2 2 0 01-2 2H7l-4 3V6z"/></svg>Conversations</div>';
+    convos.forEach(function(c){
+      h+='<div class="gs-item" onclick="closeGlobalSearch()"><div class="gs-item-av" style="background:'+c.color+'">'+c.init+'</div><div class="gs-item-body"><div class="gs-item-title">'+_gsHl(c.name,q)+'</div><div class="gs-item-sub">'+_custEsc(c.sub)+'</div></div><span class="gs-item-pill" style="background:'+c.bBg+';color:'+c.bCol+'">'+c.badge+'</span></div>';
+    });
+  }
+  if(tickets.length){
+    h+='<div class="gs-sec-hdr"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 9a3 3 0 110 6v2a2 2 0 002 2h16a2 2 0 002-2v-2a3 3 0 110-6V7a2 2 0 00-2-2H4a2 2 0 00-2 2v2z"/></svg>Tickets</div>';
+    tickets.forEach(function(t){
+      h+='<div class="gs-item" onclick="closeGlobalSearch()"><div class="gs-item-ico">'+_GS_TICKET_ICO+'</div><div class="gs-item-body"><div class="gs-item-title">'+_gsHl(t.name,q)+'</div><div class="gs-item-sub">'+_custEsc(t.sub)+'</div></div><span class="gs-item-pill" style="background:'+t.bBg+';color:'+t.bCol+'">'+t.badge+'</span></div>';
+    });
+  }
+  if(kb.length){
+    h+='<div class="gs-sec-hdr"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Knowledge Base</div>';
+    kb.forEach(function(k){
+      h+='<div class="gs-item" onclick="closeGlobalSearch()"><div class="gs-item-ico">'+_GS_KB_ICO+'</div><div class="gs-item-body"><div class="gs-item-title">'+_gsHl(k.name,q)+'</div><div class="gs-item-sub">'+_custEsc(k.sub)+'</div></div>'+_GS_CHEV+'</div>';
+    });
+  }
+  res.innerHTML=h;
+  res.classList.add('open');
+  _gsItemEls=Array.from(res.querySelectorAll('.gs-item'));
+}
+function _gsMoveF(dir){
+  if(!_gsItemEls.length)_gsItemEls=Array.from(document.querySelectorAll('#gsResults .gs-item'));
+  if(!_gsItemEls.length)return;
+  _gsItemEls.forEach(function(i){i.classList.remove('gs-focused');});
+  _gsFocusIdx=Math.max(0,Math.min(_gsItemEls.length-1,_gsFocusIdx+dir));
+  _gsItemEls[_gsFocusIdx].classList.add('gs-focused');
+  _gsItemEls[_gsFocusIdx].scrollIntoView({block:'nearest'});
+}
+document.addEventListener('keydown',function(e){
+  if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();openGlobalSearch();}
+  if(e.key==='Escape'){if(_gsScopeDDOpen){document.getElementById('gsScopeDD').classList.remove('open');_gsScopeDDOpen=false;}else if(_gsOpen)closeGlobalSearch();}
+  if(_gsOpen&&e.key==='ArrowDown'){e.preventDefault();_gsMoveF(1);}
+  if(_gsOpen&&e.key==='ArrowUp'){e.preventDefault();_gsMoveF(-1);}
+  if(_gsOpen&&e.key==='Enter'&&_gsFocusIdx>=0&&_gsItemEls[_gsFocusIdx])_gsItemEls[_gsFocusIdx].click();
+});
+document.addEventListener('mousedown',function(e){
+  var dd=document.getElementById('gsScopeDD'),btn=document.getElementById('gsScopeBtn');
+  if(_gsScopeDDOpen&&dd&&!dd.contains(e.target)&&btn&&!btn.contains(e.target)){dd.classList.remove('open');_gsScopeDDOpen=false;}
+  var pill=document.querySelector('.gs-pill'),res=document.getElementById('gsResults');
+  if(_gsOpen&&pill&&!pill.contains(e.target)&&res&&!res.contains(e.target)&&dd&&!dd.contains(e.target)){
+    _gsOpen=false;res.classList.remove('open');
+  }
+});
 </script>
 
 <!-- ── CALL CONTROLLER ── -->

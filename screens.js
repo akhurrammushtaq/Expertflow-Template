@@ -52,7 +52,6 @@
     '.row-action{width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;border:none;background:none;color:var(--color-medium);cursor:pointer;transition:all 0.15s;opacity:0;}',
     'tr:hover .row-action{opacity:1;}',
     '.row-action:hover{background:var(--color-primary-lt);color:var(--color-primary);}',
-    '.actions-cell{text-align:center;}',
     '.paginator{display:flex;align-items:center;gap:6px;padding:10px 16px;border-top:1px solid var(--color-border);background:var(--color-bg);flex-shrink:0;}',
     '.pag-info{font-size:12px;color:var(--color-muted);flex-shrink:0;}',
     '.pag-space{flex:1;}',
@@ -132,10 +131,6 @@
   var _player = function(bars, dur) {
     return '<div class="vm-player-sm"><button class="vm-play-sm" onclick="togglePlay(this)" aria-label="Play voicemail" title="Play">' + _pl + '</button><div class="vm-wf-sm">' + _wf(bars) + '</div><span class="vm-dur-sm">' + dur + '</span></div>';
   };
-  var _act = '<td class="actions-cell">' +
-    '<button class="row-action" title="Call back" aria-label="Call back"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg></button>' +
-    '<button class="row-action" title="Delete" aria-label="Delete voicemail"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button>' +
-    '</td>';
   var _th = function(label, w) {
     var style = w ? ' style="width:' + w + '"' : '';
     var colId = label.toLowerCase().replace(/\s+/g, '-');
@@ -169,9 +164,9 @@
     '<div class="vm-screen" id="vmScreen" role="main" aria-label="Voicemail inbox">' +
     /* Toolbar */
     '<div class="list-toolbar">' +
-      '<div class="page-title-wrap"><span class="page-title">Voicemail</span><span class="vm-unread-badge">3</span></div>' +
-      '<div class="list-search"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaaaaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="vm-search-inp" type="text" placeholder="Search voicemails…" aria-label="Search voicemails"></div>' +
+      '<div class="page-title-wrap"><span class="page-title">Voicemail</span><span class="vm-unread-badge">3 unread</span></div>' +
       '<div class="toolbar-space"></div>' +
+      '<div class="list-search"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaaaaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="vm-search-inp" type="text" placeholder="Search voicemails…" aria-label="Search voicemails"></div>' +
       '<button class="tb-btn vm-filter-btn active" onclick="setVmFilter(this,\'all\')" aria-pressed="true">All</button>' +
       '<button class="tb-btn vm-filter-btn" onclick="setVmFilter(this,\'unread\')" aria-pressed="false">Unread</button>' +
       '<button class="tb-btn vm-filter-btn" onclick="setVmFilter(this,\'read\')" aria-pressed="false">Read</button>' +
@@ -179,42 +174,41 @@
     /* Table card */
     '<div class="list-card"><div class="table-wrap"><table class="data-table"><thead><tr>' +
       _th('Customer','230px') + _th('Received On','160px') + _th('Recording') + _th('Status','120px') +
-      '<th style="width:80px" data-col="actions"><div class="th-inner" style="justify-content:center"><span class="col-label">Actions</span></div></th>' +
     '</tr></thead><tbody>' +
     /* Row: Sarah Mitchell — unread */
     '<tr class="vm-row vm-row-unread" data-status="unread">' +
       '<td>' + _cust('SM','Sarah Mitchell','+1 (415) 882-3041',false) + '</td>' +
       '<td>' + _dt('May 20, 2025','09:14 AM') + '</td>' +
       '<td>' + _player(WF.SM,'1:24') + '</td>' +
-      '<td>' + _status('unread') + '</td>' + _act +
+      '<td>' + _status('unread') + '</td>' +
     '</tr>' +
     /* Row: David Okonkwo — unread */
     '<tr class="vm-row vm-row-unread" data-status="unread">' +
       '<td>' + _cust('DO','David Okonkwo','+44 20 7946 0012',false) + '</td>' +
       '<td>' + _dt('May 20, 2025','10:52 AM') + '</td>' +
       '<td>' + _player(WF.DO,'0:47') + '</td>' +
-      '<td>' + _status('unread') + '</td>' + _act +
+      '<td>' + _status('unread') + '</td>' +
     '</tr>' +
     /* Row: Priya Nambiar — unread */
     '<tr class="vm-row vm-row-unread" data-status="unread">' +
       '<td>' + _cust('PN','Priya Nambiar','+91 98204 51033',false) + '</td>' +
       '<td>' + _dt('May 19, 2025','03:38 PM') + '</td>' +
       '<td>' + _player(WF.PN,'2:08') + '</td>' +
-      '<td>' + _status('unread') + '</td>' + _act +
+      '<td>' + _status('unread') + '</td>' +
     '</tr>' +
     /* Row: John Tylor — read */
     '<tr class="vm-row" data-status="read">' +
       '<td>' + _cust('JT','John Tylor','+1 (762) 533-5936',true) + '</td>' +
       '<td>' + _dt('May 18, 2025','11:05 AM') + '</td>' +
       '<td>' + _player(WF.JT,'1:52') + '</td>' +
-      '<td>' + _status('read') + '</td>' + _act +
+      '<td>' + _status('read') + '</td>' +
     '</tr>' +
     /* Row: Rob Kelsey — read */
     '<tr class="vm-row" data-status="read">' +
       '<td>' + _cust('RK','Rob Kelsey','+1 (743) 500-3536',true) + '</td>' +
       '<td>' + _dt('May 17, 2025','02:21 PM') + '</td>' +
       '<td>' + _player(WF.RK,'0:33') + '</td>' +
-      '<td>' + _status('read') + '</td>' + _act +
+      '<td>' + _status('read') + '</td>' +
     '</tr>' +
     '</tbody></table></div>' +
     /* Paginator */
