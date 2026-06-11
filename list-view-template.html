@@ -7,7 +7,7 @@
 <style>html{background:#e8edf3}html.ef-dark{background:#151515}html.ef-dark body{background:#151515}</style>
 <script>try{if(sessionStorage.getItem('ef-dark')==='1')document.documentElement.classList.add('ef-dark')}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════════════════
@@ -49,11 +49,11 @@
   --color-link:#7faaec;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:Roboto,system-ui,sans-serif;font-size:14px;color:var(--color-body);background:var(--color-sep);height:100vh;overflow:hidden;-webkit-font-smoothing:antialiased;line-height:1.4;}
+body{font-family:Inter,system-ui,sans-serif;font-size:14px;color:var(--color-body);background:var(--color-sep);height:100vh;overflow:hidden;-webkit-font-smoothing:antialiased;line-height:1.4;}
 #app{animation:ef-in .18s ease-out;}
 @keyframes ef-in{from{opacity:0}to{opacity:1}}
-button{font-family:Roboto,sans-serif;cursor:pointer;border:none;background:none;}
-input,select,textarea{font-family:Roboto,sans-serif;}
+button{font-family:Inter,sans-serif;cursor:pointer;border:none;background:none;}
+input,select,textarea{font-family:Inter,sans-serif;}
 a{text-decoration:none;color:inherit;}
 *{scrollbar-width:thin;scrollbar-color:#d0d0d0 transparent;}
 ::-webkit-scrollbar{width:6px;height:6px;}
@@ -352,9 +352,10 @@ tr:hover .row-ob-icon{opacity:1;}
 .ci-chs{display:flex;align-items:center;justify-content:center;gap:10px;padding:4px 0;}
 .ci-ch{width:36px;height:36px;border-radius:50%;border:1px solid var(--color-border);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s;}
 .ci-ch:hover{background:var(--color-primary-lt);}
-.ci-ch svg{width:17px;height:17px;transition:stroke .15s,fill .15s;}
-.ci-ch .ci-wa-ic{width:15px;height:15px;fill:#555;transition:fill .15s;}
-.ci-ch:hover .ci-wa-ic{fill:#25d366;}
+.ci-ch svg{width:17px;height:17px;fill:#555;transition:fill .15s;}
+.ci-ch:hover svg{fill:var(--color-primary);}
+.ci-ch .ci-wa-ic{width:15px;height:15px;fill:#555;}
+.ci-ch:hover .ci-wa-ic{fill:#25D366;}
 .ci-rows{display:flex;flex-direction:column;gap:10px;margin:4px 0;}
 .ci-row{display:flex;gap:16px;}
 .ci-f{flex:1;min-width:0;}
@@ -746,6 +747,7 @@ tr:hover .row-ob-icon{opacity:1;}
     <button class="ci-edit" aria-label="Copy link" data-tip="Copy link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.8"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></button>
     <button class="ci-edit" aria-label="Edit" data-tip="Edit" onclick="openEditCustomer()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.8"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
   </div>
+  <div class="ci-chs" id="lce-chs"></div>
   <div class="ci-div"></div>
   <div class="ci-sec-ttl">General Information</div>
   <div class="ci-fields-box" id="lce-fields"></div>
@@ -927,26 +929,26 @@ tr:hover .row-ob-icon{opacity:1;}
 // ════ DATA ════
 const LABEL_COLORS = {VIP:'#ff6767',Premium:'#fdb635',Support:'#26c98c',Enterprise:'#1a50a3',Trial:'#9b59b6'};
 const BASE = [
-  {name:'John Tylor',phone:'+1 (762) 533-5936',web:'john.tylor.com',voice:'+1 (762) 533-5936',facebook:'jt.facebook',twitter:'@jtylor',telegram:'@johntylor',email:'john.tylor@example.com',linkedin:'in/johntylor',instagram:'@johntylor',labels:['VIP','Enterprise']},
-  {name:'Sarah Mitchell',phone:'+1 (415) 882-3041',web:'',voice:'+1 (415) 882-3041',facebook:'sarah.mitchell',twitter:'@sarahmitch',telegram:'@sarahmitch',email:'sarah@mitchell.io',linkedin:'in/sarahmitchell',instagram:'@sarahmitch',labels:['Premium','Support']},
-  {name:'David Okonkwo',phone:'+44 20 7946 0012',web:'okonkwo.co.uk',voice:'+44 20 7946 0012',facebook:'david.okonkwo',twitter:'',telegram:'@dokonkwo',email:'david@okonkwo.co.uk',linkedin:'in/davidokonkwo',instagram:'',labels:['Support']},
-  {name:'Priya Nambiar',phone:'+91 98204 51033',web:'',voice:'+91 98204 51033',facebook:'',twitter:'@priyan',telegram:'@priyanambiar',email:'priya.nambiar@gmail.com',linkedin:'in/priyanambiar',instagram:'@priyanambiar',labels:['Trial']},
-  {name:'Rob Kelsey',phone:'+1 (743) 500-3536',web:'robkelsey.io',voice:'+1 (743) 500-3536',facebook:'rob.kelsey',twitter:'@robkelsey',telegram:'@robkelsey',email:'rob@kelsey.io',linkedin:'in/robkelsey',instagram:'@robkelsey',labels:['VIP','Premium']},
-  {name:'Angela Torres',phone:'+34 91 234 5678',web:'torres.es',voice:'+34 91 234 5678',facebook:'angela.torres.34',twitter:'@angelatorres',telegram:'',email:'angela@torres.es',linkedin:'in/angelatorres',instagram:'@angelatorres',labels:['Enterprise']},
-  {name:'Michael Brown',phone:'+1 (555) 012-5000',web:'',voice:'+1 (555) 012-5000',facebook:'michael.brown.us',twitter:'@mikebrown',telegram:'@mikebrown',email:'mike.brown@corp.com',linkedin:'in/michaelbrown',instagram:'',labels:['Support','Trial']},
-  {name:'Emma Wilson',phone:'+44 161 496 0234',web:'emmawilson.co.uk',voice:'+44 161 496 0234',facebook:'emma.wilson.uk',twitter:'@emmawilson',telegram:'@emmawilson',email:'emma@wilson.co.uk',linkedin:'in/emmawilson',instagram:'@emmawilson',labels:['VIP']},
-  {name:'Carlos Mendez',phone:'+52 55 1234 5678',web:'mendez.mx',voice:'+52 55 1234 5678',facebook:'carlos.mendez.mx',twitter:'@carlosmendez',telegram:'@carlosmendez',email:'carlos@mendez.mx',linkedin:'in/carlosmendez',instagram:'@carlosmendez',labels:['Premium','Enterprise']},
-  {name:'Aisha Johnson',phone:'+1 (312) 555-0189',web:'',voice:'+1 (312) 555-0189',facebook:'',twitter:'@aishaj',telegram:'@aishajohnson',email:'aisha.johnson@tech.org',linkedin:'in/aishajohnson',instagram:'@aishaj',labels:['Support']},
-  {name:'Zhang Wei',phone:'+86 10 6234 5678',web:'zhangwei.cn',voice:'+86 10 6234 5678',facebook:'zhang.wei.cn',twitter:'@zhangwei',telegram:'',email:'zhang.wei@company.cn',linkedin:'in/zhangwei',instagram:'@zhangwei',labels:['Enterprise','VIP']},
-  {name:'Fatima Al-Hassan',phone:'+971 50 123 4567',web:'alhassan.ae',voice:'+971 50 123 4567',facebook:'fatima.alhassan',twitter:'@fatimaalhassan',telegram:'@fatimaalhassan',email:'fatima@alhassan.ae',linkedin:'in/fatimaalhassan',instagram:'@fatimaalhassan',labels:['Premium']},
-  {name:'Pierre Dubois',phone:'+33 1 42 86 12 34',web:'',voice:'+33 1 42 86 12 34',facebook:'pierre.dubois.fr',twitter:'@pierredubois',telegram:'@pdubois',email:'pierre@dubois.fr',linkedin:'in/pierredubois',instagram:'',labels:['Trial']},
-  {name:'Kavya Reddy',phone:'+91 80 4321 8765',web:'kavyareddy.in',voice:'+91 80 4321 8765',facebook:'kavya.reddy',twitter:'@kavyareddy',telegram:'@kavyareddy',email:'kavya.reddy@startup.in',linkedin:'in/kavyareddy',instagram:'@kavyareddy',labels:['Support','Premium']},
-  {name:'Luca Bianchi',phone:'+39 02 1234 5678',web:'bianchi.it',voice:'+39 02 1234 5678',facebook:'luca.bianchi.it',twitter:'@lucabianchi',telegram:'@lucabianchi',email:'luca@bianchi.it',linkedin:'in/lucabianchi',instagram:'@lucabianchi',labels:['VIP','Trial']},
-  {name:'Nadia Patel',phone:'+1 (604) 555-0234',web:'',voice:'+1 (604) 555-0234',facebook:'nadia.patel.ca',twitter:'@nadiapatel',telegram:'@nadiapatel',email:'nadia.patel@mailbox.ca',linkedin:'in/nadiapatel',instagram:'@nadiapatel',labels:['Enterprise']},
-  {name:'Omar Farouq',phone:'+20 2 2345 6789',web:'farouq.eg',voice:'+20 2 2345 6789',facebook:'omar.farouq',twitter:'',telegram:'@omarfarouq',email:'omar@farouq.eg',linkedin:'in/omarfarouq',instagram:'',labels:['Support']},
-  {name:'Yuki Tanaka',phone:'+81 3 1234 5678',web:'tanaka.jp',voice:'+81 3 1234 5678',facebook:'yuki.tanaka.jp',twitter:'@yukitanaka',telegram:'@yukitanaka',email:'yuki.tanaka@corp.jp',linkedin:'in/yukitanaka',instagram:'@yukitanaka',labels:['Premium','VIP']},
-  {name:'Lisa Chen',phone:'+65 9123 4567',web:'lisachen.sg',voice:'+65 9123 4567',facebook:'lisa.chen.sg',twitter:'@lisachen',telegram:'@lisachen',email:'lisa@chen.sg',linkedin:'in/lisachen',instagram:'@lisachen',labels:['Trial','Support']},
-  {name:'Henrik Larsson',phone:'+46 8 123 456 78',web:'',voice:'+46 8 123 456 78',facebook:'henrik.larsson.se',twitter:'@henrikl',telegram:'@henrikl',email:'henrik@larsson.se',linkedin:'in/henriklarsson',instagram:'@henrikl',labels:['Enterprise','Premium']},
+  {name:'John Tylor',phone:'+1 (762) 533-5936',voice:'+1 (743) 500-3536',facebook:'jt@eflcom',email:'john.tylor@example.com',city:'Basel',plan:'Health care',role:'Supervisor',company:'CureMD',labels:['VIP','Enterprise']},
+  {name:'Sarah Mitchell',phone:'+1 (415) 882-3041',voice:'+1 (415) 882-9999',facebook:'sarah.mitchell',email:'sarah@mitchell.io',city:'New York',plan:'Premium',role:'Manager',company:'Mitchell Co',labels:['Premium','Support']},
+  {name:'David Okonkwo',phone:'+44 20 7946 0012',voice:'+44 20 7946 9000',facebook:'david.okonkwo',email:'david@okonkwo.co.uk',city:'London',plan:'Standard',role:'Developer',company:'Okonkwo Ltd',labels:['Support']},
+  {name:'Priya Nambiar',phone:'+91 98204 51033',voice:'',facebook:'',email:'priya.nambiar@gmail.com',city:'Mumbai',plan:'Trial',role:'Analyst',company:'PriyaTech',labels:['Trial']},
+  {name:'Rob Kelsey',phone:'+1 (743) 500-3536',voice:'+1 (743) 500-9999',facebook:'rob.kelsey',email:'rob@kelsey.io',city:'Chicago',plan:'Premium',role:'Director',company:'Kelsey Group',labels:['VIP','Premium']},
+  {name:'Angela Torres',phone:'+34 91 234 5678',voice:'+34 91 234 9999',facebook:'angela.torres.34',email:'angela@torres.es',city:'Madrid',plan:'Enterprise',role:'CEO',company:'Torres SA',labels:['Enterprise']},
+  {name:'Michael Brown',phone:'+1 (555) 012-5000',voice:'',facebook:'michael.brown.us',email:'mike.brown@corp.com',city:'Boston',plan:'Support',role:'Engineer',company:'BrownCorp',labels:['Support','Trial']},
+  {name:'Emma Wilson',phone:'+44 161 496 0234',voice:'+44 161 496 9999',facebook:'emma.wilson.uk',email:'emma@wilson.co.uk',city:'Manchester',plan:'VIP',role:'VP Sales',company:'Wilson UK',labels:['VIP']},
+  {name:'Carlos Mendez',phone:'+52 55 1234 5678',voice:'+52 55 1234 9999',facebook:'carlos.mendez.mx',email:'carlos@mendez.mx',city:'Mexico City',plan:'Enterprise',role:'COO',company:'Mendez MX',labels:['Premium','Enterprise']},
+  {name:'Aisha Johnson',phone:'+1 (312) 555-0189',voice:'',facebook:'',email:'aisha.johnson@tech.org',city:'Chicago',plan:'Support',role:'Coordinator',company:'AJ Tech',labels:['Support']},
+  {name:'Zhang Wei',phone:'+86 10 6234 5678',voice:'+86 10 6234 9999',facebook:'zhang.wei.cn',email:'zhang.wei@company.cn',city:'Beijing',plan:'Enterprise',role:'CTO',company:'Zhang Corp',labels:['Enterprise','VIP']},
+  {name:'Fatima Al-Hassan',phone:'+971 50 123 4567',voice:'+971 50 123 9999',facebook:'fatima.alhassan',email:'fatima@alhassan.ae',city:'Dubai',plan:'Premium',role:'Director',company:'Al-Hassan AE',labels:['Premium']},
+  {name:'Pierre Dubois',phone:'+33 1 42 86 12 34',voice:'',facebook:'pierre.dubois.fr',email:'pierre@dubois.fr',city:'Paris',plan:'Trial',role:'Consultant',company:'Dubois FR',labels:['Trial']},
+  {name:'Kavya Reddy',phone:'+91 80 4321 8765',voice:'+91 80 4321 9999',facebook:'kavya.reddy',email:'kavya.reddy@startup.in',city:'Bangalore',plan:'Support',role:'Lead',company:'Reddy Startup',labels:['Support','Premium']},
+  {name:'Luca Bianchi',phone:'+39 02 1234 5678',voice:'+39 02 1234 9999',facebook:'luca.bianchi.it',email:'luca@bianchi.it',city:'Milan',plan:'VIP',role:'Architect',company:'Bianchi IT',labels:['VIP','Trial']},
+  {name:'Nadia Patel',phone:'+1 (604) 555-0234',voice:'',facebook:'nadia.patel.ca',email:'nadia.patel@mailbox.ca',city:'Vancouver',plan:'Enterprise',role:'PM',company:'Patel CA',labels:['Enterprise']},
+  {name:'Omar Farouq',phone:'+20 2 2345 6789',voice:'+20 2 2345 9999',facebook:'omar.farouq',email:'omar@farouq.eg',city:'Cairo',plan:'Support',role:'Analyst',company:'Farouq EG',labels:['Support']},
+  {name:'Yuki Tanaka',phone:'+81 3 1234 5678',voice:'+81 3 1234 9999',facebook:'yuki.tanaka.jp',email:'yuki.tanaka@corp.jp',city:'Tokyo',plan:'Premium',role:'VP',company:'Tanaka JP',labels:['Premium','VIP']},
+  {name:'Lisa Chen',phone:'+65 9123 4567',voice:'',facebook:'lisa.chen.sg',email:'lisa@chen.sg',city:'Singapore',plan:'Trial',role:'Developer',company:'Chen SG',labels:['Trial','Support']},
+  {name:'Henrik Larsson',phone:'+46 8 123 456 78',voice:'+46 8 123 999 99',facebook:'henrik.larsson.se',email:'henrik@larsson.se',city:'Stockholm',plan:'Enterprise',role:'Director',company:'Larsson SE',labels:['Enterprise','Premium']},
 ];
 const CHANNEL_SETS = [
   ['call','sms','whatsapp'],
@@ -1146,10 +1148,10 @@ function showContactCard(event,id){
   document.getElementById('lcc-email').textContent=r.email||'—';
   document.getElementById('lcc-dots').innerHTML=(r.labels||[]).map(l=>`<span class="ci-dot" style="background:${LABEL_COLORS[l]||'#999'}"></span>`).join('');
   document.getElementById('lcc-chs').innerHTML=r.channels.map(ch=>{
-    if(ch==='call')     return `<button class="ci-ch" data-tip="Call" onclick="startCall('${esc(r.phone)}','${esc(r.name)}')"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.11 19.79 19.79 0 01.78.5 2 2 0 012.78 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.14 6.14l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></button>`;
-    if(ch==='sms')      return `<button class="ci-ch" data-tip="SMS" onclick="openSmsComposer('${esc(r.phone)}','${esc(r.name)}')"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></button>`;
-    if(ch==='email')    return `<button class="ci-ch" data-tip="Email" onclick="openEmailComposer('${esc(r.email)}','${esc(r.name)}')"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></button>`;
-    if(ch==='whatsapp') return `<button class="ci-ch" data-tip="WhatsApp" onclick="openWaComposer('${esc(r.phone)}','${esc(r.name)}')">${_WA_CARD}</button>`;
+    if(ch==='call')     return `<button class="ci-ch" aria-label="Call" data-tip="Call" onclick="startCall('${esc(r.phone)}','${esc(r.name)}')"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></button>`;
+    if(ch==='sms')      return `<button class="ci-ch" aria-label="SMS" data-tip="SMS" onclick="openSmsComposer('${esc(r.phone)}','${esc(r.name)}')"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></button>`;
+    if(ch==='email')    return `<button class="ci-ch" aria-label="Email" data-tip="Email" onclick="openEmailComposer('${esc(r.email)}','${esc(r.name)}')"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></button>`;
+    if(ch==='whatsapp') return `<button class="ci-ch" aria-label="WhatsApp" data-tip="WhatsApp" onclick="openWaComposer('${esc(r.phone)}','${esc(r.name)}')">${_WA_CARD}</button>`;
     return '';
   }).join('');
   _posLcc(event.target);
@@ -1162,28 +1164,32 @@ function expandLcc(){
   document.getElementById('lce-av').textContent=mkInitials(r.name);
   document.getElementById('lce-name').textContent=r.name;
   document.getElementById('lce-dots').innerHTML=(r.labels||[]).map(l=>`<span class="ci-dot" style="background:${LABEL_COLORS[l]||'#999'}"></span>`).join('');
-  // General info pairs
-  const pairs=[['Web',r.web],['Voice',r.voice],['LinkedIn',r.linkedin],['Instagram',r.instagram],['Facebook',r.facebook],['Twitter',r.twitter],['Telegram',r.telegram]].filter(f=>f[1]);
+  // Channel action buttons — copy from peek
+  document.getElementById('lce-chs').innerHTML=document.getElementById('lcc-chs').innerHTML;
+  // General Information — 2-col pairs matching v2
+  const fn=r.name.split(' ')[0];
+  const pairs=[['First Name',fn],['City',r.city||'—'],['Registered plan',r.plan||'—'],['Role',r.role||'—'],['Company',r.company||'—']];
   let fh='';
   for(let i=0;i<pairs.length;i+=2){
     fh+=`<div class="ci-row"><div class="ci-f"><div class="ci-lbl">${pairs[i][0]}</div><div class="ci-val">${esc(pairs[i][1])}</div></div>`;
     fh+=pairs[i+1]?`<div class="ci-f"><div class="ci-lbl">${pairs[i+1][0]}</div><div class="ci-val">${esc(pairs[i+1][1])}</div></div>`:`<div class="ci-f"></div>`;
     fh+='</div>';
   }
-  document.getElementById('lce-fields').innerHTML=fh||`<div class="ci-val" style="color:var(--color-muted)">No additional info</div>`;
-  // Channel identifiers
+  document.getElementById('lce-fields').innerHTML=fh;
+  // Channel Identifiers — WA+ph icons together (highlighted), voice as ci-sub, then facebook, then email
   let ch='';
   if(r.phone){
-    const hasWa=r.channels.includes('whatsapp');
-    ch+=`<div class="ci-ch-row hi"><div class="ci-icons"><span class="ci-ico ph">${_PH_ICO}</span>${hasWa?`<span class="ci-ico wa">${_WA_ICO}</span>`:''}</div><span class="ci-num">${esc(r.phone)}</span></div>`;
-  }
-  if(r.email){
-    if(ch)ch+=`<div class="ci-div"></div>`;
-    ch+=`<div class="ci-ch-row"><div class="ci-icons"><span class="ci-ico em">${_EM_ICO}</span></div><span class="ci-num">${esc(r.email)}</span></div>`;
+    const hasWa=(r.channels||[]).includes('whatsapp');
+    ch+=`<div class="ci-ch-row hi"><div class="ci-icons">${hasWa?`<span class="ci-ico wa">${_WA_ICO}</span>`:''}<span class="ci-ico ph">${_PH_ICO}</span></div><span class="ci-num">${esc(r.phone)}</span></div>`;
+    if(r.voice)ch+=`<div class="ci-sub">${esc(r.voice)}</div>`;
   }
   if(r.facebook){
     if(ch)ch+=`<div class="ci-div"></div>`;
     ch+=`<div class="ci-ch-row"><div class="ci-icons"><span class="ci-ico fb">f</span></div><span class="ci-num">${esc(r.facebook)}</span></div>`;
+  }
+  if(r.email){
+    if(ch)ch+=`<div class="ci-div"></div>`;
+    ch+=`<div class="ci-ch-row"><div class="ci-icons"><span class="ci-ico em">${_EM_ICO}</span></div><span class="ci-num">${esc(r.email)}</span></div>`;
   }
   document.getElementById('lce-channels').innerHTML=ch||`<div style="color:var(--color-muted);font-size:12px;padding:6px 0">No channel data</div>`;
   _lccExp.style.left=_lccPeek.style.left;
