@@ -652,6 +652,86 @@
     .sk-field     { display: flex; flex-direction: column; gap: 5px; }
     .sk-f-lbl     { height: 9px;  width: 55px; }
     .sk-f-val     { height: 12px; width: 90%; }
+
+    /* ══════════════════════════════════════════
+       ADMIN SKELETON
+    ══════════════════════════════════════════ */
+    .skel-screen-admin { display: none; position: fixed; inset: 0; z-index: 9999; flex-direction: row; background: #1e293b; animation: skelFadeIn .25s ease both; }
+    .skel-screen-admin.visible { display: flex; }
+
+    /* Dark sidenav */
+    .sk-sidenav {
+      width: 56px; flex-shrink: 0;
+      background: #1e293b;
+      display: flex; flex-direction: column;
+      padding: 10px 0; gap: 4px;
+      border-right: 1px solid rgba(255,255,255,.06);
+    }
+    .sk-snav-item {
+      width: 36px; height: 36px; border-radius: 8px;
+      margin: 0 auto;
+      background: linear-gradient(90deg, rgba(255,255,255,.07) 25%, rgba(255,255,255,.12) 50%, rgba(255,255,255,.07) 75%);
+      background-size: 800px 100%;
+      animation: shimmer 1.5s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    .sk-snav-item.active { background: rgba(255,255,255,.18); animation: none; }
+    .sk-snav-sep { height: 1px; background: rgba(255,255,255,.08); margin: 6px 8px; flex-shrink: 0; }
+
+    /* Right side — navbar + content */
+    .sk-admin-right { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: #f0f4fa; }
+
+    /* Admin navbar */
+    .sk-admin-nav {
+      height: 50px; background: #fff; border-bottom: 1px solid #ececec;
+      display: flex; align-items: center; padding: 0 14px; gap: 10px; flex-shrink: 0;
+    }
+    .sk-logo-wide { width: 140px; height: 20px; border-radius: 4px; }
+    .sk-search-pill { width: 260px; height: 34px; border-radius: 20px; }
+    .sk-admin-nav .sk-nav-sp { flex: 1; }
+
+    /* Dashboard content area */
+    .sk-admin-body { flex: 1; overflow: hidden; padding: 20px 24px; display: flex; flex-direction: column; gap: 14px; }
+
+    /* Page title row */
+    .sk-dash-title { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+    .sk-page-title { width: 180px; height: 22px; border-radius: 4px; }
+    .sk-page-date  { width: 200px; height: 14px; border-radius: 4px; margin-left: auto; }
+
+    /* Stat cards row */
+    .sk-stat-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; flex-shrink: 0; }
+    .sk-stat-card {
+      background: #fff; border: 1px solid #ececec; border-radius: 8px;
+      padding: 16px 18px; display: flex; flex-direction: column; gap: 10px;
+    }
+    .sk-stat-lbl  { height: 10px; width: 70%; border-radius: 3px; }
+    .sk-stat-val  { height: 28px; width: 50%; border-radius: 4px; }
+    .sk-stat-sub  { height: 9px;  width: 85%; border-radius: 3px; }
+    .sk-stat-bar  { height: 3px;  border-radius: 2px; }
+
+    /* Dashboard card rows */
+    .sk-dash-row-wide { display: grid; grid-template-columns: 1.4fr 1fr; gap: 12px; flex-shrink: 0; }
+    .sk-dash-row-even { display: grid; grid-template-columns: 1fr 1fr;   gap: 12px; flex-shrink: 0; }
+    .sk-dash-card {
+      background: #fff; border: 1px solid #ececec; border-radius: 8px;
+      display: flex; flex-direction: column; overflow: hidden;
+    }
+    .sk-dash-card-hdr {
+      height: 42px; background: #fff; border-bottom: 1px solid #ececec;
+      display: flex; align-items: center; padding: 0 16px; gap: 10px; flex-shrink: 0;
+    }
+    .sk-card-title { height: 12px; width: 110px; border-radius: 3px; }
+    .sk-card-badge { height: 20px; width: 70px; border-radius: 9999px; margin-left: auto; }
+    .sk-dash-card-body { padding: 12px 16px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+    .sk-list-row { display: flex; align-items: center; gap: 10px; }
+    .sk-list-av  { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; }
+    .sk-list-name { flex: 1; height: 11px; border-radius: 3px; }
+    .sk-list-badge { width: 48px; height: 18px; border-radius: 9999px; }
+    .sk-bar-row  { display: flex; align-items: center; gap: 10px; }
+    .sk-bar-lbl  { width: 70px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+    .sk-bar-track { flex: 1; height: 6px; background: #e8edf3; border-radius: 3px; overflow: hidden; }
+    .sk-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #e0e6ef 25%, #eef2f7 50%, #e0e6ef 75%); background-size: 800px 100%; animation: shimmer 1.5s ease-in-out infinite; }
+    .sk-bar-pct  { width: 30px; height: 10px; border-radius: 3px; }
   </style>
 </head>
 <body>
@@ -857,7 +937,7 @@
   const CREDS = {
     agent:      { username: 'agent',      password: 'Agent@123', redirectClassic: 'agent-desk-v2-template.html', redirectNew: 'agentdesk-new.html' },
     supervisor: { username: 'supervisor', password: 'Super@123', redirectClassic: 'agent-desk-v2-template.html', redirectNew: 'agentdesk-new.html' },
-    admin:      { username: 'admin',      password: 'Admin@123', redirectClassic: 'agent-desk-v2-template.html', redirectNew: 'agentdesk-new.html' },
+    admin:      { username: 'admin',      password: 'Admin@123', redirectClassic: 'unified-admin.html',          redirectNew: 'unified-admin.html'   },
   };
 
   let activeRole = null;
@@ -885,6 +965,7 @@
 
     document.getElementById('username').value = CREDS[role].username;
     document.getElementById('password').value = CREDS[role].password;
+    document.querySelector('.workspace-wrap').style.display = role === 'admin' ? 'none' : '';
     clearErrors();
   }
 
@@ -943,9 +1024,10 @@ function togglePassword() {
     btn.classList.add('loading');
     const redirectUrl = activeWorkspace === 'new' ? CREDS[matchedRole].redirectNew : CREDS[matchedRole].redirectClassic;
 
+    const skelId = matchedRole === 'admin' ? 'skeletonScreenAdmin' : 'skeletonScreen';
     setTimeout(() => {
       document.querySelector('.login-page').style.display = 'none';
-      document.getElementById('skeletonScreen').classList.add('visible');
+      document.getElementById(skelId).classList.add('visible');
       setTimeout(() => { window.location.href = redirectUrl; }, 1800);
     }, 700);
   }
@@ -1136,6 +1218,141 @@ function togglePassword() {
     </div><!-- /skel-main -->
   </div><!-- /skel-body -->
 </div><!-- /skel-screen -->
+
+<!-- ═══════════ ADMIN SKELETON LOADING SCREEN ═══════════ -->
+<div class="skel-screen-admin" id="skeletonScreenAdmin">
+
+  <!-- Dark sidenav -->
+  <div class="sk-sidenav">
+    <div class="sk-snav-item"></div>
+    <div class="sk-snav-item"></div>
+    <div class="sk-snav-item"></div>
+    <div class="sk-snav-item"></div>
+    <div class="sk-snav-item"></div>
+    <div class="sk-snav-item"></div>
+    <div class="sk-snav-item"></div>
+    <div class="sk-snav-sep"></div>
+    <div class="sk-snav-item active"></div>
+    <div class="sk-snav-item"></div>
+    <div class="sk-snav-item"></div>
+    <div class="sk-snav-item"></div>
+    <div class="sk-snav-item"></div>
+  </div>
+
+  <!-- Right side -->
+  <div class="sk-admin-right">
+
+    <!-- Navbar -->
+    <div class="sk-admin-nav">
+      <div class="sk sk-logo-wide"></div>
+      <div class="sk-admin-nav sk-nav-sp"></div>
+      <div class="sk sk-search-pill"></div>
+      <div class="sk-admin-nav sk-nav-sp"></div>
+      <div class="sk sk-nav-btn"></div>
+      <div class="sk sk-nav-btn"></div>
+      <div class="sk sk-pill"></div>
+      <div class="sk sk-nav-av"></div>
+    </div>
+
+    <!-- Dashboard content -->
+    <div class="sk-admin-body">
+
+      <!-- Title row -->
+      <div class="sk-dash-title">
+        <div class="sk sk-page-title"></div>
+        <div class="sk sk-page-date"></div>
+      </div>
+
+      <!-- 4 stat cards -->
+      <div class="sk-stat-row">
+        <div class="sk-stat-card">
+          <div class="sk sk-stat-lbl"></div>
+          <div class="sk sk-stat-val"></div>
+          <div class="sk sk-stat-sub"></div>
+          <div class="sk sk-stat-bar" style="background:#e8edf3;"><div class="sk-bar-fill" style="width:71%"></div></div>
+        </div>
+        <div class="sk-stat-card">
+          <div class="sk sk-stat-lbl"></div>
+          <div class="sk sk-stat-val"></div>
+          <div class="sk sk-stat-sub"></div>
+          <div class="sk sk-stat-bar" style="background:#e8edf3;"><div class="sk-bar-fill" style="width:80%"></div></div>
+        </div>
+        <div class="sk-stat-card">
+          <div class="sk sk-stat-lbl"></div>
+          <div class="sk sk-stat-val"></div>
+          <div class="sk sk-stat-sub"></div>
+          <div class="sk sk-stat-bar" style="background:#e8edf3;"><div class="sk-bar-fill" style="width:88%"></div></div>
+        </div>
+        <div class="sk-stat-card">
+          <div class="sk sk-stat-lbl"></div>
+          <div class="sk sk-stat-val"></div>
+          <div class="sk sk-stat-sub"></div>
+          <div class="sk sk-stat-bar" style="background:#e8edf3;"><div class="sk-bar-fill" style="width:32%"></div></div>
+        </div>
+      </div>
+
+      <!-- Row 2: agents + system health -->
+      <div class="sk-dash-row-wide">
+        <div class="sk-dash-card">
+          <div class="sk-dash-card-hdr">
+            <div class="sk sk-card-title"></div>
+            <div class="sk sk-card-badge"></div>
+          </div>
+          <div class="sk-dash-card-body">
+            <div class="sk-list-row"><div class="sk sk-list-av"></div><div class="sk sk-list-name"></div><div class="sk sk-list-badge"></div></div>
+            <div class="sk-list-row"><div class="sk sk-list-av"></div><div class="sk sk-list-name" style="width:55%"></div><div class="sk sk-list-badge"></div></div>
+            <div class="sk-list-row"><div class="sk sk-list-av"></div><div class="sk sk-list-name" style="width:70%"></div><div class="sk sk-list-badge"></div></div>
+            <div class="sk-list-row"><div class="sk sk-list-av"></div><div class="sk sk-list-name" style="width:80%"></div><div class="sk sk-list-badge"></div></div>
+            <div class="sk-list-row" style="opacity:.6"><div class="sk sk-list-av"></div><div class="sk sk-list-name" style="width:60%"></div><div class="sk sk-list-badge"></div></div>
+          </div>
+        </div>
+        <div class="sk-dash-card">
+          <div class="sk-dash-card-hdr">
+            <div class="sk sk-card-title"></div>
+            <div class="sk sk-card-badge"></div>
+          </div>
+          <div class="sk-dash-card-body">
+            <div class="sk-bar-row"><div class="sk sk-bar-lbl"></div><div class="sk-bar-track"><div class="sk-bar-fill" style="width:92%"></div></div><div class="sk sk-bar-pct"></div></div>
+            <div class="sk-bar-row"><div class="sk sk-bar-lbl"></div><div class="sk-bar-track"><div class="sk-bar-fill" style="width:87%"></div></div><div class="sk sk-bar-pct"></div></div>
+            <div class="sk-bar-row"><div class="sk sk-bar-lbl"></div><div class="sk-bar-track"><div class="sk-bar-fill" style="width:78%"></div></div><div class="sk sk-bar-pct"></div></div>
+            <div class="sk-bar-row"><div class="sk sk-bar-lbl"></div><div class="sk-bar-track"><div class="sk-bar-fill" style="width:65%"></div></div><div class="sk sk-bar-pct"></div></div>
+            <div class="sk-bar-row"><div class="sk sk-bar-lbl"></div><div class="sk-bar-track"><div class="sk-bar-fill" style="width:95%"></div></div><div class="sk sk-bar-pct"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 3: channels + audit -->
+      <div class="sk-dash-row-even">
+        <div class="sk-dash-card">
+          <div class="sk-dash-card-hdr">
+            <div class="sk sk-card-title"></div>
+            <div class="sk sk-card-badge"></div>
+          </div>
+          <div class="sk-dash-card-body">
+            <div class="sk-bar-row"><div class="sk sk-bar-lbl"></div><div class="sk-bar-track"><div class="sk-bar-fill" style="width:74%"></div></div><div class="sk sk-bar-pct"></div></div>
+            <div class="sk-bar-row"><div class="sk sk-bar-lbl"></div><div class="sk-bar-track"><div class="sk-bar-fill" style="width:54%"></div></div><div class="sk sk-bar-pct"></div></div>
+            <div class="sk-bar-row"><div class="sk sk-bar-lbl"></div><div class="sk-bar-track"><div class="sk-bar-fill" style="width:38%"></div></div><div class="sk sk-bar-pct"></div></div>
+            <div class="sk-bar-row"><div class="sk sk-bar-lbl"></div><div class="sk-bar-track"><div class="sk-bar-fill" style="width:28%"></div></div><div class="sk sk-bar-pct"></div></div>
+          </div>
+        </div>
+        <div class="sk-dash-card">
+          <div class="sk-dash-card-hdr">
+            <div class="sk sk-card-title"></div>
+            <div class="sk sk-card-badge"></div>
+          </div>
+          <div class="sk-dash-card-body">
+            <div class="sk-list-row"><div class="sk sk-list-name" style="width:30%"></div><div class="sk sk-list-name"></div></div>
+            <div class="sk-list-row"><div class="sk sk-list-name" style="width:30%"></div><div class="sk sk-list-name" style="width:75%"></div></div>
+            <div class="sk-list-row"><div class="sk sk-list-name" style="width:30%"></div><div class="sk sk-list-name" style="width:90%"></div></div>
+            <div class="sk-list-row"><div class="sk sk-list-name" style="width:30%"></div><div class="sk sk-list-name" style="width:65%"></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /sk-admin-body -->
+  </div><!-- /sk-admin-right -->
+
+</div><!-- /skel-screen-admin -->
 
 </body>
 </html>
