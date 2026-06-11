@@ -4,8 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ExpertFlow — Unified Admin</title>
-<style>html{background:#e8edf3}html.ef-dark{background:#151515}html.ef-dark body{background:#151515}</style>
-<script>try{if(sessionStorage.getItem('ef-dark')==='1')document.documentElement.classList.add('ef-dark')}catch(e){}</script>
+<style>html{background:#e8edf3}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -49,16 +48,6 @@
   --shadow-focus: 0 0 0 3px rgba(26,80,163,0.2);
   --sidenav-w: 56px;
   --screen-left: var(--sidenav-w);
-}
-.dark {
-  --color-bg:#1e2022; --color-canvas:#151515; --color-sep:#151515;
-  --color-text:#e5e7eb; --color-body:#c5c5c5; --color-medium:#b0b8c8;
-  --color-muted:#9ca3af; --color-ts:#9a9a9a;
-  --color-border:#2c2f35; --color-sec-bg:#292C30;
-  --color-bubble-c:#292C30; --color-bubble-a:#1a2d4a;
-  --color-border-p:#3a3f48; --color-border-i:#3a3f48;
-  --color-primary-lt:#1a2d4a; --color-ph:#555555;
-  --color-link:#7faaec;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:Inter,system-ui,sans-serif;font-size:14px;color:var(--color-body);background:var(--color-sep);height:100vh;overflow:hidden;-webkit-font-smoothing:antialiased;line-height:1.4;}
@@ -146,14 +135,6 @@ a{text-decoration:none;color:inherit;}
 .gs-empty{padding:36px 16px;text-align:center;color:var(--color-muted);font-size:13px;}
 .gs-empty strong{color:var(--color-text);}
 .gs-mark{background:rgba(26,80,163,.14);color:var(--color-primary);border-radius:2px;padding:0 1px;}
-/* dark */
-.dark .gs-pill{background:#1e2022;border-color:#3a3f48;}
-.dark .gs-scope-btn{border-left-color:#3a3f48;}
-.dark .gs-scope-dd{background:var(--color-bg);border-color:var(--color-border);box-shadow:0 6px 20px rgba(0,0,0,.45);}
-.dark .gs-scope-item:hover{background:#292C30;}
-.dark .gs-results{background:var(--color-bg);box-shadow:0 8px 28px rgba(0,0,0,.45);}
-.dark .gs-item-ico{background:#292C30;}
-.dark .gs-mark{background:rgba(127,170,236,.18);color:#7faaec;}
 
 /* ══ CONVERSATION TABS ══ */
 .conv-tabs{
@@ -220,9 +201,6 @@ a{text-decoration:none;color:inherit;}
 }
 .conv-tab:hover .conv-tab-close,.conv-tab.active .conv-tab-close{opacity:1;}
 .conv-tab-close:hover{background:rgba(0,0,0,.1);color:var(--color-text);}
-.dark .conv-tabs{background:#1e2022;}
-.dark .conv-tab{background:rgba(255,255,255,.04);}
-.dark .conv-tab.active{background:var(--color-bg);}
 
 /* ══ BODY — 3 columns side by side ══ */
 .body{
@@ -849,13 +827,6 @@ tr:hover .row-ob-icon{opacity:1;}
 .wu-complete.enabled{opacity:1;pointer-events:all;}
 .wu-complete.enabled:hover{background:var(--color-primary-hover);}
 
-/* ══════════════════════ DARK MODE OVERRIDES ══════════════════════ */
-/* Scrollbar */
-.dark *{scrollbar-color:#3a3f48 transparent;}
-.dark ::-webkit-scrollbar-thumb{background:#3a3f48;}
-/* Layout shells */
-.dark .navbar,.dark .left,.dark .center,.dark .right{background:var(--color-bg);}
-.dark .msgs,.dark .sugg,.dark .composer,.dark .chat-hdr{background:var(--color-bg);}
 /* Navbar */
 .dark .nav-ham{background:#292C30;}
 .dark .nav-ham:hover{background:#363a40;}
@@ -961,6 +932,57 @@ tr:hover .row-ob-icon{opacity:1;}
 /* Customer / Ticket screen dark mode (list/table + labels shared rules are in screens.js) */
 .dark .cust-screen,.dark .ticket-screen{background:var(--color-canvas);}
 .dark .cust-toolbar{background:var(--color-bg);border-color:var(--color-border);}
+/* Admin screen dark mode */
+.dark .admin-screen{background:var(--color-canvas);}
+.dark .admin-card{background:var(--color-bg);border-color:var(--color-border);}
+.dark .admin-card-hdr{border-color:var(--color-border);}
+.dark .admin-card-title{color:var(--color-text);}
+.dark .admin-card-badge.ok{background:rgba(34,197,94,.13);color:#4ade80;}
+.dark .admin-card-badge.warn{background:rgba(251,146,60,.15);color:#fb923c;}
+.dark .admin-card-badge.err{background:rgba(239,68,68,.13);color:#f87171;}
+/* Business Calendar dark mode */
+.dark .bizCal-screen{background:var(--color-bg);}
+.dark .bizCal-aside{background:var(--color-bg);border-color:var(--color-border);}
+.dark .bizCal-create-btn{background:var(--color-bg);border-color:var(--color-border);color:var(--color-text);}
+.dark .bizCal-create-btn:hover{background:#292C30;border-color:#3a3f48;}
+.dark .bizCal-cal-item{color:var(--color-body);}
+.dark .bizCal-cal-item:hover{background:#292C30;}
+.dark .bizCal-cal-item.active{background:#1a2d4a;color:var(--color-primary);}
+.dark .bizCal-main{background:var(--color-bg);}
+.dark .bizCal-toolbar{border-color:var(--color-border);}
+.dark .bizCal-today-btn{background:var(--color-bg);border-color:var(--color-border);color:var(--color-text);}
+.dark .bizCal-today-btn:hover{background:#292C30;}
+.dark .bizCal-nav-btn{background:var(--color-bg);border-color:var(--color-border);color:var(--color-text);}
+.dark .bizCal-nav-btn:hover{background:#292C30;}
+.dark .bizCal-month-label{color:var(--color-text);}
+.dark .bizCal-view-sel{background:var(--color-bg);border-color:var(--color-border);color:var(--color-text);}
+.dark .bizCal-day-hdr{color:var(--color-muted);}
+.dark .bizCal-day-hdrs{border-color:var(--color-border);}
+.dark .bizCal-week{border-color:var(--color-border);}
+.dark .bizCal-cell{border-color:var(--color-border);}
+.dark .bizCal-date-num{color:var(--color-text);}
+.dark .bizCal-cell.other-month .bizCal-date-num{color:#3a3f48;}
+.dark .bizCal-cell.weekend .bizCal-date-num{color:#f87171;}
+.dark .bizCal-cell.other-month.weekend .bizCal-date-num{color:#7a3030;}
+/* Create Event panel dark mode */
+.dark .ce-panel{background:var(--color-bg);border-color:var(--color-border);}
+.dark .ce-hdr{border-color:var(--color-border);}
+.dark .ce-hdr-title{color:var(--color-text);}
+.dark .ce-hdr-close{color:var(--color-muted);}
+.dark .ce-hdr-close:hover{background:#292C30;}
+.dark .ce-tabs{border-color:var(--color-border);}
+.dark .ce-tab{color:var(--color-muted);}
+.dark .ce-tab:hover:not(.active){color:var(--color-text);}
+.dark .ce-body{background:var(--color-bg);}
+.dark .ce-field-lbl{color:var(--color-muted);}
+.dark .ce-title-inp{color:var(--color-text);border-color:var(--color-border);}
+.dark .ce-date-inp{color:var(--color-text);border-color:var(--color-border);color-scheme:dark;}
+.dark .ce-shift-name,.dark .ce-time-inp{background:var(--color-bg);border-color:var(--color-border);color:var(--color-text);}
+.dark .ce-add-shift-btn{background:var(--color-bg);border-color:var(--color-primary);color:var(--color-primary);}
+.dark .ce-add-shift-btn:hover{background:#1a2d4a;}
+.dark .ce-select{background:var(--color-bg);border-color:var(--color-border);color:var(--color-text);}
+.dark .ce-cancel-btn{background:var(--color-bg);border-color:var(--color-border);color:var(--color-text);}
+.dark .ce-cancel-btn:hover{background:#292C30;}
 /* ══ IDLE SCREEN — "Your Workspace" (no active conversation) ══ */
 .idle-screen{
   display:none;
@@ -1171,6 +1193,86 @@ tr:hover .row-ob-icon{opacity:1;}
 .admin-sys-bar{flex:1;height:6px;border-radius:3px;background:#e8edf3;}
 .admin-sys-fill{height:100%;border-radius:3px;}
 .admin-sys-pct{font-size:12px;font-weight:600;color:var(--color-text);min-width:36px;text-align:right;}
+/* ══ BUSINESS CALENDAR ══ */
+.bizCal-screen{display:none;position:fixed;top:var(--navbar-h);left:var(--sidenav-w);right:0;bottom:0;z-index:20;flex-direction:row;overflow:hidden;background:#fff;transition:left .28s cubic-bezier(.4,0,.2,1);}
+.bizCal-screen.open{display:flex;}
+/* Left sidebar */
+.bizCal-aside{width:200px;min-width:200px;flex-shrink:0;border-right:1px solid var(--color-border);display:flex;flex-direction:column;padding:16px 0;gap:12px;background:#fff;}
+.bizCal-create-btn{display:flex;align-items:center;gap:7px;margin:0 14px;padding:9px 14px;border-radius:6px;border:1px solid var(--color-border);background:#fff;font-size:13px;font-weight:500;color:var(--color-text);cursor:pointer;transition:background .15s,border-color .15s;}
+.bizCal-create-btn:hover{background:var(--color-canvas);border-color:#c5d3e8;}
+.bizCal-create-btn svg{flex-shrink:0;}
+.bizCal-cal-section{padding:0 14px;}
+.bizCal-cal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.bizCal-cal-hdr-label{font-size:12px;font-weight:500;color:var(--color-muted);text-transform:uppercase;letter-spacing:.5px;}
+.bizCal-cal-add{width:22px;height:22px;border-radius:50%;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--color-muted);font-size:16px;line-height:1;transition:background .15s,color .15s;}
+.bizCal-cal-add:hover{background:var(--color-canvas);color:var(--color-text);}
+.bizCal-cal-item{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;cursor:pointer;font-size:13px;color:var(--color-body);transition:background .15s;}
+.bizCal-cal-item:hover{background:var(--color-canvas);}
+.bizCal-cal-item.active{background:#ECF3FF;color:var(--color-primary);font-weight:500;}
+.bizCal-cal-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+/* Main calendar area */
+.bizCal-main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:#fff;}
+.bizCal-toolbar{display:flex;align-items:center;gap:6px;padding:12px 16px;border-bottom:1px solid var(--color-border);flex-shrink:0;}
+.bizCal-today-btn{padding:5px 12px;border-radius:4px;border:1px solid var(--color-border);background:#fff;font-size:13px;font-weight:500;color:var(--color-text);cursor:pointer;transition:background .15s;}
+.bizCal-today-btn:hover{background:var(--color-canvas);}
+.bizCal-nav-btn{width:28px;height:28px;border-radius:4px;border:1px solid var(--color-border);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--color-text);transition:background .15s;}
+.bizCal-nav-btn:hover{background:var(--color-canvas);}
+.bizCal-month-label{font-size:16px;font-weight:600;color:var(--color-text);margin:0 6px;}
+.bizCal-view-sel{margin-left:auto;padding:5px 10px;border:1px solid var(--color-border);border-radius:4px;font-size:13px;color:var(--color-text);background:#fff;cursor:pointer;outline:none;}
+/* Day name headers */
+.bizCal-day-hdrs{display:grid;grid-template-columns:repeat(7,1fr);border-bottom:1px solid var(--color-border);flex-shrink:0;}
+.bizCal-day-hdr{padding:8px 0;text-align:center;font-size:12px;font-weight:500;color:var(--color-muted);}
+/* Grid */
+.bizCal-grid{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.bizCal-week{display:grid;grid-template-columns:repeat(7,1fr);flex:1;border-bottom:1px solid var(--color-border);}
+.bizCal-week:last-child{border-bottom:none;}
+.bizCal-cell{border-right:1px solid var(--color-border);padding:6px 8px;display:flex;flex-direction:column;gap:3px;min-height:0;cursor:default;}
+.bizCal-cell:last-child{border-right:none;}
+.bizCal-cell.weekend .bizCal-date-num{color:#e53e3e;}
+.bizCal-cell.other-month .bizCal-date-num{color:#c8d0db;}
+.bizCal-cell.other-month.weekend .bizCal-date-num{color:#e8a0a0;}
+.bizCal-date-num{font-size:13px;font-weight:400;color:var(--color-text);width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;flex-shrink:0;}
+.bizCal-date-num.today{background:var(--color-primary);color:#fff;font-weight:600;}
+/* Create Event side panel */
+.ce-panel{position:fixed;top:0;right:0;width:360px;height:100vh;z-index:400;background:var(--color-bg);border-left:1px solid var(--color-border);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s ease;box-shadow:-4px 0 20px rgba(0,0,0,.12);}
+.ce-panel.open{transform:translateX(0);}
+.ce-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--color-border);flex-shrink:0;}
+.ce-hdr-title{font-size:16px;font-weight:600;color:var(--color-text);margin:0;}
+.ce-hdr-close{background:none;border:none;cursor:pointer;color:var(--color-muted);width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:6px;}
+.ce-hdr-close:hover{background:var(--color-canvas);}
+.ce-tabs{display:flex;border-bottom:1px solid var(--color-border);flex-shrink:0;padding:0 18px;}
+.ce-tab{padding:10px 14px;font-size:13px;font-weight:400;color:var(--color-muted);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s,border-color .15s;}
+.ce-tab.active{color:var(--color-primary);font-weight:500;border-bottom-color:var(--color-primary);}
+.ce-tab:hover:not(.active){color:var(--color-text);}
+.ce-body{flex:1;overflow-y:auto;padding:20px 18px;display:flex;flex-direction:column;gap:20px;}
+.ce-field{display:flex;flex-direction:column;gap:6px;}
+.ce-field-lbl{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--color-muted);}
+.ce-field-lbl svg{flex-shrink:0;}
+.ce-title-inp{border:none;border-bottom:1.5px solid var(--color-border);padding:6px 0;font-size:14px;color:var(--color-text);outline:none;background:transparent;transition:border-color .15s;}
+.ce-title-inp::placeholder{color:var(--color-text-ph);}
+.ce-title-inp:focus{border-bottom-color:var(--color-primary);}
+.ce-date-inp{border:none;border-bottom:1.5px solid var(--color-border);padding:6px 0;font-size:13px;color:var(--color-text);outline:none;background:transparent;cursor:pointer;width:140px;}
+.ce-date-inp:focus{border-bottom-color:var(--color-primary);}
+.ce-shifts-list{display:flex;flex-direction:column;gap:8px;}
+.ce-shift-row{display:flex;align-items:center;gap:8px;}
+.ce-shift-name{flex:1;padding:6px 8px;border:1px solid var(--color-border);border-radius:4px;font-size:13px;color:var(--color-text);outline:none;}
+.ce-shift-name:focus{border-color:var(--color-primary);box-shadow:var(--shadow-focus);}
+.ce-time-inp{width:72px;padding:6px 8px;border:1px solid var(--color-border);border-radius:4px;font-size:13px;color:var(--color-text);outline:none;}
+.ce-time-inp:focus{border-color:var(--color-primary);box-shadow:var(--shadow-focus);}
+.ce-shift-sep{font-size:13px;color:var(--color-muted);}
+.ce-add-shift-btn{padding:5px 12px;border:1px solid var(--color-primary);border-radius:4px;background:#fff;color:var(--color-primary);font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;transition:background .15s;}
+.ce-add-shift-btn:hover{background:#ECF3FF;}
+.ce-select{padding:7px 10px;border:1px solid var(--color-border);border-radius:4px;font-size:13px;color:var(--color-text);outline:none;background:#fff;cursor:pointer;width:100%;}
+.ce-select:focus{border-color:var(--color-primary);box-shadow:var(--shadow-focus);}
+.ce-cal-pick-row{display:flex;align-items:center;gap:10px;}
+.ce-cal-pick-row .ce-select{flex:1;}
+.ce-color-dot-btn{width:24px;height:24px;border-radius:50%;background:#1a50a3;border:2px solid #fff;box-shadow:0 0 0 1.5px #c5d3e8;cursor:pointer;flex-shrink:0;transition:transform .15s;}
+.ce-color-dot-btn:hover{transform:scale(1.15);}
+.ce-footer{display:flex;justify-content:flex-end;gap:8px;padding-top:4px;margin-top:auto;}
+.ce-cancel-btn{padding:7px 18px;border-radius:4px;border:1px solid var(--color-border);background:#fff;font-size:13px;color:var(--color-text);cursor:pointer;transition:background .15s;}
+.ce-cancel-btn:hover{background:var(--color-canvas);}
+.ce-create-btn{padding:7px 20px;border-radius:4px;border:none;background:var(--color-primary);color:#fff;font-size:13px;font-weight:500;cursor:pointer;transition:background .15s;}
+.ce-create-btn:hover{background:var(--color-primary-hover);}
 /* Generic admin content placeholder */
 .admin-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:60px 24px;color:var(--color-muted);flex:1;}
 .admin-placeholder svg{opacity:.35;}
@@ -1309,6 +1411,18 @@ tr:hover .row-ob-icon{opacity:1;}
 .tkt-modal-submit{padding:7px 20px;background:var(--color-primary);color:#fff;border:none;border-radius:4px;font-size:13px;font-weight:500;cursor:pointer;font-family:Inter,sans-serif;}
 .tkt-modal-submit:hover{opacity:.9;}
 
+/* ── ADMIN: always light mode — override any .dark class ── */
+#app,#app.dark{
+  --color-bg:#ffffff!important;--color-canvas:#F3F6FA!important;--color-sep:#e8edf3!important;
+  --color-text:#282828!important;--color-body:#212121!important;--color-medium:#555555!important;
+  --color-muted:#929292!important;--color-ts:#646464!important;
+  --color-border:#ececec!important;--color-sec-bg:#F4F6F8!important;
+  --color-bubble-c:#EFEFEF!important;--color-bubble-a:#ECF3FF!important;
+  --color-border-p:#d1dced!important;--color-border-i:#c5c5c5!important;
+  --color-primary-lt:#ECF3FF!important;--color-ph:#aaaaaa!important;--color-link:#1a50a3!important;
+}
+html.ef-dark{background:#e8edf3!important;}
+html.ef-dark body{background:#e8edf3!important;}
 </style>
 </head>
 <body>
@@ -1323,7 +1437,7 @@ tr:hover .row-ob-icon{opacity:1;}
       <span class="snav-label">Admin Dashboard</span>
     </div>
 
-    <div class="snav-item admin-item" id="snavBizCal" data-tip="Business Calendar" onclick="snavNav(this,openAdminPanel.bind(null,'bizCal','Business Calendar'))">
+    <div class="snav-item admin-item" id="snavBizCal" data-tip="Business Calendar" onclick="snavNav(this,openBizCal)">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
       <span class="snav-label">Business Calendar</span>
     </div>
@@ -1554,7 +1668,7 @@ tr:hover .row-ob-icon{opacity:1;}
         <div class="tb-div"></div>
         <!-- Right side: Actions -->
         <div class="tb-act-grp" style="display:flex;align-items:center;gap:6px;">
-          <button class="tb act" data-tip="Chat" aria-label="Chat"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></button>
+
           <button class="tb" data-tip="Pause" aria-label="Pause"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg></button>
           <button class="tb tb-danger" data-tip="End Conversation" aria-label="End Conversation" onclick="openWrapup()"><svg viewBox="0 0 24 24"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/></svg></button>
           <button class="tb" data-tip="More" aria-label="More options" id="moreBtn" onclick="toggleMoreMenu()"><svg viewBox="0 0 24 24"><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg></button>
@@ -3196,7 +3310,10 @@ tr:hover .row-ob-icon{opacity:1;}
 <script src="navbar.js"></script>
 <script src="screens.js"></script>
 <script>
-(function(){try{if(sessionStorage.getItem('ef-dark')==='1')document.getElementById('app').classList.add('dark')}catch(e){}})();
+/* Admin page: always light mode */
+window.toggleDarkMode = function(){};
+document.getElementById('app').classList.remove('dark');
+document.documentElement.classList.remove('ef-dark');
 
 /* Conversation selection */
 document.querySelectorAll('.convo-item').forEach(item=>{
@@ -4267,9 +4384,10 @@ document.addEventListener('mousedown',function(e){
 
 /* ══ ADMIN NAV FUNCTIONS ══ */
 function _closeAdminScreens(){
-  ['adminDashScreen','adminPanelScreen'].forEach(function(id){
+  ['adminDashScreen','adminPanelScreen','bizCalScreen'].forEach(function(id){
     var s=document.getElementById(id);if(s)s.classList.remove('open');
   });
+  closeCreateEvent();
 }
 function openAdminDash(){
   _closeAllScreens();
@@ -4311,6 +4429,92 @@ _closeAllScreens=function(){
   _origCloseAll();
   _closeAdminScreens();
 };
+/* ══ BUSINESS CALENDAR ══ */
+var _bizCalYear = new Date().getFullYear();
+var _bizCalMonth = new Date().getMonth();
+var _MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+function openBizCal(){
+  _closeAllScreens();
+  _closeAdminScreens();
+  var s = document.getElementById('bizCalScreen');
+  if(s){ s.classList.add('open'); bizCalRender(); }
+}
+
+function bizCalRender(){
+  var grid = document.getElementById('bizCalGrid');
+  var lbl  = document.getElementById('bizCalMonthLabel');
+  if(!grid || !lbl) return;
+  lbl.textContent = _MONTH_NAMES[_bizCalMonth] + ' ' + _bizCalYear;
+  grid.innerHTML = '';
+  var today = new Date();
+  var firstDow = new Date(_bizCalYear, _bizCalMonth, 1).getDay();
+  var daysInMonth = new Date(_bizCalYear, _bizCalMonth+1, 0).getDate();
+  var d = 1 - firstDow;
+  for(var r=0; r<6; r++){
+    var row = document.createElement('div');
+    row.className = 'bizCal-week';
+    for(var c=0; c<7; c++){
+      var cellDate = new Date(_bizCalYear, _bizCalMonth, d);
+      var cell = document.createElement('div');
+      cell.className = 'bizCal-cell';
+      var isOther = cellDate.getMonth() !== _bizCalMonth;
+      var isToday = cellDate.toDateString() === today.toDateString();
+      var isWeekend = (c===0||c===6);
+      if(isOther) cell.classList.add('other-month');
+      if(isWeekend) cell.classList.add('weekend');
+      var num = document.createElement('div');
+      num.className = 'bizCal-date-num' + (isToday?' today':'');
+      num.textContent = cellDate.getDate();
+      cell.appendChild(num);
+      row.appendChild(cell);
+      d++;
+    }
+    grid.appendChild(row);
+    if(d > daysInMonth + (6 - new Date(_bizCalYear, _bizCalMonth, daysInMonth).getDay()) && r>=4) break;
+  }
+  /* set today's date in the create event panel */
+  var di = document.getElementById('ceStartDate');
+  if(di && !di.value){ var td=new Date(); di.value=td.getFullYear()+'-'+String(td.getMonth()+1).padStart(2,'0')+'-'+String(td.getDate()).padStart(2,'0'); }
+}
+
+function bizCalPrev(){ _bizCalMonth--; if(_bizCalMonth<0){_bizCalMonth=11;_bizCalYear--;} bizCalRender(); }
+function bizCalNext(){ _bizCalMonth++; if(_bizCalMonth>11){_bizCalMonth=0;_bizCalYear++;} bizCalRender(); }
+function bizCalGoToday(){ var n=new Date(); _bizCalYear=n.getFullYear(); _bizCalMonth=n.getMonth(); bizCalRender(); }
+
+/* Create Event panel */
+function openCreateEvent(){
+  document.getElementById('cePanel').classList.add('open');
+}
+function closeCreateEvent(){
+  document.getElementById('cePanel').classList.remove('open');
+}
+function ceSwitchTab(el){
+  document.querySelectorAll('.ce-tab').forEach(function(t){t.classList.remove('active');});
+  el.classList.add('active');
+  var isHours = el.textContent.trim()==='Business Hours';
+  var shiftsSection = document.getElementById('ceShiftsSection');
+  if(shiftsSection) shiftsSection.style.display = isHours ? '' : 'none';
+}
+function ceAddShift(){
+  var list = document.getElementById('ceShiftsList');
+  if(!list) return;
+  var row = document.createElement('div');
+  row.className = 'ce-shift-row';
+  row.innerHTML = '<input class="ce-shift-name" type="text" placeholder="Shift name"/>'
+    +'<input class="ce-time-inp" type="time" value="00:00"/>'
+    +'<span class="ce-shift-sep">-</span>'
+    +'<input class="ce-time-inp" type="time" value="00:00"/>'
+    +'<button style="background:none;border:none;cursor:pointer;color:var(--color-muted);font-size:16px;padding:0 4px;" onclick="this.parentElement.remove()" title="Remove">×</button>';
+  list.appendChild(row);
+}
+function ceCreate(){
+  var title = document.getElementById('ceTitle');
+  if(title && !title.value.trim()){ title.focus(); return; }
+  closeCreateEvent();
+  if(title) title.value='';
+}
+
 /* register admin items in _SNAV_ACTIONS */
 _SNAV_ACTIONS['snavAdminDash']=openAdminDash;
 
@@ -4433,6 +4637,143 @@ document.addEventListener('DOMContentLoaded', function(){
           <div style="display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--color-muted);white-space:nowrap;flex-shrink:0;">08:01</span><span><strong>admin</strong> enabled WhatsApp channel for Team Beta</span></div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ BUSINESS CALENDAR SCREEN ════ -->
+<div class="bizCal-screen admin-screen" id="bizCalScreen">
+
+  <!-- Left sidebar -->
+  <div class="bizCal-aside">
+    <button class="bizCal-create-btn" onclick="openCreateEvent()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Create Event
+    </button>
+    <div class="bizCal-cal-section">
+      <div class="bizCal-cal-hdr">
+        <span class="bizCal-cal-hdr-label">All Calendars</span>
+        <button class="bizCal-cal-add" title="Add calendar">+</button>
+      </div>
+      <div class="bizCal-cal-item active">
+        <div class="bizCal-cal-dot" style="background:#1a50a3;"></div>
+        Business Hours
+      </div>
+      <div class="bizCal-cal-item">
+        <div class="bizCal-cal-dot" style="background:#26c98c;"></div>
+        Holidays
+      </div>
+      <div class="bizCal-cal-item">
+        <div class="bizCal-cal-dot" style="background:#fdb635;"></div>
+        Out of Office
+      </div>
+    </div>
+  </div>
+
+  <!-- Main calendar -->
+  <div class="bizCal-main">
+    <!-- Toolbar -->
+    <div class="bizCal-toolbar">
+      <button class="bizCal-today-btn" onclick="bizCalGoToday()">Today</button>
+      <button class="bizCal-nav-btn" onclick="bizCalPrev()" title="Previous month">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="bizCal-nav-btn" onclick="bizCalNext()" title="Next month">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <span class="bizCal-month-label" id="bizCalMonthLabel">Jun 2026</span>
+      <select class="bizCal-view-sel"><option>Month</option><option>Week</option><option>Day</option></select>
+    </div>
+    <!-- Day headers -->
+    <div class="bizCal-day-hdrs">
+      <div class="bizCal-day-hdr">Sun</div>
+      <div class="bizCal-day-hdr">Mon</div>
+      <div class="bizCal-day-hdr">Tue</div>
+      <div class="bizCal-day-hdr">Wed</div>
+      <div class="bizCal-day-hdr">Thu</div>
+      <div class="bizCal-day-hdr">Fri</div>
+      <div class="bizCal-day-hdr">Sat</div>
+    </div>
+    <!-- Calendar grid (JS rendered) -->
+    <div class="bizCal-grid" id="bizCalGrid"></div>
+  </div>
+</div>
+
+<!-- Create Event side panel -->
+<div class="ce-panel" id="cePanel">
+  <div class="ce-hdr">
+    <span class="ce-hdr-title">Create Event</span>
+    <button class="ce-hdr-close" onclick="closeCreateEvent()" aria-label="Close" title="Close">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="ce-tabs">
+    <button class="ce-tab active" onclick="ceSwitchTab(this)">Business Hours</button>
+    <button class="ce-tab" onclick="ceSwitchTab(this)">Out of Office</button>
+    <button class="ce-tab" onclick="ceSwitchTab(this)">Holiday</button>
+  </div>
+  <div class="ce-body">
+    <!-- Title -->
+    <div class="ce-field">
+      <input class="ce-title-inp" id="ceTitle" placeholder="Title" type="text" autocomplete="off"/>
+    </div>
+    <!-- Start Date -->
+    <div class="ce-field">
+      <div class="ce-field-lbl">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Start Date
+      </div>
+      <input class="ce-date-inp" id="ceStartDate" type="date"/>
+    </div>
+    <!-- Shifts -->
+    <div class="ce-field" id="ceShiftsSection">
+      <div class="ce-field-lbl">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Shifts
+      </div>
+      <div class="ce-shifts-list" id="ceShiftsList">
+        <div class="ce-shift-row">
+          <input class="ce-shift-name" type="text" placeholder="Shift name" value="Morning"/>
+          <input class="ce-time-inp" type="time" value="00:00"/>
+          <span class="ce-shift-sep">-</span>
+          <input class="ce-time-inp" type="time" value="00:00"/>
+        </div>
+      </div>
+      <button class="ce-add-shift-btn" onclick="ceAddShift()">Add Shift</button>
+    </div>
+    <!-- Repeat -->
+    <div class="ce-field">
+      <div class="ce-field-lbl">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+        Repeat
+      </div>
+      <select class="ce-select">
+        <option>Does Not Repeat</option>
+        <option>Daily</option>
+        <option>Weekly</option>
+        <option>Monthly</option>
+        <option>Annually</option>
+      </select>
+    </div>
+    <!-- Select Calendar -->
+    <div class="ce-field">
+      <div class="ce-field-lbl">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Select Calendar
+      </div>
+      <div class="ce-cal-pick-row">
+        <select class="ce-select" style="flex:1;">
+          <option>Business Hours</option>
+          <option>Holidays</option>
+          <option>Out of Office</option>
+        </select>
+        <div class="ce-color-dot-btn" id="ceColorDot" title="Calendar color"></div>
+      </div>
+    </div>
+    <!-- Footer -->
+    <div class="ce-footer">
+      <button class="ce-cancel-btn" onclick="closeCreateEvent()">Cancel</button>
+      <button class="ce-create-btn" onclick="ceCreate()">Create</button>
     </div>
   </div>
 </div>

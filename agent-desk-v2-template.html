@@ -469,19 +469,17 @@ a{text-decoration:none;color:inherit;}
 
 
 /* ══ WRAP-UP ══ */
-.wu-backdrop{display:none;position:fixed;inset:0;z-index:98;background:rgba(0,0,0,0.25);}
-.wu-backdrop.open{display:block;}
-.wu-overlay{position:fixed;top:50px;right:0;width:380px;height:calc(100vh - 50px);z-index:99;background:#fff;
+.wu-overlay{position:fixed;top:0;right:0;width:360px;height:100vh;z-index:400;background:var(--color-bg);
   border-left:1px solid var(--color-border);display:flex;flex-direction:column;
-  transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);}
+  transform:translateX(100%);transition:transform .3s ease;box-shadow:-4px 0 20px rgba(0,0,0,.12);}
 .wu-overlay.open{transform:translateX(0);}
-.wu-hdr{display:flex;align-items:center;padding:0 14px;height:48px;border-bottom:1px solid var(--color-border);flex-shrink:0;gap:8px;}
-.wu-title{font-size:15px;font-weight:600;color:var(--color-text);flex:1;}
+.wu-hdr{display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid var(--color-border);flex-shrink:0;gap:8px;}
+.wu-title{font-size:16px;font-weight:600;color:var(--color-text);flex:1;margin:0;}
 .wu-timer-wrap{display:flex;align-items:center;gap:6px;background:#fff7ed;border:1px solid #fdb635;border-radius:9999px;padding:3px 10px;}
 .wu-timer-dot{width:7px;height:7px;border-radius:50%;background:#fdb635;animation:wu-pulse 1.2s ease-in-out infinite;}
 @keyframes wu-pulse{0%,100%{opacity:1}50%{opacity:.3}}
 .wu-timer-lbl{font-size:12px;font-weight:600;color:#92620a;font-variant-numeric:tabular-nums;}
-.wu-close{width:28px;height:28px;border:none;background:none;cursor:pointer;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#555;flex-shrink:0;}
+.wu-close{width:30px;height:30px;border:none;background:none;cursor:pointer;border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--color-muted);flex-shrink:0;}
 .wu-close:hover{background:var(--color-canvas);}
 .wu-body{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:14px;}
 .wu-summary-card{background:var(--color-canvas);border:1px solid var(--color-border);border-radius:6px;padding:10px 12px;display:flex;align-items:center;gap:10px;}
@@ -839,7 +837,7 @@ a{text-decoration:none;color:inherit;}
         <div class="tb-div"></div>
         <!-- Right side: Actions -->
         <div class="tb-act-grp" style="display:flex;align-items:center;gap:6px;">
-          <button class="tb act" data-tip="Chat" aria-label="Chat"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></button>
+
           <button class="tb" data-tip="Pause" aria-label="Pause"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg></button>
           <button class="tb tb-danger" data-tip="End Conversation" aria-label="End Conversation" onclick="openWrapup()"><svg viewBox="0 0 24 24"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/></svg></button>
           <button class="tb" data-tip="More" aria-label="More options" id="moreBtn" onclick="toggleMoreMenu()"><svg viewBox="0 0 24 24"><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg></button>
@@ -857,7 +855,6 @@ a{text-decoration:none;color:inherit;}
     </div>
 
     <!-- Wrap-up backdrop + side modal -->
-    <div class="wu-backdrop" id="wuBackdrop" onclick="wuComplete(true)"></div>
     <div class="wu-overlay" id="wuOverlay">
 
       <!-- Header -->
@@ -1956,10 +1953,8 @@ function wuFmtTime(s){
 function openWrapup(){
   _wuSecs=0;_wuSelected=null;_wuTags=[];
   var ov=document.getElementById('wuOverlay');
-  var bd=document.getElementById('wuBackdrop');
   if(!ov)return;
   ov.classList.add('open');
-  if(bd)bd.classList.add('open');
   var t=document.getElementById('wuTimer');
   if(t)t.textContent='00:00';
   var btn=document.getElementById('wuCompleteBtn');
@@ -1985,9 +1980,7 @@ function wuComplete(skip){
   if(!skip&&!_wuSelected)return;
   clearInterval(_wuTimer);
   var ov=document.getElementById('wuOverlay');
-  var bd=document.getElementById('wuBackdrop');
   if(ov)ov.classList.remove('open');
-  if(bd)bd.classList.remove('open');
   window.selectState&&window.selectState('Ready','#26c98c');
 }
 
